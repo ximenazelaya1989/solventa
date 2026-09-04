@@ -1,5 +1,5 @@
 import { Entity, PrimaryGeneratedColumn, Column, OneToOne, JoinColumn } from 'typeorm';
-import { Subscripcion } from './subscripcion.entity';
+import { Subscripcion } from '../../suscripcion/entities/subscripcion.entity';
 
 export enum EstadoPoliza {
   PENDIENTE = 'pendiente',

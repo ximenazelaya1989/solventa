@@ -1,5 +1,5 @@
 import { Entity, PrimaryGeneratedColumn, Column, OneToOne } from 'typeorm';
-import { Poliza } from './poliza.entity';
+import { Poliza } from '../../polizas/entities/poliza.entity';
 
 @Entity('subscripciones')
 export class Subscripcion {
