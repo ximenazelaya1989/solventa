@@ -1,6 +1,7 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { ThrottlerModule } from '@nestjs/throttler';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { PolizasModule } from './polizas/polizas.module';
@@ -15,6 +16,7 @@ import { ReaseguroModule } from './reaseguro/reaseguro.module';
 import { AnaliticaFraudeModule } from './analitica-fraude/analitica-fraude.module';
 import { ReporteriaModule } from './reporteria/reporteria.module';
 import { IntegracionesModule } from './integraciones/integraciones.module';
+import { JobsModule } from './jobs/jobs.module';
 
 @Module({
   imports: [
@@ -27,8 +29,23 @@ import { IntegracionesModule } from './integraciones/integraciones.module';
       password: process.env.DB_PASSWORD,
       database: process.env.DB_NAME,
       autoLoadEntities: true,
-      synchronize: process.env.NODE_ENV !== 'production',
+      synchronize: process.env.DB_SYNCHRONIZE === 'true',
+      extra: {
+        max: Number(process.env.DB_POOL_MAX) || 10,
+      },
     }),
+    // TODO(cotizacion/integraciones): aplicar ThrottlerGuard (por ejemplo via
+    // @UseGuards(ThrottlerGuard) o APP_GUARD) en los controladores de socios
+    // para limitar peticiones por socio (HU5.1.2); no aplicado todavia a
+    // ningun controlador, en particular no a src/cotizacion. Tambien queda
+    // pendiente personalizar getTracker() para limitar por apiKey en vez de
+    // por IP.
+    ThrottlerModule.forRoot([
+      {
+        ttl: Number(process.env.THROTTLE_TTL_MS) || 60000,
+        limit: Number(process.env.THROTTLE_LIMIT_POR_SOCIO) || 100,
+      },
+    ]),
     PolizasModule,
     SuscripcionModule,
     IdentidadModule,
@@ -41,6 +58,7 @@ import { IntegracionesModule } from './integraciones/integraciones.module';
     AnaliticaFraudeModule,
     ReporteriaModule,
     IntegracionesModule,
+    JobsModule,
   ],
   controllers: [AppController],
   providers: [AppService],
