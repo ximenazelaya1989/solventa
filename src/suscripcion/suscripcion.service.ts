@@ -5,7 +5,6 @@ import {
   Suscripcion,
   DecisionSuscripcion,
 } from './entities/suscripcion.entity';
-import { Poliza, EstadoPoliza } from '../polizas/entities/poliza.entity';
 import { PolizasService } from '../polizas/polizas.service';
 import { PagosService } from '../pagos/pagos.service';
 import { PerfilamientoService } from '../perfilamiento/perfilamiento.service';
@@ -89,16 +88,11 @@ export class SuscripcionService {
           return nueva;
         }
 
-        // REVISION_ASISTIDA: poliza pendiente, sin cobro. PolizasService.emitir()
-        // siempre deja la poliza EMITIDA, asi que aqui se crea directamente con
-        // el estado PENDIENTE (explicito) sin pasar por ese metodo.
-        const poliza = await manager.getRepository(Poliza).save(
-          manager.getRepository(Poliza).create({
-            estado: EstadoPoliza.PENDIENTE,
-            clienteId: cotizacion.clienteId,
-            productoId: cotizacion.productoId,
-          }),
-        );
+        // REVISION_ASISTIDA: poliza pendiente, sin cobro.
+        const poliza = await this.polizasService.registrarPendiente(manager, {
+          clienteId: cotizacion.clienteId,
+          productoId: cotizacion.productoId,
+        });
         nueva.poliza = poliza;
         await suscripcionRepo.save(nueva);
         return nueva;

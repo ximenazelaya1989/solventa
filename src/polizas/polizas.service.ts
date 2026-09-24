@@ -22,6 +22,22 @@ export class PolizasService {
     return repository.save(poliza);
   }
 
+  // Usado por Suscripcion cuando la decision es revision_asistida: la poliza
+  // queda pendiente (sin cobro) dentro de la misma transaccion de emision.
+  async registrarPendiente(
+    manager: EntityManager,
+    datos: EmitirPolizaDto,
+  ): Promise<Poliza> {
+    const repository = manager.getRepository(Poliza);
+    const poliza = repository.create({
+      estado: EstadoPoliza.PENDIENTE,
+      clienteId: datos.clienteId,
+      productoId: datos.productoId,
+    });
+
+    return repository.save(poliza);
+  }
+
   async renovar(id: string, version: number): Promise<Poliza> {
     const poliza = await this.polizaRepository.findOneByOrFail({ id });
     if (poliza.version !== version) {
