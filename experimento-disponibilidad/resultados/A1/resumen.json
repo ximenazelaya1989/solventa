@@ -1,0 +1,45 @@
+{
+  "resumen": {
+    "nombre": "A1",
+    "descripcion": "1 instancia directa, stop app-1 en t=60s",
+    "fecha": "2026-09-24 07:06:20",
+    "users": 60,
+    "ramp_up_s": 5.0,
+    "duracion_s": 200.0,
+    "tps_objetivo": 10.0,
+    "reintentos": 3,
+    "intentos_totales": 2468,
+    "error_pct": 46.394,
+    "connect_prom_ms": 1441.94,
+    "connect_p95_ms": 3012.72,
+    "p90_ms": 3009.0,
+    "p95_ms": 3012.9,
+    "p99_ms": 3020.7,
+    "throughput_rps": 12.33,
+    "activos_max": 60,
+    "activos_prom": 58.0,
+    "unicas": 1685,
+    "exitos_1er_intento": 1275,
+    "exitos_tras_reintento": 48,
+    "fallos_finales": 362,
+    "error_final_pct": 21.484,
+    "disponibilidad_final_pct": 78.5163,
+    "seg_ultimo_error_tras_marca": 81.0,
+    "filas_bd": "",
+    "duplicados": "",
+    "perdidas": "",
+    "modo": "carga"
+  },
+  "marcas": [
+    {
+      "seg": 61.941129899933,
+      "texto": "marca 1",
+      "hora": "07:03:54"
+    },
+    {
+      "seg": 122.75791399995796,
+      "texto": "marca 2",
+      "hora": "07:04:55"
+    }
+  ]
+}

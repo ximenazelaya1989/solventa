@@ -1,0 +1,1633 @@
+PS C:\Users\Giovanna\OneDrive - Escuela Superior de Economia y Negocios\Documentos\UNIANDES\ArquitecturaDeSoftwareRobustas\solventa> py experimento-disponibilidad/load_test.py --url http://solventa-alb-1413147872.us-east-1.elb.amazonaws.com --nombre L01 --descripcion "3 instancias sin falla" --users 60 --ramp-up 5 --duration 120 --tps 10 
+Corrida L01: carga, 60 usuarios, ramp-up 5.0s, duracion 120.0s, tps 10.0, destino http://solventa-alb-1413147872.us-east-1.elb.amazonaws.com/desembolsos
+
+Tip: aprieta ENTER (o escribe un nombre + ENTER) para marcar un evento, ej. "stop instancia".
+t=   1s  usuarios=  13  intentos/s=   8  errores/s=  0  p95=    393 ms
+t=   2s  usuarios=  25  intentos/s=  10  errores/s=  0  p95=    258 ms
+t=   2s  usuarios=  37  intentos/s=  10  errores/s=  0  p95=    267 ms
+t=   3s  usuarios=  49  intentos/s=  10  errores/s=  0  p95=    267 ms
+t=   4s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    246 ms
+t=   5s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    267 ms
+t=   6s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    253 ms
+t=   7s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    279 ms
+t=   8s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    282 ms
+t=   9s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    281 ms
+t=  10s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    249 ms
+t=  11s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    269 ms
+t=  12s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    246 ms
+t=  13s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    264 ms
+t=  14s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    258 ms
+t=  15s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    257 ms
+t=  16s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    248 ms
+t=  17s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    272 ms
+t=  19s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    267 ms
+t=  19s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    265 ms
+t=  21s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    275 ms
+t=  22s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    252 ms
+t=  22s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    262 ms
+t=  23s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    285 ms
+t=  24s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    331 ms
+t=  25s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    304 ms
+t=  27s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    314 ms
+t=  27s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    323 ms
+t=  28s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    283 ms
+t=  29s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    251 ms
+t=  30s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    267 ms
+t=  32s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    262 ms
+t=  33s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    274 ms
+t=  34s  usuarios=  60  intentos/s=   8  errores/s=  0  p95=    498 ms
+t=  35s  usuarios=  60  intentos/s=  12  errores/s=  0  p95=    355 ms
+t=  35s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    273 ms
+t=  37s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    269 ms
+t=  38s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    268 ms
+t=  39s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    331 ms
+t=  40s  usuarios=  60  intentos/s=   9  errores/s=  0  p95=    337 ms
+t=  40s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=   1284 ms
+t=  42s  usuarios=  60  intentos/s=   9  errores/s=  0  p95=    949 ms
+t=  43s  usuarios=  60  intentos/s=  12  errores/s=  0  p95=    326 ms
+t=  43s  usuarios=  60  intentos/s=   9  errores/s=  0  p95=    300 ms
+t=  44s  usuarios=  60  intentos/s=  11  errores/s=  0  p95=    257 ms
+t=  45s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    272 ms
+t=  46s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    277 ms
+t=  47s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    276 ms
+t=  49s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    351 ms
+t=  49s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    275 ms
+t=  51s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    317 ms
+t=  52s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    260 ms
+t=  53s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    261 ms
+t=  54s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    324 ms
+t=  54s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    280 ms
+t=  55s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    266 ms
+t=  57s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    277 ms
+t=  57s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    274 ms
+t=  59s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    260 ms
+t=  60s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    267 ms
+t=  61s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    339 ms
+t=  62s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    273 ms
+t=  63s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    301 ms
+t=  63s  usuarios=  60  intentos/s=   9  errores/s=  0  p95=    290 ms
+t=  65s  usuarios=  60  intentos/s=  11  errores/s=  0  p95=    280 ms
+t=  66s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    260 ms
+t=  67s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    287 ms
+t=  68s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    295 ms
+t=  69s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    254 ms
+t=  70s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    281 ms
+t=  71s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    288 ms
+t=  71s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    280 ms
+t=  73s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    263 ms
+t=  74s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    276 ms
+t=  75s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    269 ms
+t=  76s  usuarios=  60  intentos/s=  11  errores/s=  0  p95=    273 ms
+t=  77s  usuarios=  60  intentos/s=   9  errores/s=  0  p95=    270 ms
+t=  78s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    254 ms
+t=  79s  usuarios=  60  intentos/s=  11  errores/s=  0  p95=    246 ms
+t=  80s  usuarios=  60  intentos/s=   9  errores/s=  0  p95=    285 ms
+t=  81s  usuarios=  60  intentos/s=  11  errores/s=  0  p95=    274 ms
+t=  82s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    277 ms
+t=  83s  usuarios=  60  intentos/s=   9  errores/s=  0  p95=    249 ms
+t=  84s  usuarios=  60  intentos/s=   9  errores/s=  0  p95=    335 ms
+t=  85s  usuarios=  60  intentos/s=  11  errores/s=  0  p95=    301 ms
+t=  86s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    285 ms
+t=  87s  usuarios=  60  intentos/s=  11  errores/s=  0  p95=    276 ms
+t=  88s  usuarios=  60  intentos/s=   9  errores/s=  0  p95=    323 ms
+t=  89s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    287 ms
+t=  90s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    304 ms
+t=  91s  usuarios=  60  intentos/s=  11  errores/s=  0  p95=    294 ms
+t=  92s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    298 ms
+t=  93s  usuarios=  60  intentos/s=   9  errores/s=  0  p95=    245 ms
+t=  94s  usuarios=  60  intentos/s=  11  errores/s=  0  p95=    270 ms
+t=  95s  usuarios=  60  intentos/s=   9  errores/s=  0  p95=    250 ms
+t=  96s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    266 ms
+t=  97s  usuarios=  60  intentos/s=  11  errores/s=  0  p95=    248 ms
+t=  98s  usuarios=  60  intentos/s=   9  errores/s=  0  p95=    268 ms
+t=  99s  usuarios=  60  intentos/s=  11  errores/s=  0  p95=    264 ms
+t= 100s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    290 ms
+t= 101s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    284 ms
+t= 102s  usuarios=  60  intentos/s=   9  errores/s=  0  p95=    262 ms
+t= 103s  usuarios=  60  intentos/s=  11  errores/s=  0  p95=    268 ms
+t= 104s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    265 ms
+t= 105s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    254 ms
+t= 106s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    252 ms
+t= 107s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    257 ms
+t= 108s  usuarios=  60  intentos/s=   9  errores/s=  0  p95=    263 ms
+t= 109s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    270 ms
+t= 110s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    265 ms
+t= 111s  usuarios=  60  intentos/s=  11  errores/s=  0  p95=    273 ms
+t= 112s  usuarios=  60  intentos/s=   9  errores/s=  0  p95=    271 ms
+t= 113s  usuarios=  60  intentos/s=  11  errores/s=  0  p95=    266 ms
+t= 114s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    281 ms
+t= 115s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    292 ms
+t= 116s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    309 ms
+t= 117s  usuarios=  60  intentos/s=   9  errores/s=  0  p95=    309 ms
+t= 118s  usuarios=  60  intentos/s=  11  errores/s=  0  p95=    247 ms
+t= 119s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    319 ms
+t= 120s  usuarios=  57  intentos/s=  10  errores/s=  0  p95=    253 ms
+t= 121s  usuarios=  46  intentos/s=   1  errores/s=  0  p95=    243 ms
+t= 122s  usuarios=  36  intentos/s=   0  errores/s=  0  p95=      0 ms
+t= 123s  usuarios=  26  intentos/s=   0  errores/s=  0  p95=      0 ms
+t= 124s  usuarios=  16  intentos/s=   0  errores/s=  0  p95=      0 ms
+t= 125s  usuarios=   6  intentos/s=   0  errores/s=  0  p95=      0 ms
+t= 126s  usuarios=   0  intentos/s=   0  errores/s=  0  p95=      0 ms
+t= 127s  usuarios=   0  intentos/s=   0  errores/s=  0  p95=      0 ms
+
+==================================================================
+ RESULTADO  L01   3 instancias sin falla
+==================================================================
+ Tasa de error (% por intento)               0.0 %
+ Connect time  promedio / p95                122.29 ms / 150.17 ms
+ Latencia  p90 / p95 / p99                   277.4 / 294.5 / 354.7 ms
+ Throughput (intentos por segundo)           9.99
+ Hilos activos  max / promedio               60 / 56.8
+ ----------------------------------          ------------------------
+ Intentos totales (con reintentos)           1200
+ Pedidos unicos enviados                     1200
+ Exitos 1er intento / tras reintento         1200 / 0
+ Fallos finales (sin exito tras reintentos)  0
+ Disponibilidad final                        100.0 %
+==================================================================
+ Falta contar en la BD:  SELECT count(*) FROM pagos;   y luego:
+   python load_test.py --completar L01 --filas-bd <N> --duplicados 0
+
+Informe con gráficas : C:\Users\Giovanna\OneDrive - Escuela Superior de Economia y Negocios\Documentos\UNIANDES\ArquitecturaDeSoftwareRobustas\solventa\experimento-disponibilidad\resultados\L01\informe.html
+Tabla de todas las corridas: C:\Users\Giovanna\OneDrive - Escuela Superior de Economia y Negocios\Documentos\UNIANDES\ArquitecturaDeSoftwareRobustas\solventa\experimento-disponibilidad\resultados\tabla.html
+PS C:\Users\Giovanna\OneDrive - Escuela Superior de Economia y Negocios\Documentos\UNIANDES\ArquitecturaDeSoftwareRobustas\solventa> cd .\experimento-disponibilidad\
+PS C:\Users\Giovanna\OneDrive - Escuela Superior de Economia y Negocios\Documentos\UNIANDES\ArquitecturaDeSoftwareRobustas\solventa\experimento-disponibilidad> py load_test.py --url http://solventa-alb-1413147872.us-east-1.elb.amazonaws.com --modo idempotencia --nombre F03 --descripcion "50 simultaneos mismo id via ALB" --users 50
+Corrida F03: idempotencia, 50 usuarios, ramp-up 5s, duracion 60s, tps libre, destino http://solventa-alb-1413147872.us-east-1.elb.amazonaws.com/desembolsos
+
+Tip: aprieta ENTER (o escribe un nombre + ENTER) para marcar un evento, ej. "stop instancia".
+t=   1s  usuarios=   0  intentos/s=  50  errores/s=  0  p95=    409 ms
+t=   2s  usuarios=   0  intentos/s=   0  errores/s=  0  p95=      0 ms
+
+==================================================================
+ RESULTADO  F03   50 simultaneos mismo id via ALB
+==================================================================
+ Tasa de error (% por intento)               0.0 %
+ Connect time  promedio / p95                225.91 ms / 229.97 ms
+ Latencia  p90 / p95 / p99                   407.7 / 408.9 / 414.5 ms
+ Throughput (intentos por segundo)           50.0
+ Hilos activos  max / promedio               50 / 50
+ ----------------------------------          ------------------------
+ Intentos totales (con reintentos)           50
+ Pedidos unicos enviados                     50
+ Exitos 1er intento / tras reintento         50 / 0
+ Fallos finales (sin exito tras reintentos)  0
+ Disponibilidad final                        100.0 %
+==================================================================
+ Idempotencia: todas las peticiones llevan el MISMO siniestroId. En la BD debe haber 1 sola fila.
+ Falta contar en la BD:  SELECT count(*) FROM pagos;   y luego:
+   python load_test.py --completar F03 --filas-bd <N> --duplicados 0
+
+Informe con gráficas : C:\Users\Giovanna\OneDrive - Escuela Superior de Economia y Negocios\Documentos\UNIANDES\ArquitecturaDeSoftwareRobustas\solventa\experimento-disponibilidad\resultados\F03\informe.html
+Tabla de todas las corridas: C:\Users\Giovanna\OneDrive - Escuela Superior de Economia y Negocios\Documentos\UNIANDES\ArquitecturaDeSoftwareRobustas\solventa\experimento-disponibilidad\resultados\tabla.html
+
+
+PS C:\Userspy load_test.py --url http://solventa-alb-1413147872.us-east-1.elb.amazonaws.com --nombre B1 --descripcion "3 instancias, stop app-3 en t=60s" --users 60 --ramp-up 5 --duration 200 --tps 10
+C:\Users\Giovanna\AppData\Local\Programs\Python\Python312\python.exe: can't open file 'C:\\Users\\Giovanna\\OneDrive - Escuela Superior de Economia y Negocios\\Documentos\\UNIANDES\\ArquitecturaDeSoftwareRobustas\\solventa\\load_test.py': [Errno 2] No such file or directory
+PS C:\Users\Giovanna\OneDrive - Escuela Superior de Economia y Negocios\Documentos\UNIANDES\ArquitecturaDeSoftwareRobustas\solventa> cd .\experimento-disponibilidad\
+PS C:\Users\Giovanna\OneDrive - Escuela Superior de Economia y Negocios\Documentos\UNIANDES\ArquitecturaDeSoftwareRobustas\solventa\experimento-disponibilidad> py load_test.py --url http://solventa-alb-1413147872.us-east-1.elb.amazonaws.com --nombre B1 --descripcion "3 instancias, stop app-3 en t=60s" --users 60 --ramp-up 5 --duration 200 --tps 10
+Corrida B1: carga, 60 usuarios, ramp-up 5.0s, duracion 200.0s, tps 10.0, destino http://solventa-alb-1413147872.us-east-1.elb.amazonaws.com/desembolsos
+
+Tip: aprieta ENTER (o escribe un nombre + ENTER) para marcar un evento, ej. "stop instancia".
+t=   0s  usuarios=  13  intentos/s=   8  errores/s=  0  p95=    332 ms
+t=   1s  usuarios=  25  intentos/s=  10  errores/s=  0  p95=    263 ms
+t=   2s  usuarios=  37  intentos/s=  10  errores/s=  0  p95=    264 ms
+t=   3s  usuarios=  48  intentos/s=  10  errores/s=  0  p95=    262 ms
+t=   5s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    262 ms
+t=   6s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    269 ms
+t=   7s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    264 ms
+t=   8s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    268 ms
+t=   9s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    361 ms
+t=  10s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    286 ms
+t=  11s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    298 ms
+t=  12s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    251 ms
+t=  13s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    284 ms
+t=  14s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    266 ms
+t=  15s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    250 ms
+t=  16s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    285 ms
+t=  17s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    267 ms
+t=  18s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    289 ms
+t=  19s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    250 ms
+t=  20s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    317 ms
+t=  21s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    310 ms
+t=  22s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    250 ms
+t=  23s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    240 ms
+t=  24s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    284 ms
+t=  25s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    257 ms
+t=  26s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    269 ms
+t=  27s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    254 ms
+t=  28s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    265 ms
+t=  29s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    279 ms
+t=  30s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    322 ms
+t=  31s  usuarios=  60  intentos/s=   9  errores/s=  0  p95=    263 ms
+t=  32s  usuarios=  60  intentos/s=  11  errores/s=  0  p95=    289 ms
+t=  33s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    281 ms
+t=  34s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    265 ms
+t=  35s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    267 ms
+t=  36s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    252 ms
+t=  37s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    269 ms
+t=  38s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    255 ms
+t=  39s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    265 ms
+t=  40s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    265 ms
+t=  41s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    248 ms
+t=  42s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    839 ms
+t=  43s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    275 ms
+t=  44s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    262 ms
+t=  45s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    264 ms
+t=  46s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    291 ms
+t=  47s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    259 ms
+t=  48s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    307 ms
+t=  49s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    309 ms
+t=  50s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    261 ms
+t=  51s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    250 ms
+t=  52s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    251 ms
+t=  53s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    248 ms
+t=  54s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    294 ms
+t=  55s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    264 ms
+t=  56s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    505 ms
+t=  57s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    288 ms
+t=  58s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    284 ms
+t=  59s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    241 ms
+t=  60s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    264 ms
+t=  61s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    335 ms
+t=  62s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    272 ms
+t=  63s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    286 ms
+t=  64s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    265 ms
+t=  65s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    281 ms
+t=  66s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    263 ms
+t=  67s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    270 ms
+
+   >>> MARCA "marca 1" a los 67.2 s (05:04:00)
+t=  68s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    284 ms
+t=  69s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    302 ms
+t=  70s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    255 ms
+t=  71s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    247 ms
+t=  72s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    267 ms
+t=  73s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    252 ms
+t=  74s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    267 ms
+t=  75s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    248 ms
+t=  76s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    272 ms
+t=  77s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    286 ms
+t=  78s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    279 ms
+t=  79s  usuarios=  60  intentos/s=   9  errores/s=  2  p95=    281 ms
+t=  80s  usuarios=  60  intentos/s=   8  errores/s=  0  p95=    256 ms
+t=  81s  usuarios=  60  intentos/s=   6  errores/s=  0  p95=    244 ms
+t=  82s  usuarios=  60  intentos/s=   8  errores/s=  0  p95=    241 ms
+t=  83s  usuarios=  60  intentos/s=   7  errores/s=  0  p95=    244 ms
+t=  84s  usuarios=  60  intentos/s=   5  errores/s=  0  p95=    245 ms
+t=  85s  usuarios=  60  intentos/s=   9  errores/s=  2  p95=   5743 ms
+t=  86s  usuarios=  60  intentos/s=  12  errores/s=  4  p95=   5889 ms
+t=  87s  usuarios=  60  intentos/s=  14  errores/s=  4  p95=   5728 ms
+t=  88s  usuarios=  60  intentos/s=  12  errores/s=  2  p95=   5147 ms
+t=  89s  usuarios=  60  intentos/s=  10  errores/s=  4  p95=   5933 ms
+t=  90s  usuarios=  60  intentos/s=  14  errores/s=  3  p95=   5835 ms
+t=  91s  usuarios=  60  intentos/s=  15  errores/s=  4  p95=   5845 ms
+t=  92s  usuarios=  60  intentos/s=  17  errores/s=  4  p95=   5751 ms
+t=  93s  usuarios=  60  intentos/s=  19  errores/s=  5  p95=   5755 ms
+t=  94s  usuarios=  60  intentos/s=  20  errores/s=  5  p95=   5834 ms
+t=  95s  usuarios=  60  intentos/s=  20  errores/s=  4  p95=   5825 ms
+t=  96s  usuarios=  60  intentos/s=  17  errores/s=  4  p95=   5985 ms
+t=  97s  usuarios=  60  intentos/s=  14  errores/s=  0  p95=    256 ms
+t=  98s  usuarios=  60  intentos/s=  11  errores/s=  0  p95=    257 ms
+t=  99s  usuarios=  60  intentos/s=   9  errores/s=  0  p95=    283 ms
+t= 100s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    260 ms
+t= 101s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    287 ms
+t= 102s  usuarios=  60  intentos/s=   9  errores/s=  0  p95=    263 ms
+t= 103s  usuarios=  60  intentos/s=  11  errores/s=  0  p95=    252 ms
+t= 104s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    270 ms
+t= 105s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    252 ms
+t= 106s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    263 ms
+t= 107s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    250 ms
+t= 108s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    262 ms
+t= 109s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    259 ms
+t= 110s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    270 ms
+t= 111s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    263 ms
+t= 112s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    274 ms
+t= 113s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    264 ms
+t= 114s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    277 ms
+t= 115s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    295 ms
+t= 116s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    302 ms
+t= 117s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    255 ms
+t= 118s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    270 ms
+t= 119s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    274 ms
+t= 120s  usuarios=  60  intentos/s=   9  errores/s=  0  p95=    296 ms
+t= 121s  usuarios=  60  intentos/s=  11  errores/s=  0  p95=    369 ms
+
+   >>> MARCA "marca 2" a los 121.9 s (05:04:55)
+t= 122s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    324 ms
+t= 123s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    259 ms
+t= 124s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    250 ms
+t= 125s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    273 ms
+t= 126s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    275 ms
+t= 127s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    289 ms
+t= 128s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    245 ms
+t= 129s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    298 ms
+t= 130s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    267 ms
+t= 131s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    270 ms
+t= 132s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    273 ms
+t= 133s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    274 ms
+t= 134s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    262 ms
+t= 135s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    288 ms
+t= 136s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    268 ms
+t= 137s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    249 ms
+t= 138s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    247 ms
+t= 139s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    264 ms
+t= 140s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    267 ms
+t= 141s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    255 ms
+t= 142s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    238 ms
+t= 143s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    252 ms
+t= 144s  usuarios=  60  intentos/s=   9  errores/s=  0  p95=    387 ms
+t= 145s  usuarios=  60  intentos/s=  11  errores/s=  0  p95=    352 ms
+t= 146s  usuarios=  60  intentos/s=   7  errores/s=  0  p95=    392 ms
+t= 147s  usuarios=  60  intentos/s=  12  errores/s=  0  p95=   1305 ms
+t= 148s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    453 ms
+t= 149s  usuarios=  60  intentos/s=  11  errores/s=  0  p95=    485 ms
+t= 150s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    290 ms
+t= 151s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    311 ms
+t= 152s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    279 ms
+t= 153s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    381 ms
+t= 154s  usuarios=  60  intentos/s=  11  errores/s=  0  p95=    276 ms
+t= 155s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    262 ms
+t= 156s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    272 ms
+t= 157s  usuarios=  60  intentos/s=   9  errores/s=  0  p95=    299 ms
+t= 158s  usuarios=  60  intentos/s=  11  errores/s=  0  p95=    259 ms
+t= 159s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    291 ms
+t= 160s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    274 ms
+t= 161s  usuarios=  60  intentos/s=   9  errores/s=  0  p95=    249 ms
+t= 162s  usuarios=  60  intentos/s=  11  errores/s=  0  p95=    261 ms
+t= 163s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    256 ms
+t= 164s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    244 ms
+t= 165s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    247 ms
+t= 166s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    256 ms
+t= 167s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    270 ms
+t= 168s  usuarios=  60  intentos/s=   9  errores/s=  0  p95=    271 ms
+t= 169s  usuarios=  60  intentos/s=  11  errores/s=  0  p95=    277 ms
+t= 170s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    276 ms
+t= 171s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    280 ms
+t= 172s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    244 ms
+t= 173s  usuarios=  60  intentos/s=   9  errores/s=  0  p95=    270 ms
+t= 174s  usuarios=  60  intentos/s=  11  errores/s=  0  p95=    260 ms
+t= 175s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    496 ms
+t= 176s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    262 ms
+t= 177s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    259 ms
+t= 178s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    251 ms
+t= 179s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    279 ms
+t= 180s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    243 ms
+t= 181s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    238 ms
+t= 182s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    337 ms
+t= 183s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    265 ms
+t= 184s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    280 ms
+t= 185s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    264 ms
+t= 186s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    265 ms
+t= 187s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    258 ms
+t= 188s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    255 ms
+t= 189s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    243 ms
+t= 190s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    266 ms
+t= 191s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    308 ms
+t= 192s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    283 ms
+t= 193s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    285 ms
+t= 194s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    311 ms
+t= 195s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    265 ms
+t= 196s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    279 ms
+t= 197s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    266 ms
+t= 198s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    270 ms
+t= 199s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    251 ms
+t= 200s  usuarios=  57  intentos/s=  10  errores/s=  0  p95=    259 ms
+t= 201s  usuarios=  46  intentos/s=   1  errores/s=  0  p95=    237 ms
+t= 202s  usuarios=  36  intentos/s=   0  errores/s=  0  p95=      0 ms
+t= 203s  usuarios=  26  intentos/s=   0  errores/s=  0  p95=      0 ms
+t= 204s  usuarios=  16  intentos/s=   0  errores/s=  0  p95=      0 ms
+t= 205s  usuarios=   6  intentos/s=   0  errores/s=  0  p95=      0 ms
+t= 206s  usuarios=   0  intentos/s=   0  errores/s=  0  p95=      0 ms
+t= 207s  usuarios=   0  intentos/s=   0  errores/s=  0  p95=      0 ms
+
+==================================================================
+ RESULTADO  B1   3 instancias, stop app-3 en t=60s
+==================================================================
+ Tasa de error (% por intento)               2.297 %
+ Connect time  promedio / p95                120.18 ms / 146.08 ms
+ Latencia  p90 / p95 / p99                   273.9 / 320.2 / 5742.8 ms
+ Throughput (intentos por segundo)           10.22
+ Hilos activos  max / promedio               60 / 58.0
+ ----------------------------------          ------------------------
+ Intentos totales (con reintentos)           2046
+ Pedidos unicos enviados                     2000
+ Exitos 1er intento / tras reintento         1961 / 38
+ Fallos finales (sin exito tras reintentos)  1
+ Disponibilidad final                        99.95 %
+ Marca: "marca 1" a los 67.2 s (05:04:00)
+ Marca: "marca 2" a los 121.9 s (05:04:55)
+ Ultimo error: 22.9 s despues de la primera marca
+==================================================================
+ Falta contar en la BD:  SELECT count(*) FROM pagos;   y luego:
+   python load_test.py --completar B1 --filas-bd <N> --duplicados 0
+
+Informe con gráficas : C:\Users\Giovanna\OneDrive - Escuela Superior de Economia y Negocios\Documentos\UNIANDES\ArquitecturaDeSoftwareRobustas\solventa\experimento-disponibilidad\resultados\B1\informe.html
+Tabla de todas las corridas: C:\Users\Giovanna\OneDrive - Escuela Superior de Economia y Negocios\Documentos\UNIANDES\ArquitecturaDeSoftwareRobustas\solventa\experimento-disponibilidad\resultados\tabla.html
+PS C:\Users\Giovanna\OneDrive - Escuela Superior de Economia y Negocios\Documentos\UNIANDES\ArquitecturaDeSoftwareRobustas\solventa\experimento-disponibilidad> py load_test.py --completar B1 --filas-bd 4999 --duplicados 0
+B1: exitos confirmados=1999, filas en BD=4999 -> perdidas=0, duplicados=0
+Tabla actualizada: C:\Users\Giovanna\OneDrive - Escuela Superior de Economia y Negocios\Documentos\UNIANDES\ArquitecturaDeSoftwareRobustas\solventa\experimento-disponibilidad\resultados\tabla.html
+PS C:\Users\Giovanna\OneDrive - Escuela Superior de Economia y Negocios\Documentos\UNIANDES\ArquitecturaDeSoftwareRobustas\solventa\experimento-disponibilidad> py load_test.py --url http://solventa-alb-1413147872.us-east-1.elb.amazonaws.com --nombre B2 --descripcion "3 instancias, stop app-3 en t=60s" --users 60 --ramp-up 5 --duration 200 --tps 10
+Corrida B2: carga, 60 usuarios, ramp-up 5.0s, duracion 200.0s, tps 10.0, destino http://solventa-alb-1413147872.us-east-1.elb.amazonaws.com/desembolsos
+
+Tip: aprieta ENTER (o escribe un nombre + ENTER) para marcar un evento, ej. "stop instancia".
+t=   0s  usuarios=  13  intentos/s=   8  errores/s=  0  p95=    384 ms
+t=   1s  usuarios=  25  intentos/s=  10  errores/s=  0  p95=    288 ms
+t=   2s  usuarios=  37  intentos/s=  10  errores/s=  0  p95=    259 ms
+t=   3s  usuarios=  48  intentos/s=  10  errores/s=  0  p95=    243 ms
+t=   4s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    269 ms
+t=   6s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    277 ms
+t=   6s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    307 ms
+t=   7s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    303 ms
+t=   9s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    304 ms
+t=  10s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    294 ms
+t=  10s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    261 ms
+t=  12s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    264 ms
+t=  13s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    257 ms
+t=  14s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    254 ms
+t=  14s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    270 ms
+t=  16s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    306 ms
+t=  17s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    951 ms
+t=  18s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    276 ms
+t=  19s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    275 ms
+t=  19s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    300 ms
+t=  20s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    270 ms
+t=  21s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    277 ms
+t=  22s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    282 ms
+t=  24s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    293 ms
+t=  24s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    267 ms
+t=  26s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    259 ms
+t=  26s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    266 ms
+t=  28s  usuarios=  60  intentos/s=   9  errores/s=  0  p95=    317 ms
+t=  28s  usuarios=  60  intentos/s=  11  errores/s=  0  p95=    255 ms
+t=  30s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    251 ms
+t=  30s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    262 ms
+t=  31s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    276 ms
+t=  32s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    315 ms
+t=  33s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    273 ms
+t=  35s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    259 ms
+t=  36s  usuarios=  60  intentos/s=   9  errores/s=  0  p95=    265 ms
+t=  37s  usuarios=  60  intentos/s=  11  errores/s=  0  p95=    265 ms
+t=  38s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    275 ms
+t=  39s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    297 ms
+t=  40s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    260 ms
+t=  41s  usuarios=  60  intentos/s=  11  errores/s=  0  p95=    262 ms
+t=  42s  usuarios=  60  intentos/s=   9  errores/s=  0  p95=    260 ms
+t=  43s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=   1010 ms
+t=  44s  usuarios=  60  intentos/s=   9  errores/s=  0  p95=    418 ms
+t=  45s  usuarios=  60  intentos/s=  11  errores/s=  0  p95=    457 ms
+t=  46s  usuarios=  60  intentos/s=  11  errores/s=  0  p95=    431 ms
+t=  47s  usuarios=  60  intentos/s=   9  errores/s=  0  p95=    253 ms
+t=  48s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    248 ms
+t=  49s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    269 ms
+t=  50s  usuarios=  60  intentos/s=  11  errores/s=  0  p95=    336 ms
+t=  51s  usuarios=  60  intentos/s=   9  errores/s=  0  p95=    267 ms
+t=  52s  usuarios=  60  intentos/s=  11  errores/s=  0  p95=    254 ms
+t=  53s  usuarios=  60  intentos/s=   9  errores/s=  0  p95=    246 ms
+t=  54s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    252 ms
+t=  55s  usuarios=  60  intentos/s=  11  errores/s=  0  p95=    280 ms
+t=  56s  usuarios=  60  intentos/s=   9  errores/s=  0  p95=    274 ms
+t=  57s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    534 ms
+t=  58s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    308 ms
+t=  59s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    288 ms
+t=  60s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    250 ms
+t=  61s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    331 ms
+t=  62s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    252 ms
+t=  63s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    337 ms
+t=  64s  usuarios=  60  intentos/s=  11  errores/s=  0  p95=    261 ms
+t=  65s  usuarios=  60  intentos/s=   9  errores/s=  0  p95=    272 ms
+t=  66s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    252 ms
+t=  67s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    344 ms
+
+   >>> MARCA "marca 1" a los 67.2 s (05:15:05)
+t=  68s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    303 ms
+t=  69s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    253 ms
+t=  70s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    292 ms
+t=  71s  usuarios=  60  intentos/s=  11  errores/s=  0  p95=    248 ms
+t=  72s  usuarios=  60  intentos/s=   9  errores/s=  0  p95=    262 ms
+t=  73s  usuarios=  60  intentos/s=  11  errores/s=  0  p95=    265 ms
+t=  74s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    268 ms
+t=  75s  usuarios=  60  intentos/s=   9  errores/s=  0  p95=    236 ms
+t=  76s  usuarios=  60  intentos/s=  11  errores/s=  0  p95=    276 ms
+t=  77s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    254 ms
+t=  78s  usuarios=  60  intentos/s=   6  errores/s=  2  p95=    258 ms
+t=  79s  usuarios=  60  intentos/s=   9  errores/s=  0  p95=    241 ms
+t=  80s  usuarios=  60  intentos/s=   8  errores/s=  0  p95=    253 ms
+t=  81s  usuarios=  60  intentos/s=   6  errores/s=  0  p95=    272 ms
+t=  82s  usuarios=  60  intentos/s=   6  errores/s=  0  p95=    284 ms
+t=  83s  usuarios=  60  intentos/s=  11  errores/s=  3  p95=   5267 ms
+t=  84s  usuarios=  60  intentos/s=  10  errores/s=  4  p95=   5565 ms
+t=  85s  usuarios=  60  intentos/s=  11  errores/s=  1  p95=    266 ms
+t=  86s  usuarios=  60  intentos/s=  13  errores/s=  4  p95=   5875 ms
+t=  87s  usuarios=  60  intentos/s=  10  errores/s=  4  p95=   5968 ms
+t=  88s  usuarios=  60  intentos/s=  14  errores/s=  3  p95=   5469 ms
+t=  89s  usuarios=  60  intentos/s=  11  errores/s=  4  p95=   5368 ms
+t=  90s  usuarios=  60  intentos/s=  17  errores/s=  6  p95=   5875 ms
+t=  91s  usuarios=  60  intentos/s=   9  errores/s=  2  p95=   5577 ms
+t=  92s  usuarios=  60  intentos/s=  18  errores/s=  5  p95=   5877 ms
+t=  93s  usuarios=  60  intentos/s=  17  errores/s=  4  p95=   5875 ms
+t=  94s  usuarios=  60  intentos/s=  20  errores/s=  6  p95=   5681 ms
+t=  95s  usuarios=  60  intentos/s=  17  errores/s=  2  p95=   5659 ms
+t=  96s  usuarios=  60  intentos/s=  23  errores/s=  7  p95=   5977 ms
+t=  97s  usuarios=  60  intentos/s=  13  errores/s=  2  p95=   5453 ms
+t=  98s  usuarios=  60  intentos/s=  17  errores/s=  0  p95=    250 ms
+t=  99s  usuarios=  60  intentos/s=  13  errores/s=  0  p95=    263 ms
+t= 100s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    240 ms
+t= 101s  usuarios=  60  intentos/s=   9  errores/s=  0  p95=    269 ms
+t= 102s  usuarios=  60  intentos/s=  11  errores/s=  0  p95=    238 ms
+t= 103s  usuarios=  60  intentos/s=   8  errores/s=  0  p95=    242 ms
+t= 104s  usuarios=  60  intentos/s=  11  errores/s=  0  p95=    258 ms
+t= 105s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    250 ms
+t= 106s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    267 ms
+t= 107s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    266 ms
+t= 108s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    268 ms
+t= 109s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    263 ms
+t= 110s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    271 ms
+t= 111s  usuarios=  60  intentos/s=   9  errores/s=  0  p95=    252 ms
+t= 112s  usuarios=  60  intentos/s=  11  errores/s=  0  p95=    260 ms
+t= 113s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    243 ms
+t= 114s  usuarios=  60  intentos/s=  11  errores/s=  0  p95=    277 ms
+t= 115s  usuarios=  60  intentos/s=   9  errores/s=  0  p95=    255 ms
+t= 116s  usuarios=  60  intentos/s=  11  errores/s=  0  p95=    255 ms
+t= 117s  usuarios=  60  intentos/s=   9  errores/s=  0  p95=    273 ms
+t= 118s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    256 ms
+t= 119s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    276 ms
+t= 120s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    262 ms
+t= 121s  usuarios=  60  intentos/s=  11  errores/s=  0  p95=    258 ms
+t= 122s  usuarios=  60  intentos/s=   9  errores/s=  0  p95=    337 ms
+
+   >>> MARCA "marca 2" a los 122.4 s (05:16:01)
+t= 123s  usuarios=  60  intentos/s=  11  errores/s=  0  p95=    264 ms
+t= 124s  usuarios=  60  intentos/s=   9  errores/s=  0  p95=    280 ms
+t= 125s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    280 ms
+t= 126s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    286 ms
+t= 127s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    271 ms
+t= 128s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    264 ms
+t= 129s  usuarios=  60  intentos/s=  11  errores/s=  0  p95=    258 ms
+t= 130s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    252 ms
+t= 131s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    254 ms
+t= 132s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    269 ms
+t= 133s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    286 ms
+t= 134s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    270 ms
+t= 135s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    281 ms
+t= 136s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    305 ms
+t= 137s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    255 ms
+t= 138s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    265 ms
+t= 139s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    242 ms
+t= 140s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    254 ms
+t= 141s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    271 ms
+t= 142s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    309 ms
+t= 143s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    257 ms
+t= 144s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    250 ms
+t= 145s  usuarios=  60  intentos/s=   9  errores/s=  0  p95=    432 ms
+t= 146s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    464 ms
+t= 147s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    443 ms
+t= 148s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=   1286 ms
+t= 149s  usuarios=  60  intentos/s=  11  errores/s=  0  p95=    417 ms
+t= 150s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    256 ms
+t= 151s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    259 ms
+t= 152s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    282 ms
+t= 153s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    239 ms
+t= 154s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    244 ms
+t= 155s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    273 ms
+t= 156s  usuarios=  60  intentos/s=  11  errores/s=  0  p95=    250 ms
+t= 157s  usuarios=  60  intentos/s=   9  errores/s=  0  p95=    273 ms
+t= 158s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    269 ms
+t= 159s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    275 ms
+t= 160s  usuarios=  60  intentos/s=  11  errores/s=  0  p95=    259 ms
+t= 161s  usuarios=  60  intentos/s=   9  errores/s=  0  p95=    257 ms
+t= 162s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    298 ms
+t= 163s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    306 ms
+t= 164s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    256 ms
+t= 165s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    301 ms
+t= 166s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    262 ms
+t= 167s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    269 ms
+t= 168s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    315 ms
+t= 169s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    262 ms
+t= 170s  usuarios=  60  intentos/s=  11  errores/s=  0  p95=    246 ms
+t= 171s  usuarios=  60  intentos/s=   9  errores/s=  0  p95=    272 ms
+t= 172s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    253 ms
+t= 173s  usuarios=  60  intentos/s=  11  errores/s=  0  p95=    273 ms
+t= 174s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    256 ms
+t= 175s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    274 ms
+t= 176s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    285 ms
+t= 177s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    296 ms
+t= 178s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    268 ms
+t= 179s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    256 ms
+t= 180s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    262 ms
+t= 181s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    283 ms
+t= 182s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    375 ms
+t= 183s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    263 ms
+t= 184s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    255 ms
+t= 185s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    300 ms
+t= 186s  usuarios=  60  intentos/s=   9  errores/s=  0  p95=    290 ms
+t= 187s  usuarios=  60  intentos/s=  11  errores/s=  0  p95=    276 ms
+t= 188s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    252 ms
+t= 189s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    257 ms
+t= 190s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    269 ms
+t= 191s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    266 ms
+t= 192s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    284 ms
+t= 193s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    247 ms
+t= 194s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    259 ms
+t= 195s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    272 ms
+t= 196s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    268 ms
+t= 197s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    284 ms
+t= 198s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    238 ms
+t= 199s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    259 ms
+t= 200s  usuarios=  56  intentos/s=  10  errores/s=  0  p95=    260 ms
+t= 201s  usuarios=  46  intentos/s=   0  errores/s=  0  p95=      0 ms
+t= 202s  usuarios=  35  intentos/s=   0  errores/s=  0  p95=      0 ms
+t= 203s  usuarios=  25  intentos/s=   0  errores/s=  0  p95=      0 ms
+t= 204s  usuarios=  15  intentos/s=   0  errores/s=  0  p95=      0 ms
+t= 205s  usuarios=   5  intentos/s=   0  errores/s=  0  p95=      0 ms
+t= 206s  usuarios=   0  intentos/s=   0  errores/s=  0  p95=      0 ms
+t= 207s  usuarios=   0  intentos/s=   0  errores/s=  0  p95=      0 ms
+
+==================================================================
+ RESULTADO  B2   3 instancias, stop app-3 en t=60s
+==================================================================
+ Tasa de error (% por intento)               2.865 %
+ Connect time  promedio / p95                122.01 ms / 151.61 ms
+ Latencia  p90 / p95 / p99                   282.1 / 369.3 / 5576.6 ms
+ Throughput (intentos por segundo)           10.29
+ Hilos activos  max / promedio               60 / 58.0
+ ----------------------------------          ------------------------
+ Intentos totales (con reintentos)           2059
+ Pedidos unicos enviados                     2000
+ Exitos 1er intento / tras reintento         1951 / 49
+ Fallos finales (sin exito tras reintentos)  0
+ Disponibilidad final                        100.0 %
+ Marca: "marca 1" a los 67.2 s (05:15:05)
+ Marca: "marca 2" a los 122.4 s (05:16:01)
+ Ultimo error: 24.2 s despues de la primera marca
+==================================================================
+ Falta contar en la BD:  SELECT count(*) FROM pagos;   y luego:
+   python load_test.py --completar B2 --filas-bd <N> --duplicados 0
+
+Informe con gráficas : C:\Users\Giovanna\OneDrive - Escuela Superior de Economia y Negocios\Documentos\UNIANDES\ArquitecturaDeSoftwareRobustas\solventa\experimento-disponibilidad\resultados\B2\informe.html
+Tabla de todas las corridas: C:\Users\Giovanna\OneDrive - Escuela Superior de Economia y Negocios\Documentos\UNIANDES\ArquitecturaDeSoftwareRobustas\solventa\experimento-disponibilidad\resultados\tabla.htmlpy load_test.py --completar B2 --filas-bd 2000 --duplicados 0                       
+B2: exitos confirmados=2000, filas en BD=2000 -> perdidas=0, duplicados=0                                
+Tabla actualizada: C:\Users\Giovanna\OneDrive - Escuela Superior de Economia y Negocios\Documentos\UNIANDES\ArquitecturaDeSoftwareRobustas\solventa\experimento-disponibilidad\resultados\tabla.html
+PS C:\Users\Giovanna\OneDrive - Escuela Superior de Economia y Negocios\Documentos\UNIANDES\ArquitecturaDeSoftwareRobustas\solventa\experimento-disponibilidad> 
+PS C:\Users\Giovanna\OneDrive - Escuela Superior de Economia y Negocios\Documentos\UNIANDES\ArquitecturaDeSoftwareRobustas\solventa\experimento-disponibilidad> 
+
+PS C:\Users\Giovanna\OneDrive - Escuela Superior de Economia y Negocios\Documentos\UNIANDES\ArquitecturaDeSoftwareRobustas\solventa\experimento-disponibilidad> py load_test.py --url http://solventa-alb-1413147872.us-east-1.elb.amazonaws.com --nombre B3 --descripcion "3 instancias, stop app-3 en t=60s" --users 60 --ramp-up 5 --duration 200 --tps 10
+Corrida B3: carga, 60 usuarios, ramp-up 5.0s, duracion 200.0s, tps 10.0, destino http://solventa-alb-1413147872.us-east-1.elb.amazonaws.com/desembolsos
+
+Tip: aprieta ENTER (o escribe un nombre + ENTER) para marcar un evento, ej. "stop instancia".
+t=   0s  usuarios=  13  intentos/s=   8  errores/s=  0  p95=    363 ms
+t=   1s  usuarios=  25  intentos/s=  10  errores/s=  0  p95=    257 ms
+t=   2s  usuarios=  36  intentos/s=  10  errores/s=  0  p95=    272 ms
+t=   3s  usuarios=  48  intentos/s=  10  errores/s=  0  p95=    250 ms
+t=   4s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    248 ms
+t=   5s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    268 ms
+t=   6s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    279 ms
+t=   7s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    262 ms
+t=   8s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    252 ms
+t=   9s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    266 ms
+t=  10s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    260 ms
+t=  11s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    249 ms
+t=  12s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    279 ms
+t=  13s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    251 ms
+t=  14s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    277 ms
+t=  15s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    267 ms
+t=  16s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    259 ms
+t=  17s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    258 ms
+t=  18s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    275 ms
+t=  19s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    256 ms
+t=  20s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    253 ms
+t=  21s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    238 ms
+t=  22s  usuarios=  60  intentos/s=   9  errores/s=  0  p95=    242 ms
+t=  23s  usuarios=  60  intentos/s=  11  errores/s=  0  p95=    282 ms
+t=  24s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    309 ms
+t=  25s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    309 ms
+t=  26s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    257 ms
+t=  27s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    252 ms
+t=  28s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    274 ms
+t=  29s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    282 ms
+t=  30s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    258 ms
+t=  31s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    266 ms
+t=  32s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    254 ms
+t=  33s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    274 ms
+t=  34s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    336 ms
+t=  35s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    249 ms
+t=  36s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    292 ms
+t=  37s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    295 ms
+t=  39s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    285 ms
+t=  40s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    250 ms
+t=  41s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    262 ms
+t=  42s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    257 ms
+t=  43s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    257 ms
+t=  44s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    272 ms
+t=  45s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    283 ms
+t=  45s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    301 ms
+t=  47s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    270 ms
+t=  48s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    266 ms
+t=  48s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    273 ms
+t=  50s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    249 ms
+t=  50s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    264 ms
+t=  52s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    258 ms
+t=  53s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    264 ms
+t=  54s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    251 ms
+t=  54s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    263 ms
+t=  56s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    282 ms
+t=  57s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    299 ms
+t=  58s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    271 ms
+t=  59s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    264 ms
+t=  60s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    247 ms
+t=  61s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    403 ms
+t=  62s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    263 ms
+
+   >>> MARCA "marca 1" a los 62.3 s (05:20:42)
+t=  62s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    264 ms
+t=  63s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    264 ms
+t=  65s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    275 ms
+t=  65s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    286 ms
+t=  66s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    262 ms
+t=  67s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    260 ms
+t=  69s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    278 ms
+t=  70s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    277 ms
+t=  71s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    239 ms
+t=  72s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    275 ms
+t=  73s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    260 ms
+t=  73s  usuarios=  60  intentos/s=   7  errores/s=  1  p95=    258 ms
+t=  74s  usuarios=  60  intentos/s=   9  errores/s=  0  p95=    264 ms
+t=  76s  usuarios=  60  intentos/s=   6  errores/s=  0  p95=    256 ms
+t=  77s  usuarios=  60  intentos/s=   8  errores/s=  0  p95=    241 ms
+t=  78s  usuarios=  60  intentos/s=   6  errores/s=  0  p95=    248 ms
+t=  79s  usuarios=  60  intentos/s=  10  errores/s=  3  p95=   5503 ms
+t=  80s  usuarios=  60  intentos/s=   9  errores/s=  2  p95=   5375 ms
+t=  80s  usuarios=  60  intentos/s=  12  errores/s=  4  p95=   5819 ms
+t=  82s  usuarios=  60  intentos/s=  11  errores/s=  3  p95=   5523 ms
+t=  83s  usuarios=  60  intentos/s=  13  errores/s=  3  p95=   5736 ms
+t=  84s  usuarios=  60  intentos/s=  13  errores/s=  4  p95=   5432 ms
+t=  85s  usuarios=  60  intentos/s=  12  errores/s=  5  p95=   5430 ms
+t=  86s  usuarios=  60  intentos/s=  16  errores/s=  2  p95=   5433 ms
+t=  87s  usuarios=  60  intentos/s=  21  errores/s=  6  p95=   5821 ms
+t=  88s  usuarios=  60  intentos/s=  16  errores/s=  4  p95=   5226 ms
+t=  89s  usuarios=  60  intentos/s=  21  errores/s=  5  p95=   5722 ms
+t=  90s  usuarios=  60  intentos/s=  17  errores/s=  3  p95=   5615 ms
+t=  91s  usuarios=  60  intentos/s=  15  errores/s=  0  p95=    267 ms
+t=  91s  usuarios=  60  intentos/s=  13  errores/s=  0  p95=    249 ms
+t=  93s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    245 ms
+t=  93s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    249 ms
+t=  94s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    268 ms
+t=  96s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    269 ms
+t=  97s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    261 ms
+t=  98s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    297 ms
+t=  98s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    267 ms
+t= 100s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    282 ms
+t= 101s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    339 ms
+t= 102s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    265 ms
+t= 102s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    240 ms
+t= 104s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    269 ms
+t= 105s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    280 ms
+t= 105s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    246 ms
+t= 106s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    305 ms
+t= 108s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    256 ms
+t= 109s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    271 ms
+t= 110s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    291 ms
+t= 110s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    244 ms
+t= 111s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    280 ms
+t= 112s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    282 ms
+t= 113s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    284 ms
+t= 115s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    262 ms
+t= 115s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    345 ms
+t= 116s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    266 ms
+t= 117s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    281 ms
+t= 119s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    266 ms
+t= 120s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    258 ms
+t= 120s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    243 ms
+t= 122s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    330 ms
+
+   >>> MARCA "marca 2" a los 122.1 s (05:21:42)
+t= 123s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    253 ms
+t= 124s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    260 ms
+t= 124s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    263 ms
+t= 126s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    260 ms
+t= 126s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    266 ms
+t= 127s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    256 ms
+t= 129s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    261 ms
+t= 129s  usuarios=  60  intentos/s=   8  errores/s=  0  p95=    620 ms
+t= 130s  usuarios=  60  intentos/s=  11  errores/s=  0  p95=    466 ms
+t= 132s  usuarios=  60  intentos/s=   9  errores/s=  0  p95=    424 ms
+t= 132s  usuarios=  60  intentos/s=   9  errores/s=  0  p95=    472 ms
+t= 133s  usuarios=  60  intentos/s=  11  errores/s=  0  p95=    582 ms
+t= 134s  usuarios=  60  intentos/s=  12  errores/s=  0  p95=    516 ms
+t= 135s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    291 ms
+t= 137s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    274 ms
+t= 138s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    495 ms
+t= 138s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    259 ms
+t= 140s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    273 ms
+t= 140s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    248 ms
+t= 142s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    239 ms
+t= 143s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    260 ms
+t= 144s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    265 ms
+t= 145s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    273 ms
+t= 146s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    271 ms
+t= 146s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    282 ms
+t= 147s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    254 ms
+t= 148s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    285 ms
+t= 149s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    296 ms
+t= 150s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    279 ms
+t= 151s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    275 ms
+t= 152s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    283 ms
+t= 153s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    263 ms
+t= 155s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    249 ms
+t= 156s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    258 ms
+t= 156s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    258 ms
+t= 157s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    267 ms
+t= 159s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    251 ms
+t= 159s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    269 ms
+t= 161s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    266 ms
+t= 162s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    278 ms
+t= 163s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    278 ms
+t= 164s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    276 ms
+t= 165s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    274 ms
+t= 165s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    252 ms
+t= 166s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    258 ms
+t= 167s  usuarios=  60  intentos/s=   9  errores/s=  0  p95=    251 ms
+t= 169s  usuarios=  60  intentos/s=  11  errores/s=  0  p95=    274 ms
+t= 170s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    286 ms
+t= 171s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    257 ms
+t= 172s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    283 ms
+t= 173s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    289 ms
+t= 174s  usuarios=  60  intentos/s=  11  errores/s=  0  p95=    248 ms
+t= 175s  usuarios=  60  intentos/s=   9  errores/s=  0  p95=    332 ms
+t= 176s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    300 ms
+t= 177s  usuarios=  60  intentos/s=  11  errores/s=  0  p95=    248 ms
+t= 178s  usuarios=  60  intentos/s=   9  errores/s=  0  p95=    279 ms
+t= 179s  usuarios=  60  intentos/s=  11  errores/s=  0  p95=    258 ms
+t= 180s  usuarios=  60  intentos/s=   9  errores/s=  0  p95=    245 ms
+t= 181s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    250 ms
+t= 182s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    380 ms
+t= 183s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    272 ms
+t= 184s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    275 ms
+t= 185s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    244 ms
+t= 186s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    244 ms
+t= 187s  usuarios=  60  intentos/s=  11  errores/s=  0  p95=    278 ms
+t= 188s  usuarios=  60  intentos/s=   9  errores/s=  0  p95=    247 ms
+t= 189s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    272 ms
+t= 190s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    277 ms
+t= 191s  usuarios=  60  intentos/s=  11  errores/s=  0  p95=    352 ms
+t= 192s  usuarios=  60  intentos/s=   9  errores/s=  0  p95=    281 ms
+t= 193s  usuarios=  60  intentos/s=  11  errores/s=  0  p95=    248 ms
+t= 194s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    257 ms
+t= 195s  usuarios=  60  intentos/s=   9  errores/s=  0  p95=    249 ms
+t= 196s  usuarios=  60  intentos/s=  11  errores/s=  0  p95=    259 ms
+t= 197s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    263 ms
+t= 198s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    264 ms
+t= 199s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    277 ms
+t= 200s  usuarios=  59  intentos/s=  10  errores/s=  0  p95=    253 ms
+t= 201s  usuarios=  47  intentos/s=   2  errores/s=  0  p95=    232 ms
+t= 202s  usuarios=  37  intentos/s=   0  errores/s=  0  p95=      0 ms
+t= 203s  usuarios=  27  intentos/s=   0  errores/s=  0  p95=      0 ms
+t= 204s  usuarios=  17  intentos/s=   0  errores/s=  0  p95=      0 ms
+t= 205s  usuarios=   7  intentos/s=   0  errores/s=  0  p95=      0 ms
+t= 206s  usuarios=   0  intentos/s=   0  errores/s=  0  p95=      0 ms
+t= 207s  usuarios=   0  intentos/s=   0  errores/s=  0  p95=      0 ms
+
+==================================================================
+ RESULTADO  B3   3 instancias, stop app-3 en t=60s
+==================================================================
+ Tasa de error (% por intento)               2.199 %
+ Connect time  promedio / p95                120.44 ms / 145.45 ms
+ Latencia  p90 / p95 / p99                   272.9 / 321.5 / 5432.8 ms
+ Throughput (intentos por segundo)           10.22
+ Hilos activos  max / promedio               60 / 58.0
+ ----------------------------------          ------------------------
+ Intentos totales (con reintentos)           2046
+ Pedidos unicos enviados                     2001
+ Exitos 1er intento / tras reintento         1963 / 38
+ Fallos finales (sin exito tras reintentos)  0
+ Disponibilidad final                        100.0 %
+ Marca: "marca 1" a los 62.3 s (05:20:42)
+ Marca: "marca 2" a los 122.1 s (05:21:42)
+ Ultimo error: 22.2 s despues de la primera marca
+==================================================================
+ Falta contar en la BD:  SELECT count(*) FROM pagos;   y luego:
+   python load_test.py --completar B3 --filas-bd <N> --duplicados 0
+
+Informe con gráficas : C:\Users\Giovanna\OneDrive - Escuela Superior de Economia y Negocios\Documentos\UNIANDES\ArquitecturaDeSoftwareRobustas\solventa\experimento-disponibilidad\resultados\B3\informe.html
+Tabla de todas las corridas: C:\Users\Giovanna\OneDrive - Escuela Superior de Economia y Negocios\Documentos\UNIANDES\ArquitecturaDeSoftwareRobustas\solventa\experimento-disponibilidad\resultados\tabla.html
+PS C:\Users\Giovanna\OneDrive - Escuela Superior de Economia y Negocios\Documentos\UNIANDES\ArquitecturaDeSoftwareRobustas\solventa\experimento-disponibilidad> py load_test.py --completar B3 --filas-bd 2001 --duplicados 0                       
+B3: exitos confirmados=2001, filas en BD=2001 -> perdidas=0, duplicados=0                                
+Tabla actualizada: C:\Users\Giovanna\OneDrive - Escuela Superior de Economia y Negocios\Documentos\UNIANDES\ArquitecturaDeSoftwareRobustas\solventa\experimento-disponibilidad\resultados\tabla.html
+
+py load_test.py --url http://3.225.140.4:3000 --nombre A1 --descripcion "1 instancia directa, stop app-1 en t=60s" --users 60 --ramp-up 5 --duration 200 --tps 10 
+Corrida A1: carga, 60 usuarios, ramp-up 5.0s, duracion 200.0s, tps 10.0, destino http://3.225.140.4:3000/desembolsos
+
+Tip: aprieta ENTER (o escribe un nombre + ENTER) para marcar un evento, ej. "stop instancia".
+t=   0s  usuarios=  13  intentos/s=   8  errores/s=  0  p95=    228 ms
+t=   1s  usuarios=  24  intentos/s=  10  errores/s=  0  p95=    220 ms
+t=   2s  usuarios=  36  intentos/s=  10  errores/s=  0  p95=    227 ms
+t=   3s  usuarios=  49  intentos/s=  11  errores/s=  0  p95=    184 ms
+t=   4s  usuarios=  60  intentos/s=   9  errores/s=  0  p95=    182 ms
+t=   5s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    229 ms
+t=   6s  usuarios=  60  intentos/s=  11  errores/s=  0  p95=    187 ms
+t=   7s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    226 ms
+t=   8s  usuarios=  60  intentos/s=   9  errores/s=  0  p95=    240 ms
+t=   9s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    244 ms
+t=  10s  usuarios=  60  intentos/s=  11  errores/s=  0  p95=    223 ms
+t=  11s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    212 ms
+t=  12s  usuarios=  60  intentos/s=   9  errores/s=  0  p95=    197 ms
+t=  13s  usuarios=  60  intentos/s=  11  errores/s=  0  p95=    218 ms
+t=  14s  usuarios=  60  intentos/s=   9  errores/s=  0  p95=    196 ms
+t=  15s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    217 ms
+t=  16s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    196 ms
+t=  17s  usuarios=  60  intentos/s=  11  errores/s=  0  p95=    195 ms
+t=  18s  usuarios=  60  intentos/s=   9  errores/s=  0  p95=    243 ms
+t=  19s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    239 ms
+t=  20s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    227 ms
+t=  21s  usuarios=  60  intentos/s=  11  errores/s=  0  p95=    217 ms
+t=  22s  usuarios=  60  intentos/s=   9  errores/s=  0  p95=    222 ms
+t=  23s  usuarios=  60  intentos/s=  11  errores/s=  0  p95=    216 ms
+t=  24s  usuarios=  60  intentos/s=   9  errores/s=  0  p95=    216 ms
+t=  25s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    211 ms
+t=  26s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    211 ms
+t=  27s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    181 ms
+t=  28s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    212 ms
+t=  29s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    214 ms
+t=  30s  usuarios=  60  intentos/s=  11  errores/s=  0  p95=    190 ms
+t=  31s  usuarios=  60  intentos/s=   9  errores/s=  0  p95=    212 ms
+t=  32s  usuarios=  60  intentos/s=  11  errores/s=  0  p95=    189 ms
+t=  33s  usuarios=  60  intentos/s=   9  errores/s=  0  p95=    205 ms
+t=  34s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    201 ms
+t=  35s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    197 ms
+t=  36s  usuarios=  60  intentos/s=  11  errores/s=  0  p95=    200 ms
+t=  37s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    201 ms
+t=  38s  usuarios=  60  intentos/s=   9  errores/s=  0  p95=    210 ms
+t=  39s  usuarios=  60  intentos/s=  11  errores/s=  0  p95=    217 ms
+t=  40s  usuarios=  60  intentos/s=   9  errores/s=  0  p95=    206 ms
+t=  41s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    184 ms
+t=  42s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    204 ms
+t=  43s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    228 ms
+t=  44s  usuarios=  60  intentos/s=   9  errores/s=  0  p95=    226 ms
+t=  45s  usuarios=  60  intentos/s=  12  errores/s=  0  p95=    207 ms
+t=  47s  usuarios=  60  intentos/s=   9  errores/s=  0  p95=    212 ms
+t=  48s  usuarios=  60  intentos/s=  11  errores/s=  0  p95=    195 ms
+t=  49s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    209 ms
+t=  50s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    241 ms
+t=  51s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    223 ms
+t=  52s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    213 ms
+t=  53s  usuarios=  60  intentos/s=   9  errores/s=  0  p95=    210 ms
+t=  54s  usuarios=  60  intentos/s=  11  errores/s=  0  p95=    202 ms
+t=  55s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    198 ms
+t=  56s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    187 ms
+t=  57s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    210 ms
+t=  58s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    201 ms
+t=  59s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    216 ms
+t=  60s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    211 ms
+t=  61s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    194 ms
+
+   >>> MARCA "marca 1" a los 61.9 s (07:03:54)
+t=  62s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    212 ms
+t=  63s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    212 ms
+t=  64s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    209 ms
+t=  65s  usuarios=  60  intentos/s=   9  errores/s=  0  p95=    188 ms
+t=  66s  usuarios=  60  intentos/s=  11  errores/s=  0  p95=    194 ms
+t=  67s  usuarios=  60  intentos/s=  11  errores/s=  0  p95=    212 ms
+t=  68s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    202 ms
+t=  69s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    198 ms
+t=  70s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    209 ms
+t=  71s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    238 ms
+t=  72s  usuarios=  60  intentos/s=  10  errores/s=  1  p95=    216 ms
+t=  73s  usuarios=  60  intentos/s=   1  errores/s=  1  p95=    166 ms
+t=  74s  usuarios=  60  intentos/s=   0  errores/s=  0  p95=      0 ms
+t=  75s  usuarios=  60  intentos/s=   1  errores/s=  1  p95=   3002 ms
+t=  76s  usuarios=  60  intentos/s=  11  errores/s= 11  p95=   3013 ms
+t=  77s  usuarios=  60  intentos/s=  11  errores/s= 11  p95=   3007 ms
+t=  78s  usuarios=  60  intentos/s=  10  errores/s= 10  p95=   3011 ms
+t=  79s  usuarios=  60  intentos/s=  11  errores/s= 11  p95=   3014 ms
+t=  80s  usuarios=  60  intentos/s=  22  errores/s= 22  p95=   3020 ms
+t=  81s  usuarios=  60  intentos/s=  17  errores/s= 17  p95=   3013 ms
+t=  82s  usuarios=  60  intentos/s=  10  errores/s= 10  p95=   3017 ms
+t=  83s  usuarios=  60  intentos/s=  12  errores/s= 12  p95=   3018 ms
+t=  84s  usuarios=  60  intentos/s=  21  errores/s= 21  p95=   3024 ms
+t=  85s  usuarios=  60  intentos/s=  17  errores/s= 17  p95=   3017 ms
+t=  86s  usuarios=  60  intentos/s=  11  errores/s= 11  p95=   3004 ms
+t=  87s  usuarios=  60  intentos/s=  20  errores/s= 20  p95=   3015 ms
+t=  88s  usuarios=  60  intentos/s=  21  errores/s= 21  p95=   3016 ms
+t=  89s  usuarios=  60  intentos/s=  17  errores/s= 17  p95=   3016 ms
+t=  90s  usuarios=  60  intentos/s=  11  errores/s= 11  p95=   3006 ms
+t=  91s  usuarios=  60  intentos/s=  20  errores/s= 20  p95=   3013 ms
+t=  92s  usuarios=  60  intentos/s=  19  errores/s= 19  p95=   3007 ms
+t=  93s  usuarios=  60  intentos/s=  11  errores/s= 11  p95=   3016 ms
+t=  94s  usuarios=  60  intentos/s=  12  errores/s= 12  p95=   3010 ms
+t=  95s  usuarios=  60  intentos/s=  21  errores/s= 21  p95=   3026 ms
+t=  96s  usuarios=  60  intentos/s=  17  errores/s= 17  p95=   3009 ms
+t=  97s  usuarios=  60  intentos/s=  10  errores/s= 10  p95=   3021 ms
+t=  98s  usuarios=  60  intentos/s=  21  errores/s= 21  p95=   3011 ms
+t=  99s  usuarios=  60  intentos/s=  21  errores/s= 21  p95=   3014 ms
+t= 100s  usuarios=  60  intentos/s=  17  errores/s= 17  p95=   3007 ms
+t= 101s  usuarios=  60  intentos/s=  11  errores/s= 11  p95=   3009 ms
+t= 102s  usuarios=  60  intentos/s=  20  errores/s= 20  p95=   3011 ms
+t= 103s  usuarios=  60  intentos/s=  20  errores/s= 20  p95=   3010 ms
+t= 104s  usuarios=  60  intentos/s=   9  errores/s=  9  p95=   3015 ms
+t= 105s  usuarios=  60  intentos/s=  12  errores/s= 12  p95=   3009 ms
+t= 106s  usuarios=  60  intentos/s=  20  errores/s= 20  p95=   3017 ms
+t= 107s  usuarios=  60  intentos/s=  19  errores/s= 19  p95=   3021 ms
+t= 108s  usuarios=  60  intentos/s=  10  errores/s= 10  p95=   3017 ms
+t= 109s  usuarios=  60  intentos/s=  20  errores/s= 20  p95=   3017 ms
+t= 110s  usuarios=  60  intentos/s=  21  errores/s= 21  p95=   3005 ms
+t= 111s  usuarios=  60  intentos/s=  18  errores/s= 18  p95=   3018 ms
+t= 112s  usuarios=  60  intentos/s=  11  errores/s= 11  p95=   3014 ms
+t= 113s  usuarios=  60  intentos/s=  22  errores/s= 22  p95=   3020 ms
+t= 114s  usuarios=  60  intentos/s=  17  errores/s= 17  p95=   3017 ms
+t= 115s  usuarios=  60  intentos/s=  11  errores/s= 11  p95=   3011 ms
+t= 116s  usuarios=  60  intentos/s=  13  errores/s= 13  p95=   3006 ms
+t= 117s  usuarios=  60  intentos/s=  19  errores/s= 19  p95=   3026 ms
+t= 118s  usuarios=  60  intentos/s=  18  errores/s= 18  p95=   3009 ms
+t= 119s  usuarios=  60  intentos/s=  10  errores/s= 10  p95=   3028 ms
+t= 120s  usuarios=  60  intentos/s=  21  errores/s= 21  p95=   3013 ms
+t= 121s  usuarios=  60  intentos/s=  20  errores/s= 20  p95=   3022 ms
+t= 122s  usuarios=  60  intentos/s=  18  errores/s= 18  p95=   3011 ms
+
+   >>> MARCA "marca 2" a los 122.8 s (07:04:55)
+t= 123s  usuarios=  60  intentos/s=  11  errores/s= 11  p95=   3021 ms
+t= 124s  usuarios=  60  intentos/s=  19  errores/s= 19  p95=   3007 ms
+t= 125s  usuarios=  60  intentos/s=  20  errores/s= 20  p95=   3022 ms
+t= 126s  usuarios=  60  intentos/s=  10  errores/s= 10  p95=   3012 ms
+t= 127s  usuarios=  60  intentos/s=  11  errores/s= 11  p95=   3011 ms
+t= 128s  usuarios=  60  intentos/s=  21  errores/s= 21  p95=   3019 ms
+t= 129s  usuarios=  60  intentos/s=  18  errores/s= 18  p95=   3014 ms
+t= 130s  usuarios=  60  intentos/s=  11  errores/s= 11  p95=   3010 ms
+t= 131s  usuarios=  60  intentos/s=  21  errores/s= 21  p95=   3012 ms
+t= 132s  usuarios=  60  intentos/s=  20  errores/s= 20  p95=   3027 ms
+t= 133s  usuarios=  60  intentos/s=  17  errores/s= 17  p95=   3026 ms
+t= 134s  usuarios=  60  intentos/s=  12  errores/s= 12  p95=   3010 ms
+t= 135s  usuarios=  60  intentos/s=  20  errores/s= 20  p95=   3016 ms
+t= 136s  usuarios=  60  intentos/s=  19  errores/s= 19  p95=   3009 ms
+t= 137s  usuarios=  60  intentos/s=  10  errores/s= 10  p95=   3016 ms
+t= 138s  usuarios=  60  intentos/s=  13  errores/s= 13  p95=   3014 ms
+t= 139s  usuarios=  60  intentos/s=  23  errores/s= 23  p95=   2997 ms
+t= 140s  usuarios=  60  intentos/s=  19  errores/s= 19  p95=   2880 ms
+t= 141s  usuarios=  60  intentos/s=  15  errores/s= 15  p95=   2483 ms
+t= 142s  usuarios=  60  intentos/s=  21  errores/s= 21  p95=   2476 ms
+t= 143s  usuarios=  60  intentos/s=  24  errores/s= 24  p95=   3014 ms
+t= 144s  usuarios=  60  intentos/s=  12  errores/s= 12  p95=   2500 ms
+t= 145s  usuarios=  60  intentos/s=  21  errores/s= 21  p95=   2507 ms
+t= 146s  usuarios=  60  intentos/s=  62  errores/s=  3  p95=   2627 ms
+t= 147s  usuarios=  60  intentos/s=  16  errores/s=  0  p95=    192 ms
+t= 148s  usuarios=  60  intentos/s=   8  errores/s=  0  p95=    245 ms
+t= 149s  usuarios=  60  intentos/s=  12  errores/s=  0  p95=    339 ms
+t= 150s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    224 ms
+t= 151s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    212 ms
+t= 152s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    210 ms
+t= 153s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    190 ms
+t= 154s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    216 ms
+t= 155s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    186 ms
+t= 156s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    195 ms
+t= 157s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    220 ms
+t= 158s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    262 ms
+t= 159s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    217 ms
+t= 160s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    224 ms
+t= 161s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    203 ms
+t= 162s  usuarios=  60  intentos/s=   9  errores/s=  0  p95=    183 ms
+t= 163s  usuarios=  60  intentos/s=  11  errores/s=  0  p95=    216 ms
+t= 164s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    201 ms
+t= 165s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    193 ms
+t= 166s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    236 ms
+t= 167s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    206 ms
+t= 168s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    210 ms
+t= 169s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    225 ms
+t= 170s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    217 ms
+t= 171s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    220 ms
+t= 172s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    190 ms
+t= 173s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    230 ms
+t= 174s  usuarios=  60  intentos/s=   9  errores/s=  0  p95=    220 ms
+t= 175s  usuarios=  60  intentos/s=  11  errores/s=  0  p95=    190 ms
+t= 176s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    186 ms
+t= 177s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    199 ms
+t= 178s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    197 ms
+t= 179s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    196 ms
+t= 180s  usuarios=  60  intentos/s=   9  errores/s=  0  p95=    176 ms
+t= 181s  usuarios=  60  intentos/s=  11  errores/s=  0  p95=    190 ms
+t= 182s  usuarios=  60  intentos/s=   9  errores/s=  0  p95=    233 ms
+t= 183s  usuarios=  60  intentos/s=  11  errores/s=  0  p95=    235 ms
+t= 184s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    312 ms
+t= 185s  usuarios=  60  intentos/s=   9  errores/s=  0  p95=    261 ms
+t= 186s  usuarios=  60  intentos/s=   9  errores/s=  0  p95=    391 ms
+t= 187s  usuarios=  60  intentos/s=  12  errores/s=  0  p95=    303 ms
+t= 188s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    220 ms
+t= 189s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    210 ms
+t= 190s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    185 ms
+t= 191s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    195 ms
+t= 192s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    210 ms
+t= 193s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    197 ms
+t= 194s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    207 ms
+t= 195s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    214 ms
+t= 196s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    214 ms
+t= 197s  usuarios=  60  intentos/s=  11  errores/s=  0  p95=    199 ms
+t= 198s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    203 ms
+t= 199s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    195 ms
+t= 200s  usuarios=  54  intentos/s=   8  errores/s=  0  p95=    182 ms
+t= 201s  usuarios=  44  intentos/s=   0  errores/s=  0  p95=      0 ms
+t= 202s  usuarios=  34  intentos/s=   0  errores/s=  0  p95=      0 ms
+t= 203s  usuarios=  24  intentos/s=   0  errores/s=  0  p95=      0 ms
+t= 204s  usuarios=  14  intentos/s=   0  errores/s=  0  p95=      0 ms
+t= 205s  usuarios=   4  intentos/s=   0  errores/s=  0  p95=      0 ms
+t= 206s  usuarios=   0  intentos/s=   0  errores/s=  0  p95=      0 ms
+t= 207s  usuarios=   0  intentos/s=   0  errores/s=  0  p95=      0 ms
+
+==================================================================
+ RESULTADO  A1   1 instancia directa, stop app-1 en t=60s
+==================================================================
+ Tasa de error (% por intento)               46.394 %
+ Connect time  promedio / p95                1441.94 ms / 3012.72 ms
+ Latencia  p90 / p95 / p99                   3009.0 / 3012.9 / 3020.7 ms
+ Throughput (intentos por segundo)           12.33
+ Hilos activos  max / promedio               60 / 58.0
+ ----------------------------------          ------------------------
+ Intentos totales (con reintentos)           2468
+ Pedidos unicos enviados                     1685
+ Exitos 1er intento / tras reintento         1275 / 48
+ Fallos finales (sin exito tras reintentos)  362
+ Disponibilidad final                        78.5163 %
+ Marca: "marca 1" a los 61.9 s (07:03:54)
+ Marca: "marca 2" a los 122.8 s (07:04:55)
+ Ultimo error: 81.0 s despues de la primera marca
+==================================================================
+ Falta contar en la BD:  SELECT count(*) FROM pagos;   y luego:
+   python load_test.py --completar A1 --filas-bd <N> --duplicados 0
+
+Informe con gráficas : C:\Users\Giovanna\OneDrive - Escuela Superior de Economia y Negocios\Documentos\UNIANDES\ArquitecturaDeSoftwareRobustas\solventa\experimento-disponibilidad\resultados\A1\informe.html
+Tabla de todas las corridas: C:\Users\Giovanna\OneDrive - Escuela Superior de Economia y Negocios\Documentos\UNIANDES\ArquitecturaDeSoftwareRobustas\solventa\experimento-disponibilidad\resultados\tabla.html
+PS C:\Users\Giovanna\OneDrive - Escuela Superior de Economia y Negocios\Documentos\UNIANDES\ArquitecturaDeSoftwareRobustas\solventa\experimento-disponibilidad> py load_test.py --url http://3.225.140.4:3000 --nombre A2 --descripcion "1 instancia directa, stop app-1 en t=60s" --users 60 --ramp-up 5 --duration 200 --tps 10
+Corrida A2: carga, 60 usuarios, ramp-up 5.0s, duracion 200.0s, tps 10.0, destino http://3.225.140.4:3000/desembolsos
+
+Tip: aprieta ENTER (o escribe un nombre + ENTER) para marcar un evento, ej. "stop instancia".
+t=   0s  usuarios=  13  intentos/s=   8  errores/s=  0  p95=    222 ms
+t=   1s  usuarios=  24  intentos/s=  11  errores/s=  0  p95=    184 ms
+t=   2s  usuarios=  36  intentos/s=   9  errores/s=  0  p95=    190 ms
+t=   3s  usuarios=  48  intentos/s=  11  errores/s=  0  p95=    193 ms
+t=   4s  usuarios=  60  intentos/s=   9  errores/s=  0  p95=    206 ms
+t=   5s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    230 ms
+t=   7s  usuarios=  60  intentos/s=   8  errores/s=  0  p95=    352 ms
+t=   8s  usuarios=  60  intentos/s=   9  errores/s=  0  p95=    500 ms
+t=   8s  usuarios=  60  intentos/s=  11  errores/s=  0  p95=    375 ms
+t=  10s  usuarios=  60  intentos/s=  12  errores/s=  0  p95=   1270 ms
+t=  11s  usuarios=  60  intentos/s=   8  errores/s=  0  p95=    756 ms
+t=  12s  usuarios=  60  intentos/s=  13  errores/s=  0  p95=    916 ms
+t=  13s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    223 ms
+t=  14s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    219 ms
+t=  15s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    239 ms
+t=  16s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    201 ms
+t=  17s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    255 ms
+t=  18s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    214 ms
+t=  19s  usuarios=  60  intentos/s=  11  errores/s=  0  p95=    198 ms
+t=  20s  usuarios=  60  intentos/s=   9  errores/s=  0  p95=    265 ms
+t=  21s  usuarios=  60  intentos/s=  11  errores/s=  0  p95=    223 ms
+t=  22s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    194 ms
+t=  23s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    186 ms
+t=  24s  usuarios=  60  intentos/s=   9  errores/s=  0  p95=    214 ms
+t=  25s  usuarios=  60  intentos/s=  11  errores/s=  0  p95=    183 ms
+t=  26s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    201 ms
+t=  27s  usuarios=  60  intentos/s=   9  errores/s=  0  p95=    211 ms
+t=  28s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    200 ms
+t=  29s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    204 ms
+t=  30s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    211 ms
+t=  31s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    226 ms
+t=  32s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    205 ms
+t=  33s  usuarios=  60  intentos/s=  11  errores/s=  0  p95=    188 ms
+t=  34s  usuarios=  60  intentos/s=   9  errores/s=  0  p95=    180 ms
+t=  35s  usuarios=  60  intentos/s=  11  errores/s=  0  p95=    187 ms
+t=  36s  usuarios=  60  intentos/s=   9  errores/s=  0  p95=    211 ms
+t=  37s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    190 ms
+t=  38s  usuarios=  60  intentos/s=  11  errores/s=  0  p95=    181 ms
+t=  39s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    205 ms
+t=  40s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    215 ms
+t=  41s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    206 ms
+t=  42s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    229 ms
+t=  43s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    189 ms
+t=  44s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    198 ms
+t=  45s  usuarios=  60  intentos/s=   9  errores/s=  0  p95=    196 ms
+t=  46s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    182 ms
+t=  47s  usuarios=  60  intentos/s=  11  errores/s=  0  p95=    183 ms
+t=  48s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    205 ms
+t=  49s  usuarios=  60  intentos/s=   9  errores/s=  0  p95=    191 ms
+t=  50s  usuarios=  60  intentos/s=  11  errores/s=  0  p95=    193 ms
+t=  51s  usuarios=  60  intentos/s=   9  errores/s=  0  p95=    198 ms
+t=  52s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    234 ms
+t=  53s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    197 ms
+t=  54s  usuarios=  60  intentos/s=  11  errores/s=  0  p95=    192 ms
+t=  55s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    192 ms
+t=  56s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    199 ms
+t=  57s  usuarios=  60  intentos/s=   9  errores/s=  0  p95=    214 ms
+t=  58s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    215 ms
+t=  59s  usuarios=  60  intentos/s=  11  errores/s=  0  p95=    224 ms
+t=  60s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    209 ms
+t=  61s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    215 ms
+t=  62s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    196 ms
+t=  63s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    222 ms
+t=  64s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    209 ms
+t=  65s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    183 ms
+t=  66s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    186 ms
+
+   >>> MARCA "marca 1" a los 66.6 s (07:12:25)
+t=  67s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    191 ms
+t=  68s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    203 ms
+t=  69s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    180 ms
+t=  70s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    206 ms
+t=  71s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    198 ms
+t=  72s  usuarios=  60  intentos/s=   9  errores/s=  0  p95=    201 ms
+t=  73s  usuarios=  60  intentos/s=  11  errores/s=  0  p95=    191 ms
+t=  74s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    200 ms
+t=  75s  usuarios=  60  intentos/s=   3  errores/s=  1  p95=    178 ms
+t=  76s  usuarios=  60  intentos/s=   0  errores/s=  0  p95=      0 ms
+t=  77s  usuarios=  60  intentos/s=   0  errores/s=  0  p95=      0 ms
+t=  78s  usuarios=  60  intentos/s=   9  errores/s=  9  p95=   3013 ms
+t=  79s  usuarios=  60  intentos/s=  11  errores/s= 11  p95=   3018 ms
+t=  80s  usuarios=  60  intentos/s=   9  errores/s=  9  p95=   3007 ms
+t=  81s  usuarios=  60  intentos/s=  11  errores/s= 11  p95=   3022 ms
+t=  82s  usuarios=  60  intentos/s=  19  errores/s= 19  p95=   3012 ms
+t=  83s  usuarios=  60  intentos/s=  20  errores/s= 20  p95=   3017 ms
+t=  84s  usuarios=  60  intentos/s=  11  errores/s= 11  p95=   3018 ms
+t=  85s  usuarios=  60  intentos/s=  10  errores/s= 10  p95=   3021 ms
+t=  86s  usuarios=  60  intentos/s=  20  errores/s= 20  p95=   3015 ms
+t=  87s  usuarios=  60  intentos/s=  19  errores/s= 19  p95=   3012 ms
+t=  88s  usuarios=  60  intentos/s=  11  errores/s= 11  p95=   3004 ms
+t=  89s  usuarios=  60  intentos/s=  18  errores/s= 18  p95=   3013 ms
+t=  90s  usuarios=  60  intentos/s=  21  errores/s= 21  p95=   3009 ms
+t=  91s  usuarios=  60  intentos/s=  20  errores/s= 20  p95=   3012 ms
+t=  92s  usuarios=  60  intentos/s=  10  errores/s= 10  p95=   3017 ms
+t=  93s  usuarios=  60  intentos/s=  18  errores/s= 18  p95=   3015 ms
+t=  94s  usuarios=  60  intentos/s=  21  errores/s= 21  p95=   3021 ms
+t=  95s  usuarios=  60  intentos/s=  11  errores/s= 11  p95=   3007 ms
+t=  96s  usuarios=  60  intentos/s=  10  errores/s= 10  p95=   3018 ms
+t=  97s  usuarios=  60  intentos/s=  19  errores/s= 19  p95=   3019 ms
+t=  98s  usuarios=  60  intentos/s=  20  errores/s= 20  p95=   3019 ms
+t=  99s  usuarios=  60  intentos/s=  11  errores/s= 11  p95=   3008 ms
+t= 100s  usuarios=  60  intentos/s=  18  errores/s= 18  p95=   3007 ms
+t= 101s  usuarios=  60  intentos/s=  19  errores/s= 19  p95=   3013 ms
+t= 102s  usuarios=  60  intentos/s=  21  errores/s= 21  p95=   3008 ms
+t= 103s  usuarios=  60  intentos/s=  11  errores/s= 11  p95=   3013 ms
+t= 104s  usuarios=  60  intentos/s=  18  errores/s= 18  p95=   3018 ms
+t= 105s  usuarios=  60  intentos/s=  20  errores/s= 20  p95=   3014 ms
+t= 106s  usuarios=  60  intentos/s=  12  errores/s= 12  p95=   3011 ms
+t= 107s  usuarios=  60  intentos/s=  10  errores/s= 10  p95=   3025 ms
+t= 108s  usuarios=  60  intentos/s=  19  errores/s= 19  p95=   3014 ms
+t= 109s  usuarios=  60  intentos/s=  19  errores/s= 19  p95=   3009 ms
+t= 110s  usuarios=  60  intentos/s=  12  errores/s= 12  p95=   3003 ms
+t= 111s  usuarios=  60  intentos/s=  18  errores/s= 18  p95=   3010 ms
+t= 112s  usuarios=  60  intentos/s=  20  errores/s= 20  p95=   3025 ms
+t= 113s  usuarios=  60  intentos/s=  20  errores/s= 20  p95=   3018 ms
+t= 114s  usuarios=  60  intentos/s=  12  errores/s= 12  p95=   3012 ms
+t= 115s  usuarios=  60  intentos/s=  16  errores/s= 16  p95=   3015 ms
+t= 116s  usuarios=  60  intentos/s=  21  errores/s= 21  p95=   3013 ms
+t= 117s  usuarios=  60  intentos/s=  13  errores/s= 13  p95=   3009 ms
+t= 118s  usuarios=  60  intentos/s=  10  errores/s= 10  p95=   3025 ms
+t= 119s  usuarios=  60  intentos/s=  19  errores/s= 19  p95=   3016 ms
+t= 120s  usuarios=  60  intentos/s=  19  errores/s= 19  p95=   3013 ms
+t= 121s  usuarios=  60  intentos/s=  12  errores/s= 12  p95=   3017 ms
+t= 122s  usuarios=  60  intentos/s=  16  errores/s= 16  p95=   3009 ms
+t= 123s  usuarios=  60  intentos/s=  22  errores/s= 22  p95=   3019 ms
+t= 124s  usuarios=  60  intentos/s=  18  errores/s= 18  p95=   3024 ms
+t= 125s  usuarios=  60  intentos/s=  13  errores/s= 13  p95=   3009 ms
+t= 126s  usuarios=  60  intentos/s=  17  errores/s= 17  p95=   3024 ms
+t= 127s  usuarios=  60  intentos/s=  20  errores/s= 20  p95=   3009 ms
+
+   >>> MARCA "marca 2" a los 127.5 s (07:13:26)
+t= 128s  usuarios=  60  intentos/s=  14  errores/s= 14  p95=   3018 ms
+t= 129s  usuarios=  60  intentos/s=   9  errores/s=  9  p95=   3019 ms
+t= 130s  usuarios=  60  intentos/s=  18  errores/s= 18  p95=   3016 ms
+t= 131s  usuarios=  60  intentos/s=  20  errores/s= 20  p95=   3006 ms
+t= 132s  usuarios=  60  intentos/s=  13  errores/s= 13  p95=   3008 ms
+t= 133s  usuarios=  60  intentos/s=  16  errores/s= 16  p95=   3015 ms
+t= 134s  usuarios=  60  intentos/s=  21  errores/s= 21  p95=   3018 ms
+t= 135s  usuarios=  60  intentos/s=  20  errores/s= 20  p95=   3011 ms
+t= 136s  usuarios=  60  intentos/s=  12  errores/s= 12  p95=   3014 ms
+t= 137s  usuarios=  60  intentos/s=  17  errores/s= 17  p95=   3026 ms
+t= 138s  usuarios=  60  intentos/s=  20  errores/s= 20  p95=   3024 ms
+t= 139s  usuarios=  60  intentos/s=  14  errores/s= 14  p95=   3011 ms
+t= 140s  usuarios=  60  intentos/s=   9  errores/s=  9  p95=   3016 ms
+t= 141s  usuarios=  60  intentos/s=  24  errores/s= 24  p95=   3001 ms
+t= 142s  usuarios=  60  intentos/s=  21  errores/s= 21  p95=   2901 ms
+t= 143s  usuarios=  60  intentos/s=  14  errores/s= 14  p95=   2493 ms
+t= 144s  usuarios=  60  intentos/s=  17  errores/s= 17  p95=   2483 ms
+t= 145s  usuarios=  60  intentos/s=  27  errores/s= 27  p95=   3022 ms
+t= 146s  usuarios=  60  intentos/s=  11  errores/s= 11  p95=   2512 ms
+t= 147s  usuarios=  60  intentos/s=  21  errores/s= 21  p95=   2998 ms
+t= 148s  usuarios=  60  intentos/s=  61  errores/s=  3  p95=   2600 ms
+t= 149s  usuarios=  60  intentos/s=  17  errores/s=  0  p95=    214 ms
+t= 150s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    216 ms
+t= 151s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    231 ms
+t= 152s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    201 ms
+t= 153s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    187 ms
+t= 154s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    200 ms
+t= 155s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    199 ms
+t= 156s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    192 ms
+t= 157s  usuarios=  60  intentos/s=  11  errores/s=  0  p95=    203 ms
+t= 158s  usuarios=  60  intentos/s=   9  errores/s=  0  p95=    201 ms
+t= 159s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    212 ms
+t= 160s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    212 ms
+t= 161s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    192 ms
+t= 162s  usuarios=  60  intentos/s=  11  errores/s=  0  p95=    186 ms
+t= 163s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    220 ms
+t= 164s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    206 ms
+t= 165s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    204 ms
+t= 166s  usuarios=  60  intentos/s=   9  errores/s=  0  p95=    212 ms
+t= 167s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    221 ms
+t= 168s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    286 ms
+t= 169s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    264 ms
+t= 170s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    662 ms
+t= 171s  usuarios=  60  intentos/s=   9  errores/s=  0  p95=    250 ms
+t= 172s  usuarios=  60  intentos/s=  11  errores/s=  0  p95=    261 ms
+t= 173s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    286 ms
+t= 174s  usuarios=  60  intentos/s=   9  errores/s=  0  p95=    314 ms
+t= 175s  usuarios=  60  intentos/s=  12  errores/s=  0  p95=    206 ms
+t= 176s  usuarios=  60  intentos/s=   9  errores/s=  0  p95=    193 ms
+t= 177s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    206 ms
+t= 178s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    227 ms
+t= 179s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    206 ms
+t= 180s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    215 ms
+t= 181s  usuarios=  60  intentos/s=  11  errores/s=  0  p95=    214 ms
+t= 182s  usuarios=  60  intentos/s=   9  errores/s=  0  p95=    237 ms
+t= 183s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    202 ms
+t= 184s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    252 ms
+t= 185s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    194 ms
+t= 186s  usuarios=  60  intentos/s=  11  errores/s=  0  p95=    192 ms
+t= 187s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    187 ms
+t= 188s  usuarios=  60  intentos/s=   9  errores/s=  0  p95=    191 ms
+t= 189s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    203 ms
+t= 190s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    220 ms
+t= 191s  usuarios=  60  intentos/s=   9  errores/s=  0  p95=    210 ms
+t= 192s  usuarios=  60  intentos/s=  11  errores/s=  0  p95=    203 ms
+t= 193s  usuarios=  60  intentos/s=  11  errores/s=  0  p95=    189 ms
+t= 194s  usuarios=  60  intentos/s=   9  errores/s=  0  p95=    202 ms
+t= 195s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=   1190 ms
+t= 196s  usuarios=  60  intentos/s=  11  errores/s=  0  p95=    222 ms
+t= 197s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    209 ms
+t= 198s  usuarios=  60  intentos/s=   9  errores/s=  0  p95=    202 ms
+t= 199s  usuarios=  60  intentos/s=  11  errores/s=  0  p95=    200 ms
+t= 200s  usuarios=  57  intentos/s=   9  errores/s=  0  p95=    190 ms
+t= 201s  usuarios=  47  intentos/s=   0  errores/s=  0  p95=      0 ms
+t= 202s  usuarios=  37  intentos/s=   0  errores/s=  0  p95=      0 ms
+t= 203s  usuarios=  27  intentos/s=   0  errores/s=  0  p95=      0 ms
+t= 204s  usuarios=  17  intentos/s=   0  errores/s=  0  p95=      0 ms
+t= 205s  usuarios=   6  intentos/s=   0  errores/s=  0  p95=      0 ms
+t= 206s  usuarios=   0  intentos/s=   0  errores/s=  0  p95=      0 ms
+t= 207s  usuarios=   0  intentos/s=   0  errores/s=  0  p95=      0 ms
+
+==================================================================
+ RESULTADO  A2   1 instancia directa, stop app-1 en t=60s
+==================================================================
+ Tasa de error (% por intento)               46.123 %
+ Connect time  promedio / p95                1439.92 ms / 3013.6 ms
+ Latencia  p90 / p95 / p99                   3008.7 / 3013.7 / 3022.0 ms
+ Throughput (intentos por segundo)           12.31
+ Hilos activos  max / promedio               60 / 58.0
+ ----------------------------------          ------------------------
+ Intentos totales (con reintentos)           2463
+ Pedidos unicos enviados                     1687
+ Exitos 1er intento / tras reintento         1281 / 46
+ Fallos finales (sin exito tras reintentos)  360
+ Disponibilidad final                        78.6603 %
+ Marca: "marca 1" a los 66.6 s (07:12:25)
+ Marca: "marca 2" a los 127.5 s (07:13:26)
+ Ultimo error: 78.3 s despues de la primera marca
+==================================================================
+ Falta contar en la BD:  SELECT count(*) FROM pagos;   y luego:
+   python load_test.py --completar A2 --filas-bd <N> --duplicados 0
+
+Informe con gráficas : C:\Users\Giovanna\OneDrive - Escuela Superior de Economia y Negocios\Documentos\UNIANDES\ArquitecturaDeSoftwareRobustas\solventa\experimento-disponibilidad\resultados\A2\informe.html
+Tabla de todas las corridas: C:\Users\Giovanna\OneDrive - Escuela Superior de Economia y Negocios\Documentos\UNIANDES\ArquitecturaDeSoftwareRobustas\solventa\experimento-disponibilidad\resultados\tabla.html
+PS C:\Users\Giovanna\OneDrive - Escuela Superior de Economia y Negocios\Documentos\UNIANDES\ArquitecturaDeSoftwareRobustas\solventa\experimento-disponibilidad> py load_test.py --url http://3.225.140.4:3000 --nombre A3 --descripcion "1 instancia directa, stop app-1 en t=60s" --users 60 --ramp-up 5 --duration 200 --tps 10  
+Corrida A3: carga, 60 usuarios, ramp-up 5.0s, duracion 200.0s, tps 10.0, destino http://3.225.140.4:3000/desembolsos
+
+Tip: aprieta ENTER (o escribe un nombre + ENTER) para marcar un evento, ej. "stop instancia".
+t=   0s  usuarios=  13  intentos/s=   8  errores/s=  0  p95=    181 ms
+t=   1s  usuarios=  24  intentos/s=  11  errores/s=  0  p95=    183 ms
+t=   3s  usuarios=  36  intentos/s=  10  errores/s=  0  p95=    232 ms
+t=   3s  usuarios=  48  intentos/s=  10  errores/s=  0  p95=    199 ms
+t=   4s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    182 ms
+t=   6s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    189 ms
+t=   7s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    217 ms
+t=   7s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    202 ms
+t=   8s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    206 ms
+t=   9s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    200 ms
+t=  10s  usuarios=  60  intentos/s=   9  errores/s=  0  p95=    214 ms
+t=  12s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    682 ms
+t=  13s  usuarios=  60  intentos/s=  11  errores/s=  0  p95=    207 ms
+t=  13s  usuarios=  60  intentos/s=   9  errores/s=  0  p95=    180 ms
+t=  15s  usuarios=  60  intentos/s=  11  errores/s=  0  p95=    219 ms
+t=  15s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    225 ms
+t=  16s  usuarios=  60  intentos/s=   9  errores/s=  0  p95=    179 ms
+t=  17s  usuarios=  60  intentos/s=  11  errores/s=  0  p95=    190 ms
+t=  18s  usuarios=  60  intentos/s=   9  errores/s=  0  p95=    214 ms
+t=  20s  usuarios=  60  intentos/s=  11  errores/s=  0  p95=    209 ms
+t=  20s  usuarios=  60  intentos/s=   9  errores/s=  0  p95=    197 ms
+t=  22s  usuarios=  60  intentos/s=  11  errores/s=  0  p95=    199 ms
+t=  23s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    208 ms
+t=  23s  usuarios=  60  intentos/s=   9  errores/s=  0  p95=    204 ms
+t=  24s  usuarios=  60  intentos/s=  11  errores/s=  0  p95=    194 ms
+t=  26s  usuarios=  60  intentos/s=   9  errores/s=  0  p95=    218 ms
+t=  27s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    218 ms
+t=  27s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    235 ms
+t=  28s  usuarios=  60  intentos/s=  11  errores/s=  0  p95=    187 ms
+t=  29s  usuarios=  60  intentos/s=   9  errores/s=  0  p95=    208 ms
+t=  31s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    209 ms
+t=  31s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    231 ms
+t=  32s  usuarios=  60  intentos/s=  11  errores/s=  0  p95=    204 ms
+t=  33s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    204 ms
+t=  34s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    199 ms
+t=  35s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    204 ms
+t=  36s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    205 ms
+t=  38s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    230 ms
+t=  38s  usuarios=  60  intentos/s=   9  errores/s=  0  p95=    209 ms
+t=  39s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    250 ms
+t=  40s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    205 ms
+t=  41s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    216 ms
+t=  42s  usuarios=  60  intentos/s=  11  errores/s=  0  p95=    211 ms
+t=  43s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    189 ms
+t=  44s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    197 ms
+t=  46s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    184 ms
+t=  47s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    182 ms
+t=  48s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    192 ms
+t=  49s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    208 ms
+t=  50s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    200 ms
+t=  51s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    178 ms
+t=  52s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    196 ms
+t=  53s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    213 ms
+t=  54s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    183 ms
+t=  55s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    175 ms
+t=  56s  usuarios=  60  intentos/s=  11  errores/s=  0  p95=    198 ms
+t=  57s  usuarios=  60  intentos/s=   9  errores/s=  0  p95=    214 ms
+t=  58s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    203 ms
+t=  59s  usuarios=  60  intentos/s=  11  errores/s=  0  p95=    205 ms
+t=  60s  usuarios=  60  intentos/s=   9  errores/s=  0  p95=    189 ms
+t=  61s  usuarios=  60  intentos/s=  11  errores/s=  0  p95=    182 ms
+t=  62s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    211 ms
+t=  63s  usuarios=  60  intentos/s=   9  errores/s=  0  p95=    222 ms
+t=  64s  usuarios=  60  intentos/s=  11  errores/s=  0  p95=    187 ms
+t=  65s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    193 ms
+t=  66s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    188 ms
+t=  67s  usuarios=  60  intentos/s=   9  errores/s=  0  p95=    209 ms
+t=  68s  usuarios=  60  intentos/s=  11  errores/s=  0  p95=    187 ms
+t=  69s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    201 ms
+t=  70s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    203 ms
+t=  71s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    188 ms
+t=  72s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    202 ms
+t=  73s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    183 ms
+t=  74s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    220 ms
+t=  75s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    274 ms
+
+   >>> MARCA "marca 1" a los 75.4 s (07:16:39)
+t=  76s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    191 ms
+t=  77s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    204 ms
+t=  78s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    375 ms
+t=  79s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    273 ms
+t=  80s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    278 ms
+t=  81s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    206 ms
+t=  82s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    194 ms
+t=  83s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    189 ms
+t=  84s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    193 ms
+t=  85s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    187 ms
+t=  86s  usuarios=  60  intentos/s=   3  errores/s=  2  p95=    202 ms
+t=  87s  usuarios=  60  intentos/s=   0  errores/s=  0  p95=      0 ms
+t=  88s  usuarios=  60  intentos/s=   0  errores/s=  0  p95=      0 ms
+t=  89s  usuarios=  60  intentos/s=   8  errores/s=  8  p95=   3012 ms
+t=  90s  usuarios=  60  intentos/s=  13  errores/s= 13  p95=   3027 ms
+t=  91s  usuarios=  60  intentos/s=  10  errores/s= 10  p95=   3025 ms
+t=  92s  usuarios=  60  intentos/s=  10  errores/s= 10  p95=   3021 ms
+t=  93s  usuarios=  60  intentos/s=  19  errores/s= 19  p95=   3008 ms
+t=  94s  usuarios=  60  intentos/s=  20  errores/s= 20  p95=   3012 ms
+t=  95s  usuarios=  60  intentos/s=  11  errores/s= 11  p95=   3021 ms
+t=  96s  usuarios=  60  intentos/s=  10  errores/s= 10  p95=   3012 ms
+t=  97s  usuarios=  60  intentos/s=  21  errores/s= 21  p95=   3019 ms
+t=  98s  usuarios=  60  intentos/s=  19  errores/s= 19  p95=   3018 ms
+t=  99s  usuarios=  60  intentos/s=  10  errores/s= 10  p95=   3007 ms
+t= 100s  usuarios=  60  intentos/s=  18  errores/s= 18  p95=   3003 ms
+t= 101s  usuarios=  60  intentos/s=  21  errores/s= 21  p95=   3019 ms
+t= 102s  usuarios=  60  intentos/s=  20  errores/s= 20  p95=   3014 ms
+t= 103s  usuarios=  60  intentos/s=  10  errores/s= 10  p95=   3015 ms
+t= 104s  usuarios=  60  intentos/s=  18  errores/s= 18  p95=   3025 ms
+t= 105s  usuarios=  60  intentos/s=  22  errores/s= 22  p95=   3025 ms
+t= 106s  usuarios=  60  intentos/s=  10  errores/s= 10  p95=   3027 ms
+t= 107s  usuarios=  60  intentos/s=  10  errores/s= 10  p95=   3024 ms
+t= 108s  usuarios=  60  intentos/s=  21  errores/s= 21  p95=   3020 ms
+t= 109s  usuarios=  60  intentos/s=  19  errores/s= 19  p95=   3015 ms
+t= 110s  usuarios=  60  intentos/s=  10  errores/s= 10  p95=   3016 ms
+t= 111s  usuarios=  60  intentos/s=  18  errores/s= 18  p95=   3005 ms
+t= 112s  usuarios=  60  intentos/s=  23  errores/s= 23  p95=   3019 ms
+t= 113s  usuarios=  60  intentos/s=  19  errores/s= 19  p95=   3022 ms
+t= 114s  usuarios=  60  intentos/s=  10  errores/s= 10  p95=   3017 ms
+t= 115s  usuarios=  60  intentos/s=  18  errores/s= 18  p95=   3018 ms
+t= 116s  usuarios=  60  intentos/s=  22  errores/s= 22  p95=   3014 ms
+t= 117s  usuarios=  60  intentos/s=  10  errores/s= 10  p95=   3011 ms
+t= 118s  usuarios=  60  intentos/s=  10  errores/s= 10  p95=   3014 ms
+t= 119s  usuarios=  60  intentos/s=  20  errores/s= 20  p95=   3013 ms
+t= 120s  usuarios=  60  intentos/s=  20  errores/s= 20  p95=   3013 ms
+t= 121s  usuarios=  60  intentos/s=  10  errores/s= 10  p95=   3024 ms
+t= 122s  usuarios=  60  intentos/s=  18  errores/s= 18  p95=   3021 ms
+t= 123s  usuarios=  60  intentos/s=  22  errores/s= 22  p95=   3022 ms
+t= 124s  usuarios=  60  intentos/s=  20  errores/s= 20  p95=   3015 ms
+
+   >>> MARCA "marca 2" a los 124.8 s (07:17:28)
+t= 125s  usuarios=  60  intentos/s=  10  errores/s= 10  p95=   3026 ms
+t= 126s  usuarios=  60  intentos/s=  18  errores/s= 18  p95=   3016 ms
+t= 127s  usuarios=  60  intentos/s=  21  errores/s= 21  p95=   3027 ms
+t= 128s  usuarios=  60  intentos/s=  11  errores/s= 11  p95=   3020 ms
+t= 129s  usuarios=  60  intentos/s=  10  errores/s= 10  p95=   3015 ms
+t= 130s  usuarios=  60  intentos/s=  20  errores/s= 20  p95=   3020 ms
+t= 131s  usuarios=  60  intentos/s=  19  errores/s= 19  p95=   3016 ms
+t= 132s  usuarios=  60  intentos/s=  11  errores/s= 11  p95=   3011 ms
+t= 133s  usuarios=  60  intentos/s=  18  errores/s= 18  p95=   3019 ms
+t= 134s  usuarios=  60  intentos/s=  20  errores/s= 20  p95=   3006 ms
+t= 135s  usuarios=  60  intentos/s=  22  errores/s= 22  p95=   3013 ms
+t= 136s  usuarios=  60  intentos/s=  10  errores/s= 10  p95=   3029 ms
+t= 137s  usuarios=  60  intentos/s=  17  errores/s= 17  p95=   3012 ms
+t= 138s  usuarios=  60  intentos/s=  22  errores/s= 22  p95=   3006 ms
+t= 139s  usuarios=  60  intentos/s=  15  errores/s= 15  p95=   3005 ms
+t= 140s  usuarios=  60  intentos/s=  15  errores/s= 15  p95=   3001 ms
+t= 141s  usuarios=  60  intentos/s=  18  errores/s= 18  p95=   3009 ms
+t= 142s  usuarios=  60  intentos/s=  19  errores/s= 19  p95=   2998 ms
+t= 143s  usuarios=  60  intentos/s=  18  errores/s= 18  p95=   3002 ms
+t= 144s  usuarios=  60  intentos/s=  20  errores/s= 20  p95=   3002 ms
+t= 145s  usuarios=  60  intentos/s=  52  errores/s=  8  p95=   2999 ms
+t= 146s  usuarios=  60  intentos/s=  16  errores/s=  4  p95=   3000 ms
+t= 147s  usuarios=  60  intentos/s=  14  errores/s=  3  p95=   2993 ms
+t= 148s  usuarios=  60  intentos/s=  17  errores/s=  4  p95=   3008 ms
+t= 149s  usuarios=  60  intentos/s=  13  errores/s=  2  p95=   2977 ms
+t= 150s  usuarios=  60  intentos/s=  12  errores/s=  1  p95=    220 ms
+t= 151s  usuarios=  60  intentos/s=  10  errores/s=  1  p95=   2992 ms
+t= 152s  usuarios=  60  intentos/s=  12  errores/s=  2  p95=   2989 ms
+t= 153s  usuarios=  60  intentos/s=  11  errores/s=  1  p95=    221 ms
+t= 154s  usuarios=  60  intentos/s=  14  errores/s=  2  p95=   3003 ms
+t= 155s  usuarios=  60  intentos/s=  13  errores/s=  1  p95=    205 ms
+t= 156s  usuarios=  60  intentos/s=  12  errores/s=  2  p95=   3006 ms
+t= 157s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    243 ms
+t= 158s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    318 ms
+t= 159s  usuarios=  60  intentos/s=   9  errores/s=  0  p95=   2265 ms
+t= 160s  usuarios=  60  intentos/s=   9  errores/s=  0  p95=    350 ms
+t= 161s  usuarios=  60  intentos/s=  13  errores/s=  1  p95=   2240 ms
+t= 162s  usuarios=  60  intentos/s=  12  errores/s=  1  p95=    228 ms
+t= 163s  usuarios=  60  intentos/s=  11  errores/s=  0  p95=    202 ms
+t= 164s  usuarios=  60  intentos/s=  11  errores/s=  0  p95=    196 ms
+t= 165s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    201 ms
+t= 166s  usuarios=  60  intentos/s=   9  errores/s=  0  p95=    238 ms
+t= 167s  usuarios=  60  intentos/s=  11  errores/s=  0  p95=    214 ms
+t= 168s  usuarios=  60  intentos/s=   9  errores/s=  0  p95=    205 ms
+t= 169s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    367 ms
+t= 170s  usuarios=  60  intentos/s=   9  errores/s=  0  p95=    928 ms
+t= 171s  usuarios=  60  intentos/s=  12  errores/s=  0  p95=    385 ms
+t= 172s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    226 ms
+t= 173s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    208 ms
+t= 174s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    210 ms
+t= 175s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    197 ms
+t= 176s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    182 ms
+t= 177s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    220 ms
+t= 178s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    200 ms
+t= 179s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    239 ms
+t= 180s  usuarios=  60  intentos/s=  11  errores/s=  0  p95=    195 ms
+t= 181s  usuarios=  60  intentos/s=   9  errores/s=  0  p95=    201 ms
+t= 182s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    200 ms
+t= 183s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    213 ms
+t= 184s  usuarios=  60  intentos/s=  11  errores/s=  0  p95=    192 ms
+t= 185s  usuarios=  60  intentos/s=   9  errores/s=  0  p95=    231 ms
+t= 186s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    232 ms
+t= 187s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    231 ms
+t= 188s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    199 ms
+t= 189s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=   1181 ms
+t= 190s  usuarios=  60  intentos/s=  11  errores/s=  0  p95=    201 ms
+t= 191s  usuarios=  60  intentos/s=   9  errores/s=  0  p95=    200 ms
+t= 192s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    199 ms
+t= 193s  usuarios=  60  intentos/s=  11  errores/s=  0  p95=    192 ms
+t= 194s  usuarios=  60  intentos/s=   9  errores/s=  0  p95=    218 ms
+t= 195s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    211 ms
+t= 196s  usuarios=  60  intentos/s=  11  errores/s=  0  p95=    185 ms
+t= 197s  usuarios=  60  intentos/s=   9  errores/s=  0  p95=    203 ms
+t= 198s  usuarios=  60  intentos/s=  11  errores/s=  0  p95=    207 ms
+t= 199s  usuarios=  60  intentos/s=  10  errores/s=  0  p95=    179 ms
+t= 200s  usuarios=  55  intentos/s=   8  errores/s=  0  p95=    189 ms
+t= 201s  usuarios=  45  intentos/s=   0  errores/s=  0  p95=      0 ms
+t= 202s  usuarios=  35  intentos/s=   0  errores/s=  0  p95=      0 ms
+t= 203s  usuarios=  25  intentos/s=   0  errores/s=  0  p95=      0 ms
+t= 204s  usuarios=  15  intentos/s=   0  errores/s=  0  p95=      0 ms
+t= 205s  usuarios=   5  intentos/s=   0  errores/s=  0  p95=      0 ms
+t= 206s  usuarios=   0  intentos/s=   0  errores/s=  0  p95=      0 ms
+t= 207s  usuarios=   0  intentos/s=   0  errores/s=  0  p95=      0 ms
+
+==================================================================
+ RESULTADO  A3   1 instancia directa, stop app-1 en t=60s
+==================================================================
+ Tasa de error (% por intento)               39.174 %
+ Connect time  promedio / p95                1235.61 ms / 3012.41 ms
+ Latencia  p90 / p95 / p99                   3008.7 / 3012.6 / 3022.2 ms
+ Throughput (intentos por segundo)           11.97
+ Hilos activos  max / promedio               60 / 58.0
+ ----------------------------------          ------------------------
+ Intentos totales (con reintentos)           2397
+ Pedidos unicos enviados                     1752
+ Exitos 1er intento / tras reintento         1412 / 46
+ Fallos finales (sin exito tras reintentos)  294
+ Disponibilidad final                        83.2192 %
+ Marca: "marca 1" a los 75.4 s (07:16:39)
+ Marca: "marca 2" a los 124.8 s (07:17:28)
+ Ultimo error: 83.8 s despues de la primera marca
+==================================================================
+ Falta contar en la BD:  SELECT count(*) FROM pagos;   y luego:
+   python load_test.py --completar A3 --filas-bd <N> --duplicados 0
+
+Informe con gráficas : C:\Users\Giovanna\OneDrive - Escuela Superior de Economia y Negocios\Documentos\UNIANDES\ArquitecturaDeSoftwareRobustas\solventa\experimento-disponibilidad\resultados\A3\informe.html
+Tabla de todas las corridas: C:\Users\Giovanna\OneDrive - Escuela Superior de Economia y Negocios\Documentos\UNIANDES\ArquitecturaDeSoftwareRobustas\solventa\experimento-disponibilidad\resultados\tabla.html
+
