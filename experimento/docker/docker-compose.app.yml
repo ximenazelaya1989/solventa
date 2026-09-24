@@ -1,0 +1,11 @@
+# Se ejecuta en la EC2 solventa-app, desde experimento/docker:
+#   docker compose -f docker-compose.app.yml up -d --build
+services:
+  api:
+    build:
+      context: ../..
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    env_file: ../.env.experimento
+    ports:
+      - '3000:3000'
