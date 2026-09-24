@@ -6,7 +6,6 @@ import {
   DecisionSuscripcion,
 } from './entities/suscripcion.entity';
 import { PolizasService } from '../polizas/polizas.service';
-import { PagosService } from '../pagos/pagos.service';
 import { PerfilamientoService } from '../perfilamiento/perfilamiento.service';
 import { Cotizacion } from '../cotizacion/entities/cotizacion.entity';
 import { DecidirSuscripcionDto } from './dto/decidir-suscripcion.dto';
@@ -32,7 +31,6 @@ export class SuscripcionService {
     @InjectDataSource()
     private readonly dataSource: DataSource,
     private readonly polizasService: PolizasService,
-    private readonly pagosService: PagosService,
     private readonly perfilamientoService: PerfilamientoService,
   ) {}
 
@@ -77,14 +75,10 @@ export class SuscripcionService {
           const poliza = await this.polizasService.emitir(manager, {
             clienteId: cotizacion.clienteId,
             productoId: cotizacion.productoId,
+            monto: cotizacion.prima,
           });
           nueva.poliza = poliza;
           await suscripcionRepo.save(nueva);
-          await this.pagosService.cobrarPrima(
-            manager,
-            poliza.id,
-            cotizacion.prima,
-          );
           return nueva;
         }
 
