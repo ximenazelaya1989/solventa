@@ -1,91 +1,79 @@
 # Experimento HU2.1.1 · Colocalización de Suscripción, Pólizas y Pagos en la decisión y emisión automática
 
-Guía en tres partes: (1) texto de Planeación listo para Hélix, (2) procedimiento de ejecución con la consola de AWS, (3) plantilla del documento de Ejecución (resultados y análisis) y guion del video. Todo sigue la estructura de `Lab3_Diseño_del_experimentov3.pdf` y `Lab3_Ejecucion_del_experimentov2.pdf`.
+Guía en cuatro partes: (0) estado del código, (1) texto de Planeación registrado en Hélix, (2) procedimiento de ejecución con la consola de AWS, (3) documento de resultados, video y entrega. Sigue la estructura de `Lab3_Diseño_del_experimentov3.pdf` y `Lab3_Ejecucion_del_experimentov2.pdf`.
 
 ---
 
-## PARTE 0 · Código base (ya aplicado)
+## PARTE 0 · Estado del código (listo y verificado)
 
-El refactor a 12 módulos ya está hecho y en `origin/feature/refactor-12-modulos` (entidades, transacción atómica de emisión, idempotencia, versión optimista, `data-source.ts`, `batch.ts`, Docker, etc. — ver `CLAUDE.md` en la raíz). Esta rama de experimento (`feature/experimento-hu211`) parte de ahí, así que **no hay que descomprimir ningún zip ni borrar entidades a mano**: solo falta lo que completa este kit (Parte A del endpoint y Parte B de este documento).
+Rama de trabajo: `feature/experimento-hu211`, creada desde `feature/refactor-12-modulos` (base común de 12 módulos; ver `CLAUDE.md` en la raíz). Cuando ambas ramas se fusionen a `main`, use `main` en todos los comandos de clonación de la Parte 2.
 
-Si en algún momento necesita partir de cero desde `main`:
+Lo que ya está implementado y verificado localmente con Docker:
 
-```powershell
-cd C:\Users\ximen\OneDrive\Documentos\solventa-backend
-git fetch origin
-git checkout -b feature/experimento-hu211 origin/feature/refactor-12-modulos
-npm install
-npm run build   # debe terminar sin errores
-```
+1. `POST /suscripciones` con cuerpo `{ "cotizacionId": "<uuid>" }` responde 201 con `id`, `decision`, `polizaId` e `idempotente`; cotización inexistente → 404; campos extra (por ejemplo `score`) → 400. `GET /suscripciones/:id` → 200 o 404.
+2. Decisión por umbrales sobre el score del PerfilRiesgo de la cotización (`Cotizacion.perfilRiesgoId`), configurables con `SUSCRIPCION_UMBRAL_APROBACION` (0.7) y `SUSCRIPCION_UMBRAL_REVISION` (0.4). Valores que devuelve la API: `aprobado`, `revision_asistida`, `rechazado`.
+3. Rutas, todas dentro de una sola transacción:
+   - `aprobado`: suscripción + póliza emitida con su pago `cobro_prima` pendiente (`PolizasService.emitir()`, que llama internamente a `PagosService.cobrarPrima()`).
+   - `revision_asistida`: suscripción + póliza pendiente (`PolizasService.registrarPendiente()`), sin cobro.
+   - `rechazado`: solo la suscripción.
+4. Idempotencia: 10 peticiones concurrentes con la misma cotización → 10 respuestas 201 (una con `idempotente: false`), cero errores y en la BD 1 suscripción, 1 póliza y 1 pago.
+5. Kit `experimento/` adaptado al esquema real. La semilla usa las etiquetas `aprobada`, `revision` y `rechazada` en la columna `esperado` del CSV; `k6/suscripcion.js` las traduce a los valores de la API antes de comparar.
 
-Antes de hacer merge a `main`, coordine con el compañero dueño de la rama `feature/hu112-rolling-update-reglas-rating`, porque el refactor modifica `src/cotizacion` (este kit de experimento no la toca).
+Antes de fusionar a `main`, coordine con el compañero dueño de la rama `feature/hu112-rolling-update-reglas-rating`, porque el refactor modifica `src/cotizacion` (este kit no la toca).
 
 ---
 
-## PARTE 1 · Planeación (texto para Hélix >> Experimentos >> + Nuevo >> Planeación)
-
-### Nombre
-Colocalización de Suscripción, Pólizas y Pagos para la decisión y emisión automática de la póliza (HU2.1.1).
+## PARTE 1 · Planeación (texto registrado en Hélix)
 
 ### Hipótesis de diseño
-Si la decisión de suscripción, la emisión de la póliza y el registro del cobro de la prima se ejecutan como invocaciones en-proceso entre los módulos Suscripción y emisión, Pólizas y Pagos del monolito modular, dentro de una única transacción de base de datos, reutilizando el perfil de riesgo ya calculado y dejando fuera del camino crítico las llamadas a la pasarela de pago y a la firma electrónica, entonces la decisión más la emisión de una solicitud que cumple el perfil de riesgo se completará con p95 ≤ 1,5 s y p99 ≤ 3 s en operación normal (50 TPS), con una tasa de error inferior al 1 %, porque el camino crítico se reduce a una lectura indexada y tres inserciones sobre una misma conexión, sin saltos de red entre módulos ni serialización HTTP intermedia.
+Decisión arquitectónica bajo prueba: la decisión de suscripción y la emisión de la póliza se implementan como invocaciones en-proceso entre los módulos Suscripción, Pólizas y Pagos del monolito modular, dentro de una sola transacción que guarda la suscripción, la póliza y el cobro de la prima.
 
-Nota de alcance. La hipótesis afirma que el diseño colocalizado es suficiente para cumplir el ASR en el rango de carga probado; no compara contra una variante con HTTP entre módulos, así que no demuestra que evitar HTTP sea la causa exclusiva del cumplimiento. El cobro queda registrado en estado pendiente dentro de la transacción y se procesa después contra la pasarela (monitor de independencia emisión/pago del modelo de concurrencia); la firma electrónica tampoco se mide. Ambas exclusiones son decisiones de diseño declaradas, no simplificaciones ocultas.
+Hipótesis (H1), latencia: bajo este enfoque colocalizado, la decisión y la emisión de una solicitud que cumple el perfil de riesgo cumplirán el ASR de HU2.1.1 (p95 ≤ 1,5 s y p99 ≤ 3 s) en operación normal (50 TPS), con menos de 1 % de errores, y se mantendrán dentro del umbral hasta un nivel de carga identificable, a partir del cual la latencia crecerá de forma no lineal.
 
-### Escenario de calidad vinculado
-HU2.1.1 · Latencia. Fuente: cliente asegurado. Estímulo: acepta la cotización y solicita que su solicitud sea aprobada automáticamente cuando cumple el perfil de riesgo. Artefacto: servicio de suscripción y emisión. Ambiente: operación normal (50 TPS). Respuesta: decisión aprobada y póliza emitida con su cobro de prima registrado. Medida: p95 < 1500 ms y p99 < 3000 ms, medidos sobre la ruta de aprobación automática.
+Alcance: el experimento evalúa si el diseño colocalizado es suficiente para cumplir el ASR; no lo compara con una variante HTTP. La pasarela de pago y la firma electrónica quedan fuera del camino medido: el cobro queda en estado pendiente y se procesa después. Los 50 TPS son un supuesto del equipo: unas 833 cotizaciones por segundo en campaña con una conversión cercana al 6 %.
 
 ### Tácticas y patrones
-Localización de recursos (colocalización). Suscripción, Pólizas y Pagos viven en el mismo proceso de la API Solventa y se comunican por invocación directa de métodos de servicio, tal como muestra el hilo "Núcleo de venta" del modelo de concurrencia.
-¿Por qué esta táctica y no otra? La alternativa sería separar Pólizas o Pagos en servicios (Fase 2), lo que añade al menos dos saltos de red y la necesidad de coordinar una transacción distribuida (saga o 2PC) para no dejar pólizas sin cobro; en la Fase 1 la presión de negocio es salir rápido y barato, y el ASR es de latencia sobre un flujo que debe ser atómico, así que la colocalización es la opción de menor costo y menor latencia.
+Táctica principal, localización de recursos (colocalización): Suscripción, Pólizas y Pagos se comunican por invocación directa de métodos dentro del mismo proceso, sin saltos de red.
+¿Por qué esta táctica y no otra? Separarlos en servicios añadiría saltos de red y exigiría una transacción distribuida para no dejar pólizas sin cobro. El caso reserva esa separación para la Fase 2.
 
-Transacción atómica compartida (conector en-proceso con EntityManager común). La suscripción, la póliza y el pago pendiente se guardan en una sola transacción; si algo falla, no queda nada a medias.
-¿Por qué esta táctica y no otra? Tres `save()` independientes serían marginalmente más rápidos pero violarían HU2.3.1 (cero pérdida o duplicación); una saga con compensaciones es propia de servicios distribuidos y aquí añadiría complejidad sin beneficio.
+Tácticas de soporte: una transacción atómica, para que no queden pólizas sin cobro (HU2.3.1); idempotencia por unicidad de `cotizacionId`, para que un reintento no duplique la póliza; y un pool de conexiones acotado (`DB_POOL_MAX`), que limita la carga sobre PostgreSQL.
+¿Por qué estas y no otras? Son las que exige el modelo de concurrencia y funcionan aunque la API tenga varias réplicas, a diferencia de un bloqueo en memoria.
 
-Idempotencia por restricción de unicidad. `cotizacionId` es único en `suscripciones` y la clave `prima:{polizaId}` es única en `pagos`; un reintento devuelve la decisión ya tomada.
-¿Por qué esta táctica y no otra? Un mutex en memoria no funciona con varias réplicas (la API no guarda estado para poder escalar horizontalmente); la unicidad en la base de datos es la única garantía que sobrevive a réplicas y reintentos, y cuesta un índice.
-
-Semáforo de conexiones a la base de datos (pool acotado, `DB_POOL_MAX`). Limita cuántas transacciones concurrentes llegan a PostgreSQL, protegiendo a la base de datos bajo picos.
-¿Por qué esta táctica y no otra? Un pool ilimitado traslada la contención a PostgreSQL (bloqueos, cambios de contexto) y degrada la cola de latencia de forma impredecible; un pool acotado convierte la sobrecarga en espera medible dentro de la API, que es justamente lo que el experimento busca observar.
-
-Reducción de overhead computacional. La decisión es una comparación de umbrales sobre el score del `PerfilRiesgo` ya calculado (O(1)); no se recalcula el perfil ni se consulta Open Finance dentro de la transacción. Se reporta como factor que contribuye, no como hipótesis independiente.
+Táctica secundaria, reducción de overhead: la decisión compara umbrales sobre el score del PerfilRiesgo ya calculado, sin recalcularlo. Se reporta en el análisis como factor que contribuye, no como hipótesis propia.
 
 ### Diseño del experimento
-Variable independiente: tasa de llegada de solicitudes (TPS), en una escalera de siete niveles con tasa constante (modelo de llegada abierto de k6, `constant-arrival-rate`): smoke 2 TPS durante 60 s (1 repetición), carga baja 10 TPS (4), carga media 25 TPS (4), operación normal 50 TPS (8), carga alta 100 TPS (4), carga muy alta 200 TPS (4) y estrés 400 TPS (8); cada corrida no smoke dura 180 s. Operación normal y estrés tienen más repeticiones por ser el nivel de referencia del ASR y el nivel donde se espera la mayor varianza.
+Variable independiente: la tasa de llegada (TPS), en una escalera con k6: 2 (smoke), 10, 25, 50 (operación normal), 100, 200 y 400 TPS (estrés), con corridas de 180 s, 8 repeticiones en operación normal y estrés, y 4 en los demás niveles.
 
-Variables dependientes: p95, p99, promedio, mínimo, máximo y desviación estándar de la latencia de las solicitudes aprobadas; throughput logrado (solicitudes completadas por segundo); tasa de error (%). Como información complementaria se reportan por separado las latencias de las rutas de revisión asistida y rechazo, y el uso de CPU de las instancias.
+Variables dependientes: p95, p99, promedio, mínimo, máximo y desviación estándar de la latencia de las solicitudes aprobadas en `POST /suscripciones`, además del throughput logrado y la tasa de error. Una corrida cumple el ASR solo si además tiene menos de 1 % de errores.
 
-Variables controladas: las mismas tres instancias EC2 (tipos, región us-east-1, misma zona de disponibilidad, créditos t3 en modo unlimited), la misma imagen de la aplicación, `DB_POOL_MAX=10`, PostgreSQL 16 con `max_connections=200`, base de datos reiniciada al estado semilla antes de cada corrida, el mismo dataset (20 productos; una cotización nueva por solicitud, ya que `cotizacionId` es único; scores distribuidos 70 % aprobación, 20 % revisión, 10 % rechazo), los mismos umbrales de decisión (0,7 y 0,4), 60 s de enfriamiento entre corridas y el batch de perfiles apagado durante el experimento (recalcula scores y alteraría las decisiones).
+Variables controladas: las mismas tres instancias EC2 y la misma configuración (pool de 10 conexiones, umbrales 0,7 y 0,4). La base de datos se reinicia y se vuelve a sembrar antes de cada corrida, con una cotización nueva por solicitud y la misma distribución de scores (70 % aprobación, 20 % revisión, 10 % rechazo). Entre corridas hay 60 s de enfriamiento, y el batch de perfiles se mantiene apagado.
 
-Condición de validez: una corrida solo cuenta como cumplimiento del ASR si además de p95 y p99 dentro de la meta tiene tasa de error < 1 %; con más errores, las latencias de las peticiones exitosas no representan la experiencia del cliente.
-
-Software a escribir: endpoint `POST /suscripciones` (SuscripcionController y SuscripcionService) con invocación en-proceso a `PolizasService.emitir()` y `PagosService.cobrarPrima()` dentro de la transacción; script SQL de reinicio y semilla; script k6 parametrizado por nivel; script de escalera que reinicia la BD, verifica `/health`, enfría y corre k6; script Python de consolidación y figuras; archivos de despliegue (Dockerfile, docker-compose de la BD y de la API, user data de las EC2).
+Software: el endpoint `POST /suscripciones` con la transacción en-proceso, el script SQL de semilla, el script de k6 por niveles, el script de escalera y el de consolidación de resultados.
 
 Procedimiento:
-1. Iniciar el Learner Lab y abrir la consola de AWS; verificar el presupuesto en Cost Explorer.
-2. Crear en la consola de EC2 los grupos de seguridad de la aplicación, la base de datos y el generador de carga.
-3. Lanzar tres instancias EC2 Ubuntu 24.04 en la misma zona: `solventa-db` y `solventa-app` (t3.medium, con Docker) y `solventa-loadgen` (t3.small, con k6).
-4. En `solventa-db`, levantar PostgreSQL con Docker; en `solventa-app`, clonar el repositorio y levantar la API apuntando a la IP privada de la base de datos.
-5. Desde `solventa-loadgen`, verificar `GET /health` por la IP privada de la aplicación.
-6. Ejecutar el smoke test para validar el circuito extremo a extremo (las tres decisiones, cero decisiones inesperadas) y calibrar el script.
-7. Ejecutar la escalera completa (33 corridas, aproximadamente 2,5 h), reiniciando la base de datos antes de cada corrida, mientras se observa la pestaña Monitoring de las instancias.
-8. Consolidar las corridas por nivel, construir las figuras de p95/p99, error y throughput, y determinar el punto de inflexión (mayor nivel en que se cumple el ASR con error < 1 %).
-9. Recolectar la evidencia (capturas de consola, salidas de k6, prompts de IAG), terminar las instancias, borrar los grupos de seguridad y revisar Cost Explorer; finalizar con End Lab.
+1. Iniciar el Learner Lab y crear en la consola de EC2 los grupos de seguridad y tres instancias en la misma zona: `solventa-app`, `solventa-db` y `solventa-loadgen`.
+2. Levantar PostgreSQL en `solventa-db` y una instancia de la API en `solventa-app` con los archivos de `experimento/docker`.
+3. Verificar `/health` desde `solventa-loadgen` y ejecutar el smoke test para validar el circuito.
+4. Ejecutar la escalera completa, observando la pestaña Monitoring de las instancias.
+5. Consolidar las corridas por nivel y determinar el punto de inflexión: el mayor nivel que cumple el ASR.
+6. Recolectar la evidencia, terminar las instancias, borrar los grupos de seguridad y revisar Cost Explorer.
 
 ### Recursos requeridos
-Cuenta AWS Academy Learner Lab (Vocareum), región us-east-1. Tres instancias EC2 Ubuntu Server 24.04 LTS en la misma subred: `solventa-app` (t3.medium, API NestJS en Docker), `solventa-db` (t3.medium, PostgreSQL 16 en Docker) y `solventa-loadgen` (t3.small, k6 y cliente psql). Par de llaves `vockey` (archivo `labsuser.pem`). Tres grupos de seguridad: `sg-solventa-loadgen` (SSH 22 desde la IP del equipo), `sg-solventa-app` (SSH 22 desde la IP del equipo; TCP 3000 desde `sg-solventa-loadgen` y desde la IP del equipo) y `sg-solventa-db` (SSH 22 desde la IP del equipo; TCP 5432 desde `sg-solventa-app` y `sg-solventa-loadgen`). El generador de carga se ubica dentro de la misma VPC y zona para no medir el tiempo de red Bogotá–Virginia y para no competir por CPU con la API. Repositorio del equipo con `Dockerfile`, `experimento/` y `.env.experimento.example`; k6; Python 3 con matplotlib en el equipo local para consolidar; hoja de cálculo. Costo estimado: aproximadamente USD 0,10 por hora con las tres instancias encendidas.
+AWS Academy Learner Lab, en la región us-east-1, con tres instancias Ubuntu 24.04 en la misma zona: `solventa-app` (t3.medium), con la API en Docker; `solventa-db` (t3.medium), con PostgreSQL 16, separada según la vista de despliegue; y `solventa-loadgen` (t3.small), con k6, dentro de la VPC para no medir la latencia de red desde Bogotá ni competir por CPU con la API. Se necesitan también grupos de seguridad para SSH, el puerto 3000 y el puerto 5432, el par de llaves `vockey`, el repositorio con la carpeta `experimento`, Python para consolidar y una hoja de cálculo. El costo aproximado es de USD 0,10 por hora.
 
 ### Elementos de arquitectura involucrados
-Vista funcional: componentes Suscripción y emisión, Pólizas y Pagos (camino crítico), con lecturas de Cotización y Perfilamiento; conectores "emite" y "cobro de prima" implementados como invocación en-proceso con transacción compartida. Vista de información: clases Suscripcion, Poliza, Pago, Cotizacion y PerfilRiesgo; tablas `suscripciones`, `polizas`, `pagos`, `cotizaciones` y `perfiles_riesgo`. Vista de concurrencia: proceso API Solventa, hilo de petición del núcleo de venta, semáforo de conexiones a la BD y monitor de independencia emisión/pago. Vista de despliegue: nodo de aplicación y capa de datos separados (fragmento de la región primaria, una zona de disponibilidad), más el nodo generador de carga propio del experimento.
+Componentes: Suscripción, Pólizas y Pagos, con lectura de Cotización y Perfilamiento. Clases: Suscripcion, Poliza, Pago, Cotizacion y PerfilRiesgo. Conector: invocación en-proceso con transacción compartida. Concurrencia: el hilo del núcleo de venta y el semáforo de conexiones. Despliegue: nodo de aplicación y capa de datos separados.
 
 ### Esfuerzo estimado
-12 horas-persona: 2 h ajuste del endpoint y del camino transaccional, 2 h script k6 y semilla de datos, 1,5 h aprovisionamiento en AWS (grupos de seguridad, tres instancias, despliegue y smoke), 3 h ejecución de la escalera con monitoreo (2,5 h de corridas más contingencia), 1,5 h consolidación, figuras y punto de inflexión, 2 h documentación, evidencia y video.
+12 horas-persona, distribuidas así: 2 horas para el endpoint y la transacción, 2 horas para el script de carga y la semilla de datos, 1,5 horas para el aprovisionamiento en AWS, 3 horas para la ejecución de la escalera de niveles, 1,5 horas para la consolidación de resultados y la determinación del punto de inflexión, y 2 horas para la documentación y el video.
 
 ---
 
 ## PARTE 2 · Ejecución paso a paso en AWS
 
-Tenga abierto un archivo de notas para anotar IPs y la hora de inicio y fin de cada fase (esfuerzo real). Tome captura de cada paso marcado con 📸.
+Antes de empezar: reserve una sesión continua de unas 4 horas; tenga a mano la URL del repositorio (confírmela con `git remote -v` en su equipo) y, si es privado, un *personal access token* de GitHub con permiso de lectura. Tenga abierto un archivo de notas para anotar IPs y la hora de inicio y fin de cada fase (esfuerzo real). Tome captura de cada paso marcado con 📸.
+
+En los comandos, `<URL_REPO>` es la URL del repositorio (por ejemplo `https://github.com/ximenazelaya1989/solventa.git`; si es privado, `https://<TOKEN>@github.com/ximenazelaya1989/solventa.git`) y `<RAMA>` es `feature/experimento-hu211` (o `main` cuando ya esté fusionada).
 
 ### 2.1 Iniciar el laboratorio
 1. Canvas >> AWS Academy Learner Lab >> Modules >> Iniciar el laboratorio >> **Start Lab**. Espere el círculo verde junto a "AWS".
@@ -106,7 +94,7 @@ Cree los tres en la VPC por defecto, en este orden (el segundo y el tercero refe
 📸 La lista de los tres grupos con sus reglas de entrada.
 
 ### 2.3 Lanzar las tres instancias (EC2 >> Instances >> Launch instances)
-Para cada una: AMI **Ubuntu Server 24.04 LTS**, Key pair **vockey**, en *Network settings* clic en **Edit** y elija la **misma subnet** (por ejemplo, la de us-east-1a) para las tres, *Select existing security group*, almacenamiento 20 GiB gp3. En *Advanced details*: **Credit specification = Unlimited** y pegue el *User data* indicado.
+Para cada una: AMI **Ubuntu Server 24.04 LTS**, Key pair **vockey**, en *Network settings* clic en **Edit** y elija la **misma subnet** (por ejemplo, la de us-east-1a) para las tres, *Select existing security group*, almacenamiento 20 GiB gp3. En *Advanced details*: **Credit specification = Unlimited** y pegue el contenido del *User data* indicado (ábralo desde el repositorio en VS Code y cópielo completo).
 
 | Nombre | Tipo | Security group | User data |
 |---|---|---|---|
@@ -118,16 +106,15 @@ Opcional pero recomendado: en la instancia seleccionada, *Actions >> Monitor and
 
 Anote para cada instancia la **IP pública** (para SSH) y la **IP privada** (para el tráfico entre ellas). 📸 Lista de instancias en estado *Running* con *Status check 2/2*.
 
-Espere unos 3 minutos y verifique que el user data terminó (debe existir el archivo): `ls ~/user-data-ok`.
+Espere unos 3 minutos y, al entrar por SSH a cada una, verifique que el user data terminó: `ls ~/user-data-ok` debe existir.
 
 ### 2.4 Base de datos (SSH a solventa-db)
 ```powershell
 ssh -i $HOME\.ssh\labsuser.pem ubuntu@<IP_PUBLICA_DB>
 ```
 ```bash
-git clone https://github.com/ximenazelaya1989/solventa.git
-# Si el repositorio es privado: git clone https://<TOKEN_GITHUB>@github.com/ximenazelaya1989/solventa.git
-cd solventa && git checkout feature/experimento-hu211
+git clone <URL_REPO> solventa
+cd solventa && git checkout <RAMA>
 cd experimento/docker
 sudo docker compose -f docker-compose.db.yml up -d
 sudo docker ps          # 📸 contenedor postgres:16 "Up"
@@ -135,8 +122,8 @@ sudo docker ps          # 📸 contenedor postgres:16 "Up"
 
 ### 2.5 Aplicación (SSH a solventa-app)
 ```bash
-git clone https://github.com/ximenazelaya1989/solventa.git
-cd solventa && git checkout feature/experimento-hu211
+git clone <URL_REPO> solventa
+cd solventa && git checkout <RAMA>
 cp experimento/.env.experimento.example experimento/.env.experimento
 sed -i 's/^DB_HOST=.*/DB_HOST=<IP_PRIVADA_DB>/' experimento/.env.experimento
 cd experimento/docker
@@ -144,17 +131,19 @@ sudo docker compose -f docker-compose.app.yml up -d --build   # 3-5 min la prime
 sudo docker compose -f docker-compose.app.yml logs --tail 30  # debe decir que Nest arrancó
 curl http://localhost:3000/health                            # {"status":"ok"}
 ```
-La API crea las tablas al arrancar (`DB_SYNCHRONIZE=true`, solo en este entorno desechable). Déjela corriendo. Para observar recursos durante las corridas: `sudo docker stats`.
+La API crea las tablas al arrancar (`DB_SYNCHRONIZE=true`, solo en este entorno desechable). Déjela corriendo. No use el `docker-compose.yml` de la raíz: levanta réplicas y un balanceador, que no forman parte de este experimento. Para observar recursos durante las corridas: `sudo docker stats`.
 
 ### 2.6 Generador de carga (SSH a solventa-loadgen)
 ```bash
-git clone https://github.com/ximenazelaya1989/solventa.git
-cd solventa && git checkout feature/experimento-hu211
+git clone <URL_REPO> solventa
+cd solventa && git checkout <RAMA>
 cd experimento && chmod +x scripts/correr-escalera.sh
+mkdir -p resultados
 export BASE_URL=http://<IP_PRIVADA_APP>:3000
 export DB_HOST=<IP_PRIVADA_DB>
 curl $BASE_URL/health                                         # 📸
 ```
+La semilla se ejecuta desde aquí con `psql` contra la IP privada de la base, y el archivo `seed/cotizaciones.csv` queda en esta instancia, que es donde k6 lo lee.
 
 ### 2.7 Smoke test
 ```bash
@@ -166,12 +155,13 @@ Verifique en el JSON: `tasaError` = 0, `decisionesInesperadas` = 0, y conteos po
 ### 2.8 Escalera completa (dentro de tmux, para que no se corte si se cae el SSH)
 ```bash
 tmux new -s escalera
+cd ~/solventa/experimento
 export BASE_URL=http://<IP_PRIVADA_APP>:3000
 export DB_HOST=<IP_PRIVADA_DB>
 ./scripts/correr-escalera.sh 2>&1 | tee resultados/escalera.log
 # Salir sin detener: Ctrl+B y luego D.  Volver: tmux attach -t escalera
 ```
-Duración aproximada 2,5 h (la sesión del Learner Lab dura 4 h; empiece con margen). Mientras corre:
+Duración aproximada 2,5 h. Mientras corre:
 1. 📸 EC2 >> solventa-app >> pestaña **Monitoring** (CPU utilization) durante operación normal y durante estrés; lo mismo para solventa-db.
 2. 📸 Terminal de solventa-app con `sudo docker stats` en estrés.
 3. 📸 Terminal del generador mostrando k6 en ejecución (útil para el video).
@@ -186,7 +176,7 @@ $py = "C:\Users\ximen\AppData\Local\Programs\Python\Python313\python.exe"
 & $py -m pip install matplotlib
 & $py analisis\consolidar.py resultados
 ```
-Resultado: `analisis/tabla-resultados.csv` y las figuras `fig-latencia.png`, `fig-error.png`, `fig-throughput.png`; en consola se imprime el punto de inflexión. Suba `resultados/` y `analisis/` al repositorio (son evidencia).
+Resultado: `analisis/tabla-resultados.csv` y las figuras `fig-latencia.png`, `fig-error.png`, `fig-throughput.png`; en consola se imprime el punto de inflexión. Haga commit de `resultados/` y `analisis/` (son evidencia). Descargue los resultados **antes** de terminar las instancias.
 
 ### 2.10 Limpieza (obligatoria)
 1. EC2 >> Instances >> seleccione las tres >> *Instance state >> Terminate*. Espere *Terminated*. 📸
@@ -194,10 +184,11 @@ Resultado: `analisis/tabla-resultados.csv` y las figuras `fig-latencia.png`, `fi
 3. Security Groups: borre `sg-solventa-db`, luego `sg-solventa-app`, luego `sg-solventa-loadgen`.
 4. 📸 Cost Explorer con el costo final del experimento (puede tardar horas en reflejarse; tome la captura al día siguiente si hace falta).
 5. Vocareum >> **End Lab**.
+6. Si usó un token de GitHub, revóquelo al terminar (GitHub >> Settings >> Developer settings >> Personal access tokens).
 
 ---
 
-## PARTE 3 · Documento de Ejecución (PDF para el repositorio y enlace en Hélix)
+## PARTE 3 · Documento de resultados, video y entrega
 
 Estructura igual a `Lab3_Ejecucion_del_experimentov2.pdf`. Los valores entre `<>` salen de su ejecución real; no invente cifras.
 
@@ -220,20 +211,31 @@ Figuras: `fig-latencia.png` (p95/p99 contra nivel con líneas de 1500 y 3000 ms)
 4. Throughput: si el logrado se separa del objetivo, el sistema está saturado (meseta, como en el ejemplo de Lab3).
 5. Costo de las tácticas: la transacción atómica y la idempotencia añaden una lectura previa y restricciones de unicidad; discuta si su costo es visible frente a la latencia total.
 6. Rutas de revisión y rechazo: compárelas con la aprobada (revisión inserta póliza pendiente sin cobro; rechazo solo la suscripción).
-7. Amenazas a la validez: una sola zona, instancias t3 con créditos, dataset sintético, pasarela y firma fuera del camino medido, generador en la misma VPC.
+7. Amenazas a la validez: una sola zona, instancias t3 con créditos, dataset sintético, pasarela y firma fuera del camino medido, generador en la misma VPC, y que no se comparó con una variante HTTP.
+
+Para justificar las tácticas con más profundidad que en Hélix: separar en servicios obligaría a una saga o a un compromiso en dos fases para no dejar pólizas sin cobro; tres escrituras independientes violarían HU2.3.1; un bloqueo en memoria no sobrevive a varias réplicas ni a reintentos, mientras que la unicidad en la base sí; y un pool ilimitado traslada la contención a PostgreSQL y degrada la latencia de cola de forma impredecible, mientras que uno acotado la convierte en espera medible dentro de la API.
 
 ### Conclusiones
 Indique si la hipótesis se CONFIRMA o se INVALIDA para operación normal, con los números, y hasta qué nivel se sostiene.
 
 ### Decisión de arquitectura
-Si se confirma: se ADOPTA la colocalización con transacción compartida para el núcleo de venta en la Fase 1, y se registra el punto de inflexión como límite que justifica escalar horizontalmente la API o separar servicios en la Fase 2. Si se invalida o el margen es pequeño: se AJUSTA, con candidatas ordenadas por costo (ajustar `DB_POOL_MAX` y repetir el nivel afectado; réplicas de la API detrás de un balanceador; pooler externo como PgBouncer). Explique implicaciones sobre otros atributos (la transacción atómica favorece disponibilidad e integridad de HU2.3.1; la colocalización limita la escalabilidad selectiva).
+Si se confirma: se ADOPTA la colocalización con transacción compartida para el núcleo de venta en la Fase 1, y se registra el punto de inflexión como límite que justifica escalar horizontalmente la API o separar servicios en la Fase 2. Si se invalida o el margen es pequeño: se AJUSTA, con candidatas ordenadas por costo (ajustar `DB_POOL_MAX` y repetir el nivel afectado; réplicas de la API detrás de un balanceador; pooler externo como PgBouncer). Explique implicaciones sobre otros atributos (la transacción atómica favorece la integridad de HU2.3.1; la colocalización limita la escalabilidad selectiva).
 
 ### Uso de IAG
-Describa con honestidad qué partes se apoyaron en IAG (por ejemplo: revisión de coherencia del diseño contra los diagramas, generación inicial del código del refactor y de los scripts, redacción de borradores), qué verificó usted (compilación, pruebas locales, lectura del código, ejecución real en AWS), qué corrigió o decidió usted y qué propuestas descartó. Adjunte o enlace los prompts principales.
+Describa con honestidad qué partes se apoyaron en IAG (revisión de coherencia del diseño contra los diagramas, código del refactor y del endpoint generado con Claude Code, scripts del kit, borradores de texto), qué verificó usted (lectura de cada commit, compilación, pruebas locales con Docker, ejecución real en AWS), qué corrigió o decidió usted (por ejemplo, el destino de ReporteRegulatorio, no versionar `tsbuildinfo`, encapsular la póliza pendiente en `PolizasService`, alcance mínimo en módulos ajenos) y qué propuestas descartó. Los commits con `Co-Authored-By` sirven de evidencia. Adjunte o enlace los prompts principales.
 
 ### Guion del video (máximo 5 minutos; explique con sus palabras, no lea)
 0:00–0:40 Recordar el experimento: ASR HU2.1.1, hipótesis, tácticas y la escalera de niveles.
 0:40–1:40 Consola de AWS: las tres instancias Running, grupos de seguridad y reglas, pestaña Monitoring.
-1:40–2:40 Código: `SuscripcionService.decidir()` (transacción que llama a `PolizasService.emitir()` y `PagosService.cobrarPrima()`), entidad con `cotizacionId` único, script k6 y escalera.
+1:40–2:40 Código: `SuscripcionService.decidir()` abre la transacción y llama a `PolizasService.emitir()` o `registrarPendiente()`; `emitir()` llama a `PagosService.cobrarPrima()`. `cotizacionId` único, script k6 y escalera.
 2:40–3:40 Ejecución: `/health`, una corrida corta en vivo (por ejemplo operación normal) con k6 mostrando el resumen.
 3:40–5:00 Resultados: tabla, figura de p95/p99, punto de inflexión, conclusión y decisión.
+
+Grabe el video mientras las instancias siguen encendidas (antes de la limpieza), o al menos la parte de la consola y de la ejecución.
+
+### Entrega y registro en Hélix
+1. Guarde el informe como `experimento/informe/HU211-resultados.pdf` y el video como `experimento/informe/HU211-video.mp4` (menos de 100 MB: expórtelo en 720p o comprímalo), haga commit y push.
+2. Hélix >> Proyecto >> Arquitectura de Software >> pestaña Experimentos >> su experimento >> Resultados y análisis >> Enlaces y evidencias >> **Informe externo**: URL del PDF en GitHub.
+3. En la misma sección, **+ Agregar evidencia**: URL del video en GitHub.
+4. Verifique que los enlaces abran para alguien que no sea usted (los profesores deben tener acceso al repositorio) y, una vez fusionado, que apunten a `main`.
+5. Prepare la argumentación del espacio sincrónico: pantalla y rostro, explicando sin leer el ASR, la decisión apoyada en una vista, el diseño, el análisis y la conclusión.
