@@ -1,0 +1,74 @@
+x-api: &api
+  build: ../..
+  environment: &api-environment
+    NODE_ENV: experiment
+    PORT: 3000
+    DB_HOST: db
+    DB_PORT: 5432
+    DB_USER: postgres
+    DB_PASSWORD: postgres
+    DB_NAME: solventa
+  depends_on:
+    db:
+      condition: service_healthy
+  healthcheck:
+    test:
+      [
+        "CMD",
+        "node",
+        "-e",
+        "fetch('http://localhost:3000/').then(r=>{if(!r.ok)process.exit(1)}).catch(()=>process.exit(1))",
+      ]
+    interval: 3s
+    timeout: 2s
+    retries: 20
+  cpus: ${INSTANCE_CPUS:-1.0}
+  mem_limit: ${INSTANCE_MEMORY:-1g}
+
+services:
+  db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: solventa
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d solventa"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+    volumes:
+      - h431-horizontal-db:/var/lib/postgresql/data
+    cpus: ${DB_CPUS:-2.0}
+    mem_limit: ${DB_MEMORY:-2g}
+
+  api-1:
+    <<: *api
+  api-2:
+    <<: *api
+    depends_on:
+      db:
+        condition: service_healthy
+      api-1:
+        condition: service_healthy
+  api-3:
+    <<: *api
+    depends_on:
+      db:
+        condition: service_healthy
+      api-1:
+        condition: service_healthy
+
+  balanceador:
+    image: nginx:1.27-alpine
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+    depends_on:
+      - api-1
+      - api-2
+      - api-3
+    ports:
+      - "8080:8080"
+
+volumes:
+  h431-horizontal-db:

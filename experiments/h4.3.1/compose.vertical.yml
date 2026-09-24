@@ -1,0 +1,37 @@
+services:
+  db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: solventa
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d solventa"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+    volumes:
+      - h431-vertical-db:/var/lib/postgresql/data
+    cpus: ${DB_CPUS:-2.0}
+    mem_limit: ${DB_MEMORY:-2g}
+
+  api:
+    build: ../..
+    environment: &api-environment
+      NODE_ENV: experiment
+      PORT: 3000
+      DB_HOST: db
+      DB_PORT: 5432
+      DB_USER: postgres
+      DB_PASSWORD: postgres
+      DB_NAME: solventa
+    depends_on:
+      db:
+        condition: service_healthy
+    cpus: ${API_CPUS:-3.0}
+    mem_limit: ${API_MEMORY:-3g}
+    ports:
+      - "8080:3000"
+
+volumes:
+  h431-vertical-db:
