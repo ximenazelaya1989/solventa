@@ -15,5 +15,6 @@ import { CotizacionController } from './cotizacion.controller';
   ],
   controllers: [RatingController, CotizacionController],
   providers: [RatingService, CotizacionService],
+  exports: [TypeOrmModule],
 })
 export class CotizacionModule {}
