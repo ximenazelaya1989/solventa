@@ -98,7 +98,7 @@ Anything that calls an external system should go through `integraciones` (`Orque
 - **reaseguro**: `registrarCesiones` (runs from the batch, not at policy emission).
 - **reporteria**: `generar`, `enviar`.
 - **integraciones**: retries with backoff, read-only cache fallback, per-dependency semaphore (env-configurable limit) in `OrquestadorService.llamar()`; mock clients for KYC, Open Finance, payment gateway and regulator.
-- **plataforma/común**: `ApiKeyGuard` (`src/common/guards/api-key.guard.ts`) and `ThrottlerGuard` (configured via `ThrottlerModule.forRoot` in `src/app.module.ts`, env vars `THROTTLE_TTL_MS`/`THROTTLE_LIMIT_POR_SOCIO`) are not applied to any controller yet — wire them onto partner-facing endpoints (HU5.1.1/HU5.1.2) when those exist. Explicitly **not** applied to anything in `src/cotizacion`.
+- **plataforma/común**: `ApiKeyGuard` (`src/common/guards/api-key.guard.ts`) and `ThrottlerGuard` (configured via `ThrottlerModule.forRoot` in `src/app.module.ts`, env vars `THROTTLE_TTL_MS`/`THROTTLE_LIMIT_POR_SOCIO`) are not applied to any controller yet — wire them onto partner-facing endpoints (HU5.1.1/HU5.1.2) when those exist. `ThrottlerGuard` also still needs a custom tracker: by default it counts by IP, but HU5.1.2 needs the limit per socio, so override `getTracker()` to key off the `socioDistribucion.id` that `ApiKeyGuard` attaches to the request (not the caller's IP). Explicitly **not** applied to anything in `src/cotizacion`.
 
 ## Historias de usuario y atributos de calidad (contexto de negocio)
 
