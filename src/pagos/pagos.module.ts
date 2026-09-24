@@ -1,12 +1,11 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { Desembolso } from './entities/desembolso.entity';
-import { Reaseguradora } from './entities/reaseguradora.entity';
-import { ReporteReaseguro } from './entities/reporte-reaseguro.entity';
+import { Pago } from './entities/pago.entity';
+import { PagosService } from './pagos.service';
 
 @Module({
-  imports: [
-    TypeOrmModule.forFeature([Desembolso, Reaseguradora, ReporteReaseguro]),
-  ],
+  imports: [TypeOrmModule.forFeature([Pago])],
+  providers: [PagosService],
+  exports: [PagosService],
 })
 export class PagosModule {}

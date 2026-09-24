@@ -10,4 +10,7 @@ export class Perito {
 
   @Column({ type: 'varchar' })
   especialidad!: string;
+
+  @Column({ type: 'varchar' })
+  zona!: string;
 }

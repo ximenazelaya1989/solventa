@@ -1,6 +1,6 @@
-import { Injectable } from '@nestjs/common';
+import { ConflictException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { EntityManager, Repository } from 'typeorm';
 import { Poliza, EstadoPoliza } from './entities/poliza.entity';
 import { EmitirPolizaDto } from './dto/emitir-poliza.dto';
 
@@ -11,26 +11,31 @@ export class PolizasService {
     private readonly polizaRepository: Repository<Poliza>,
   ) {}
 
-  async emitir(datos: EmitirPolizaDto): Promise<Poliza> {
-    const poliza = this.polizaRepository.create({
+  async emitir(manager: EntityManager, datos: EmitirPolizaDto): Promise<Poliza> {
+    const repository = manager.getRepository(Poliza);
+    const poliza = repository.create({
       estado: EstadoPoliza.EMITIDA,
       clienteId: datos.clienteId,
-      cotizacionId: datos.cotizacionId,
       productoId: datos.productoId,
-      subscripcion: datos.subscripcion,
     });
 
-    return this.polizaRepository.save(poliza);
+    return repository.save(poliza);
   }
 
-  async renovar(id: string): Promise<Poliza> {
+  async renovar(id: string, version: number): Promise<Poliza> {
     const poliza = await this.polizaRepository.findOneByOrFail({ id });
+    if (poliza.version !== version) {
+      throw new ConflictException('La version de la poliza no coincide');
+    }
     poliza.estado = EstadoPoliza.RENOVADA;
     return this.polizaRepository.save(poliza);
   }
 
-  async cancelar(id: string): Promise<Poliza> {
+  async cancelar(id: string, version: number): Promise<Poliza> {
     const poliza = await this.polizaRepository.findOneByOrFail({ id });
+    if (poliza.version !== version) {
+      throw new ConflictException('La version de la poliza no coincide');
+    }
     poliza.estado = EstadoPoliza.CANCELADA;
     return this.polizaRepository.save(poliza);
   }

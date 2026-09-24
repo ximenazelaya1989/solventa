@@ -6,10 +6,15 @@ import { AppService } from './app.service';
 import { PolizasModule } from './polizas/polizas.module';
 import { SuscripcionModule } from './suscripcion/suscripcion.module';
 import { IdentidadModule } from './identidad/identidad.module';
+import { ConsentimientoModule } from './consentimiento/consentimiento.module';
 import { PerfilamientoModule } from './perfilamiento/perfilamiento.module';
 import { CotizacionModule } from './cotizacion/cotizacion.module';
 import { SiniestrosModule } from './siniestros/siniestros.module';
 import { PagosModule } from './pagos/pagos.module';
+import { ReaseguroModule } from './reaseguro/reaseguro.module';
+import { AnaliticaFraudeModule } from './analitica-fraude/analitica-fraude.module';
+import { ReporteriaModule } from './reporteria/reporteria.module';
+import { IntegracionesModule } from './integraciones/integraciones.module';
 
 @Module({
   imports: [
@@ -27,10 +32,15 @@ import { PagosModule } from './pagos/pagos.module';
     PolizasModule,
     SuscripcionModule,
     IdentidadModule,
+    ConsentimientoModule,
     PerfilamientoModule,
     CotizacionModule,
     SiniestrosModule,
     PagosModule,
+    ReaseguroModule,
+    AnaliticaFraudeModule,
+    ReporteriaModule,
+    IntegracionesModule,
   ],
   controllers: [AppController],
   providers: [AppService],

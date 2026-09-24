@@ -1,19 +1,19 @@
 import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
 
-export enum EstadoEnvioReaseguro {
+export enum EstadoEnvioReporte {
   PENDIENTE = 'pendiente',
   ENVIADO = 'enviado',
   VALIDADO = 'validado',
   RECHAZADO = 'rechazado',
 }
 
-@Entity('reportes_reaseguro')
-export class ReporteReaseguro {
+@Entity('reportes_regulatorios')
+export class ReporteRegulatorio {
   @PrimaryGeneratedColumn('uuid')
   id!: string;
 
-  @Column({ type: 'uuid' })
-  reaseguradoraId!: string;
+  @Column({ type: 'varchar' })
+  destinatario!: string; // regulador o reaseguradora
 
   @Column({ type: 'date' })
   periodoInicio!: string;
@@ -26,10 +26,10 @@ export class ReporteReaseguro {
 
   @Column({
     type: 'enum',
-    enum: EstadoEnvioReaseguro,
-    default: EstadoEnvioReaseguro.PENDIENTE,
+    enum: EstadoEnvioReporte,
+    default: EstadoEnvioReporte.PENDIENTE,
   })
-  estado!: EstadoEnvioReaseguro;
+  estado!: EstadoEnvioReporte;
 
   @Column({ type: 'int', nullable: true })
   volumenRegistros!: number | null;

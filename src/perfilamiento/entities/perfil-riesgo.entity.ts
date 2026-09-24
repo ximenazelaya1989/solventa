@@ -11,6 +11,6 @@ export class PerfilRiesgo {
   @Column({ type: 'jsonb', nullable: true })
   señalesOpenFinance!: Record<string, any>;
 
-  @Column({ type: 'uuid' })
-  clienteId!: string; 
+  @Column({ type: 'uuid', unique: true })
+  clienteId!: string;
 }

@@ -16,4 +16,7 @@ export class Cotizacion {
 
   @Column({ type: 'uuid', nullable: true })
   socioDistribucionId!: string | null;
+
+  @Column({ type: 'uuid', nullable: true })
+  perfilRiesgoId!: string | null;
 }

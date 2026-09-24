@@ -10,4 +10,7 @@ export class Reaseguradora {
 
   @Column({ type: 'varchar', unique: true })
   codigo!: string;
+
+  @Column({ type: 'float' })
+  porcentajeCesion!: number;
 }

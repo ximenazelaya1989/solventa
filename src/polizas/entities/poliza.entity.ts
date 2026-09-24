@@ -1,5 +1,11 @@
-import { Entity, PrimaryGeneratedColumn, Column, OneToOne, JoinColumn } from 'typeorm';
-import { Subscripcion } from '../../suscripcion/entities/subscripcion.entity';
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  OneToOne,
+  VersionColumn,
+} from 'typeorm';
+import { Suscripcion } from '../../suscripcion/entities/suscripcion.entity';
 
 export enum EstadoPoliza {
   PENDIENTE = 'pendiente',
@@ -17,16 +23,14 @@ export class Poliza {
   estado!: EstadoPoliza;
 
   @Column({ type: 'uuid' })
-  clienteId!: string; 
-
-  @Column({ type: 'uuid' })
-  cotizacionId!: string; 
+  clienteId!: string;
 
   @Column({ type: 'uuid' })
   productoId!: string;
 
-  @OneToOne(() => Subscripcion, (s) => s.poliza, { cascade: true })
-  @JoinColumn()
-  subscripcion!: Subscripcion;
+  @VersionColumn()
+  version!: number;
 
+  @OneToOne(() => Suscripcion, (s) => s.poliza)
+  suscripcion!: Suscripcion;
 }

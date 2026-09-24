@@ -3,12 +3,8 @@ import {
   PrimaryGeneratedColumn,
   Column,
   CreateDateColumn,
+  TableInheritance,
 } from 'typeorm';
-
-export enum TipoSiniestro {
-  REGULAR = 'regular',
-  PARAMETRICO = 'parametrico',
-}
 
 export enum EstadoSiniestro {
   REPORTADO = 'reportado',
@@ -20,12 +16,10 @@ export enum EstadoSiniestro {
 }
 
 @Entity('siniestros')
-export class Siniestro {
+@TableInheritance({ column: { type: 'varchar', name: 'tipo' } })
+export abstract class Siniestro {
   @PrimaryGeneratedColumn('uuid')
   id!: string;
-
-  @Column({ type: 'enum', enum: TipoSiniestro })
-  tipo!: TipoSiniestro;
 
   @Column({
     type: 'enum',
@@ -51,10 +45,4 @@ export class Siniestro {
 
   @Column({ type: 'timestamptz', nullable: true })
   fechaPago!: Date | null;
-
-  @Column({ type: 'jsonb', nullable: true })
-  datosEventoParametrico!: Record<string, any> | null; // ej. sensor, umbral disparado
-
-  @Column({ type: 'varchar', unique: true, nullable: true })
-  claveIdempotenciaPago!: string | null; // evita duplicar el pago parametrico automatico
 }
