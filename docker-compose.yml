@@ -12,5 +12,35 @@ services:
     volumes:
       - solventa-db-data:/var/lib/postgresql/data
 
+  api1: &api
+    build: .
+    restart: unless-stopped
+    depends_on:
+      - solventa-db
+    environment:
+      DB_HOST: solventa-db
+      DB_PORT: 5432
+      DB_USER: postgres
+      DB_PASSWORD: postgres
+      DB_NAME: solventa
+      DB_SYNCHRONIZE: ${DB_SYNCHRONIZE:-false}
+      DB_POOL_MAX: ${DB_POOL_MAX:-10}
+      PORT: 3000
+      NODE_ENV: production
+
+  api2:
+    <<: *api
+
+  nginx:
+    image: nginx:alpine
+    restart: unless-stopped
+    depends_on:
+      - api1
+      - api2
+    ports:
+      - "8080:80"
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+
 volumes:
   solventa-db-data:
