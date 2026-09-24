@@ -1,0 +1,31 @@
+GUION SINCRONIZADO  VIDEO H4.3.1  DURACIÓN 4:30
+
+00:00–00:15
+Hola, soy Beraly Ventura. Presentaré el experimento individual de escalabilidad H4.3.1 del proyecto Solventa.
+
+00:15–00:40
+El escenario exige reprocesar 10 millones de perfiles en menos de dos horas cuando se incorporan nuevas fuentes de Open Data. Esto requiere cerca de 1.389 perfiles por segundo, por lo que la carga máxima se fijó en 1.400 TPS. Los criterios fueron p95 menor o igual a 400 milisegundos, p99 menor o igual a 800 y menos del uno por ciento de errores.
+
+00:40–01:05
+El trabajo está en la rama experimento-escalabilidad-h4-3-1. Main no fue modificado. La rama contiene el código, las pruebas, los datos obtenidos y el informe.
+
+01:05–01:40
+Se implementó POST perfilamiento reprocesar. Cada solicitud recibe señales Open Data, calcula un score y realiza un upsert idempotente en PostgreSQL. También se agregó GET health para que el balanceador verifique la disponibilidad de cada instancia.
+
+01:40–02:10
+El despliegue se ejecutó en AWS Academy, región us-east-1. Se utilizaron tres EC2 t2.medium para la aplicación, una cuarta EC2 con PostgreSQL 16 y un Application Load Balancer. En la configuración horizontal, los tres destinos estuvieron saludables.
+
+02:10–02:35
+k6 se ejecutó desde CloudShell con tasa constante y niveles de 200, 500, 800, 1.100 y 1.400 TPS. Se midieron throughput, p95, p99, errores e iteraciones descartadas. Cada nivel duró 15 segundos para proteger los créditos del laboratorio.
+
+02:35–03:05
+En vertical, aumentar de una a dos CPU mejoró la capacidad, pero no permitió sostener 1.400 TPS. Con dos CPU y dos GiB se lograron 965,38 TPS, p95 de 3.064,70 milisegundos, p99 de 3.236,13 y 5.675 iteraciones descartadas. Esta táctica no cumplió.
+
+03:05–03:35
+En horizontal, tres instancias sostuvieron 1.399,42 TPS. La p95 fue 9,56 milisegundos y la p99 40,65. No hubo errores ni iteraciones descartadas. Esta configuración cumplió todos los criterios en todos los niveles.
+
+03:35–04:05
+La comparación muestra que el escalamiento horizontal conserva el throughput y mantiene latencias muy inferiores a los límites. Se recomienda horizontal como táctica principal y vertical solo como ajuste inicial.
+
+04:05–04:30
+La tasa máxima equivale aproximadamente a 10,08 millones de perfiles en dos horas si se sostiene. Las pruebas duraron 15 segundos, PostgreSQL estuvo en EC2 y aún no existe el canal en línea completo. Una validación futura debe durar dos horas, repetirse varias veces e incluir RDS y la lógica definitiva. El código, los datos y el informe están disponibles en la rama del experimento.
