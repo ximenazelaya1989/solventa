@@ -1,6 +1,8 @@
 PS C:\Users\Giovanna\OneDrive - Escuela Superior de Economia y Negocios\Documentos\UNIANDES\ArquitecturaDeSoftwareRobustas\solventa> py experimento-disponibilidad/load_test.py --url http://solventa-alb-1413147872.us-east-1.elb.amazonaws.com --nombre L01 --descripcion "3 instancias sin falla" --users 60 --ramp-up 5 --duration 120 --tps 10 
 Corrida L01: carga, 60 usuarios, ramp-up 5.0s, duracion 120.0s, tps 10.0, destino http://solventa-alb-1413147872.us-east-1.elb.amazonaws.com/desembolsos
 
+Pruebas
+
 Tip: aprieta ENTER (o escribe un nombre + ENTER) para marcar un evento, ej. "stop instancia".
 t=   1s  usuarios=  13  intentos/s=   8  errores/s=  0  p95=    393 ms
 t=   2s  usuarios=  25  intentos/s=  10  errores/s=  0  p95=    258 ms
