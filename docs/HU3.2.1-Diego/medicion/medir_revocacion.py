@@ -23,6 +23,8 @@ Ejemplo (desde la EC2 de pruebas):
 Los tokens se firman con JWT_SECRET (HS256), la misma llave de los servicios: en el
 experimento el script hace el papel del proveedor de identidad (no hay Cognito en AWS Academy).
 """
+from __future__ import annotations
+
 import argparse
 import csv
 import json
