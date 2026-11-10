@@ -1,0 +1,55 @@
+{
+  "nivel": "carga-muy-alta",
+  "repeticion": 4,
+  "tpsObjetivo": 200,
+  "duracion": "180s",
+  "throughput": 199.26505029003056,
+  "peticiones": 35869,
+  "tasaError": 0,
+  "decisionesInesperadas": 0,
+  "iteracionesDescartadas": 131,
+  "vusMaximos": 528,
+  "latencia": {
+    "aprobada": {
+      "muestras": 25109,
+      "p95": 934.8736795999995,
+      "p99": 2805.8457258799995,
+      "promedio": 132.67956547500785,
+      "mediana": 9.780634,
+      "minimo": 7.806977,
+      "maximo": 2908.380055,
+      "desviacion": 508.10088545442085
+    },
+    "revision": {
+      "muestras": 7097,
+      "p95": 912.9091345999999,
+      "p99": 2796.7824004,
+      "promedio": 127.62892409919635,
+      "mediana": 8.26926,
+      "minimo": 6.47019,
+      "maximo": 2890.605489,
+      "desviacion": 496.88445608481624
+    },
+    "rechazada": {
+      "muestras": 3663,
+      "p95": 880.1231407999974,
+      "p99": 2779.88040606,
+      "promedio": 126.27520441987389,
+      "mediana": 6.122169,
+      "minimo": 4.570996,
+      "maximo": 2871.243846,
+      "desviacion": 502.1821171614145
+    },
+    "total": {
+      "muestras": 35869,
+      "p95": 922.0014379999992,
+      "p99": 2800.0147007600003,
+      "promedio": 131.02622759580817,
+      "mediana": 9.509602,
+      "minimo": 4.570996,
+      "maximo": 2908.380055,
+      "desviacion": 505.3038972682669
+    }
+  },
+  "cumpleASR": true
+}

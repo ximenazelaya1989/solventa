@@ -1,0 +1,8 @@
+nivel,tps_objetivo,repeticiones,p95_ms,p99_ms,promedio_ms,min_ms,max_ms,desviacion_ms,desv_p95_entre_reps_ms,throughput_req_s,error_pct,descartadas,cumple_asr
+smoke,2,1,20.77,32.53,13.91,11.52,33.32,3.98,0,2.02,0,0,True
+carga-baja,10,4,16.01,38.15,12.1,9.14,118.72,6.05,1.24,10.0,0,0,True
+carga-media,25,4,12.62,39.81,11.35,8.85,228.2,6.82,0.31,25.0,0,0,True
+operacion-normal,50,8,14.85,55.02,11.96,8.27,485.36,11.15,3.84,50.0,0,0,True
+carga-alta,100,4,13.84,78.99,11.58,7.78,313.33,12.58,2.51,100.0,0,0,True
+carga-muy-alta,200,4,282.37,1128.78,54.02,7.81,2908.38,197.5,436.22,199.81,0,131,True
+estres,400,8,9489.22,9864.47,6491.28,159.6,10000.05,2077.59,360.53,360.71,80.12,27704,False
