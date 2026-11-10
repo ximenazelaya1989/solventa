@@ -5,6 +5,7 @@ import {
   CreateDateColumn,
   TableInheritance,
 } from 'typeorm';
+import { numericTransformer } from '../common/numeric.transformer';
 
 export enum EstadoSiniestro {
   REPORTADO = 'reportado',
@@ -45,4 +46,21 @@ export abstract class Siniestro {
 
   @Column({ type: 'timestamptz', nullable: true })
   fechaPago!: Date | null;
+
+  // --- Pago de la indemnizacion (H7.2.1 / H6.2.2) ---------------------------
+
+  @Column({ type: 'numeric', nullable: true, transformer: numericTransformer })
+  montoIndemnizacion!: number | null;
+
+  // La misma llave viaja en todos los reintentos hacia Pagos: evita duplicar el
+  // pago (asistido o parametrico). Antes vivia solo en SiniestroParametrico.
+  @Column({ type: 'varchar', unique: true, nullable: true })
+  claveIdempotenciaPago!: string | null;
+
+  // Confirmacion recibida de Pagos: base para verificar cero perdidas.
+  @Column({ type: 'uuid', nullable: true })
+  pagoId!: string | null;
+
+  @Column({ type: 'int', default: 0 })
+  intentosPago!: number;
 }

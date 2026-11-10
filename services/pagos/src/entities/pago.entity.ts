@@ -1,4 +1,10 @@
-import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  CreateDateColumn,
+  Index,
+} from 'typeorm';
 import { numericTransformer } from '../common/numeric.transformer';
 
 export enum TipoPago {
@@ -34,14 +40,26 @@ export class Pago {
   })
   estado!: EstadoPago;
 
+  // EXP-006 (H7.2.1): la restriccion UNIQUE es la tactica de idempotencia.
+  // Si dos replicas reciben el mismo pago a la vez, solo una puede insertarlo.
   @Column({ type: 'varchar', unique: true })
   claveIdempotencia!: string; // evita duplicar o perder el pago
 
   @Column({ type: 'uuid', nullable: true })
   polizaId!: string | null;
 
+  @Index()
   @Column({ type: 'uuid', nullable: true })
   siniestroId!: string | null;
+
+  @Column({ type: 'varchar', nullable: true })
+  referenciaPasarela!: string | null; // id de la transaccion en la pasarela
+
+  @Column({ type: 'varchar', nullable: true })
+  atendidoPor!: string | null; // replica (host y zona) que proceso el pago
+
+  @CreateDateColumn({ type: 'timestamptz' })
+  fechaCreacion!: Date;
 
   @Column({ type: 'timestamptz', nullable: true })
   fechaProcesado!: Date | null;

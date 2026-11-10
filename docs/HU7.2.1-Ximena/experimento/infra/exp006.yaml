@@ -1,0 +1,474 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: >
+  EXP-006 (H7.2.1, Ximena) - Disponibilidad del desembolso ante falla de Pagos o
+  de su base de datos. Despliega solo lo que usa el experimento: Pagos x2 (dos
+  zonas) detras de un ALB interno con health checks, Aurora PostgreSQL con
+  escritora y replica en zonas distintas, Siniestros con su propia BD (RDS),
+  la pasarela de pagos mock y una instancia EC2 para la carga y la inyeccion de
+  fallas. Pensado para AWS Academy Learner Lab (usa LabRole y LabInstanceProfile).
+
+Parameters:
+  VpcId:
+    Type: AWS::EC2::VPC::Id
+    Description: VPC por defecto de la cuenta
+  SubnetA:
+    Type: AWS::EC2::Subnet::Id
+    Description: Subred publica de la zona A
+  SubnetB:
+    Type: AWS::EC2::Subnet::Id
+    Description: Subred publica de la zona B (distinta de la A)
+  AzA:
+    Type: AWS::EC2::AvailabilityZone::Name
+    Description: Zona de SubnetA (p. ej. us-east-1a) - aqui va la escritora de Aurora
+  AzB:
+    Type: AWS::EC2::AvailabilityZone::Name
+    Description: Zona de SubnetB (p. ej. us-east-1b) - aqui va la replica de Aurora
+  DbPassword:
+    Type: String
+    NoEcho: true
+    MinLength: 8
+    Description: Clave del usuario postgres de Aurora y de RDS (sin @, / ni comillas)
+  RetryIdempotencyEnabled:
+    Type: String
+    AllowedValues: ['true', 'false']
+    Default: 'true'
+    Description: true = corrida con tacticas; false = prueba de control
+  FaultToken:
+    Type: String
+    NoEcho: true
+    Default: exp006-falla
+    Description: Token que exige el endpoint de inyeccion de fallas de Pagos
+  AllowedCidr:
+    Type: String
+    Default: 0.0.0.0/0
+    Description: Desde donde se permite SSH a la EC2 y HTTP al ALB publico de Siniestros
+  KeyName:
+    Type: String
+    Default: vockey
+    Description: Par de llaves de la EC2 (en Learner Lab es vockey)
+  ImageTag:
+    Type: String
+    Default: latest
+
+Resources:
+  # ---------------------------------------------------------------- Redes
+  AlbPublicoSG:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: exp006 - ALB publico de Siniestros
+      VpcId: !Ref VpcId
+      SecurityGroupIngress:
+        - { IpProtocol: tcp, FromPort: 80, ToPort: 80, CidrIp: !Ref AllowedCidr }
+        - { IpProtocol: tcp, FromPort: 80, ToPort: 80, SourceSecurityGroupId: !Ref CargaSG }
+
+  AlbInternoSG:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: exp006 - ALB interno de Pagos y pasarela
+      VpcId: !Ref VpcId
+      SecurityGroupIngress:
+        - { IpProtocol: tcp, FromPort: 80, ToPort: 80, SourceSecurityGroupId: !Ref ServiciosSG }
+        - { IpProtocol: tcp, FromPort: 80, ToPort: 80, SourceSecurityGroupId: !Ref CargaSG }
+
+  ServiciosSG:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: exp006 - tareas de ECS
+      VpcId: !Ref VpcId
+
+  ServiciosDesdeAlbPublico:
+    Type: AWS::EC2::SecurityGroupIngress
+    Properties: { GroupId: !Ref ServiciosSG, IpProtocol: tcp, FromPort: 3000, ToPort: 3000, SourceSecurityGroupId: !Ref AlbPublicoSG }
+  ServiciosDesdeAlbInterno:
+    Type: AWS::EC2::SecurityGroupIngress
+    Properties: { GroupId: !Ref ServiciosSG, IpProtocol: tcp, FromPort: 3000, ToPort: 8080, SourceSecurityGroupId: !Ref AlbInternoSG }
+  ServiciosDesdeCarga:
+    # La EC2 llama directo a una tarea de Pagos para inyectar la caida.
+    Type: AWS::EC2::SecurityGroupIngress
+    Properties: { GroupId: !Ref ServiciosSG, IpProtocol: tcp, FromPort: 3000, ToPort: 3000, SourceSecurityGroupId: !Ref CargaSG }
+
+  BaseDatosSG:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: exp006 - Aurora y RDS
+      VpcId: !Ref VpcId
+      SecurityGroupIngress:
+        - { IpProtocol: tcp, FromPort: 5432, ToPort: 5432, SourceSecurityGroupId: !Ref ServiciosSG }
+        - { IpProtocol: tcp, FromPort: 5432, ToPort: 5432, SourceSecurityGroupId: !Ref CargaSG }
+
+  CargaSG:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: exp006 - EC2 de carga e inyeccion de fallas
+      VpcId: !Ref VpcId
+      SecurityGroupIngress:
+        - { IpProtocol: tcp, FromPort: 22, ToPort: 22, CidrIp: !Ref AllowedCidr }
+
+  # ---------------------------------------------------------------- Datos
+  SubredesBD:
+    Type: AWS::RDS::DBSubnetGroup
+    Properties:
+      DBSubnetGroupDescription: exp006 - subredes de las bases de datos
+      SubnetIds: [!Ref SubnetA, !Ref SubnetB]
+
+  # Tactica: replica de base de datos con conmutacion por error (H7.2.1).
+  AuroraPagos:
+    Type: AWS::RDS::DBCluster
+    DeletionPolicy: Delete
+    UpdateReplacePolicy: Delete
+    Properties:
+      Engine: aurora-postgresql
+      DatabaseName: pagos_db
+      MasterUsername: postgres
+      MasterUserPassword: !Ref DbPassword
+      DBSubnetGroupName: !Ref SubredesBD
+      VpcSecurityGroupIds: [!Ref BaseDatosSG]
+      BackupRetentionPeriod: 1
+      DeletionProtection: false
+      StorageEncrypted: true
+
+  AuroraEscritora:
+    Type: AWS::RDS::DBInstance
+    DeletionPolicy: Delete
+    Properties:
+      DBClusterIdentifier: !Ref AuroraPagos
+      Engine: aurora-postgresql
+      DBInstanceClass: db.t3.medium
+      AvailabilityZone: !Ref AzA
+      PromotionTier: 0
+      PubliclyAccessible: false
+
+  AuroraReplica:
+    Type: AWS::RDS::DBInstance
+    DeletionPolicy: Delete
+    DependsOn: AuroraEscritora
+    Properties:
+      DBClusterIdentifier: !Ref AuroraPagos
+      Engine: aurora-postgresql
+      DBInstanceClass: db.t3.medium
+      AvailabilityZone: !Ref AzB
+      PromotionTier: 1
+      PubliclyAccessible: false
+
+  # BD propia de Siniestros (database-per-service). No se le inyectan fallas.
+  SiniestrosBD:
+    Type: AWS::RDS::DBInstance
+    DeletionPolicy: Delete
+    UpdateReplacePolicy: Delete
+    Properties:
+      Engine: postgres
+      DBInstanceClass: db.t3.micro
+      AllocatedStorage: '20'
+      DBName: siniestros_db
+      MasterUsername: postgres
+      MasterUserPassword: !Ref DbPassword
+      DBSubnetGroupName: !Ref SubredesBD
+      VPCSecurityGroups: [!Ref BaseDatosSG]
+      AvailabilityZone: !Ref AzA
+      MultiAZ: false
+      PubliclyAccessible: false
+      BackupRetentionPeriod: 0
+      DeletionProtection: false
+
+  # ---------------------------------------------------------------- Balanceadores
+  AlbInterno:
+    Type: AWS::ElasticLoadBalancingV2::LoadBalancer
+    Properties:
+      Scheme: internal
+      Subnets: [!Ref SubnetA, !Ref SubnetB]
+      SecurityGroups: [!Ref AlbInternoSG]
+
+  # Tactica: deteccion de fallas por health check (H7.2.1).
+  PagosTG:
+    Type: AWS::ElasticLoadBalancingV2::TargetGroup
+    Properties:
+      VpcId: !Ref VpcId
+      TargetType: ip
+      Protocol: HTTP
+      Port: 3000
+      HealthCheckPath: /health
+      HealthCheckIntervalSeconds: 5
+      HealthCheckTimeoutSeconds: 2
+      HealthyThresholdCount: 2
+      UnhealthyThresholdCount: 2
+      TargetGroupAttributes:
+        - { Key: deregistration_delay.timeout_seconds, Value: '5' }
+
+  PasarelaTG:
+    Type: AWS::ElasticLoadBalancingV2::TargetGroup
+    Properties:
+      VpcId: !Ref VpcId
+      TargetType: ip
+      Protocol: HTTP
+      Port: 8080
+      HealthCheckPath: /pasarela/health
+      HealthCheckIntervalSeconds: 10
+      TargetGroupAttributes:
+        - { Key: deregistration_delay.timeout_seconds, Value: '5' }
+
+  AlbInternoListener:
+    Type: AWS::ElasticLoadBalancingV2::Listener
+    Properties:
+      LoadBalancerArn: !Ref AlbInterno
+      Port: 80
+      Protocol: HTTP
+      DefaultActions: [{ Type: forward, TargetGroupArn: !Ref PagosTG }]
+
+  ReglaPasarela:
+    Type: AWS::ElasticLoadBalancingV2::ListenerRule
+    Properties:
+      ListenerArn: !Ref AlbInternoListener
+      Priority: 10
+      Conditions: [{ Field: path-pattern, Values: ['/pasarela/*'] }]
+      Actions: [{ Type: forward, TargetGroupArn: !Ref PasarelaTG }]
+
+  AlbPublico:
+    Type: AWS::ElasticLoadBalancingV2::LoadBalancer
+    Properties:
+      Scheme: internet-facing
+      Subnets: [!Ref SubnetA, !Ref SubnetB]
+      SecurityGroups: [!Ref AlbPublicoSG]
+
+  SiniestrosTG:
+    Type: AWS::ElasticLoadBalancingV2::TargetGroup
+    Properties:
+      VpcId: !Ref VpcId
+      TargetType: ip
+      Protocol: HTTP
+      Port: 3000
+      HealthCheckPath: /health
+      HealthCheckIntervalSeconds: 10
+      TargetGroupAttributes:
+        - { Key: deregistration_delay.timeout_seconds, Value: '5' }
+
+  AlbPublicoListener:
+    Type: AWS::ElasticLoadBalancingV2::Listener
+    Properties:
+      LoadBalancerArn: !Ref AlbPublico
+      Port: 80
+      Protocol: HTTP
+      DefaultActions: [{ Type: forward, TargetGroupArn: !Ref SiniestrosTG }]
+
+  # ---------------------------------------------------------------- ECS Fargate
+  Logs:
+    Type: AWS::Logs::LogGroup
+    Properties:
+      LogGroupName: !Sub /ecs/${AWS::StackName}
+      RetentionInDays: 7
+
+  Cluster:
+    Type: AWS::ECS::Cluster
+    Properties:
+      ClusterName: !Sub ${AWS::StackName}
+
+  PagosTarea:
+    Type: AWS::ECS::TaskDefinition
+    Properties:
+      Family: !Sub ${AWS::StackName}-pagos
+      RequiresCompatibilities: [FARGATE]
+      NetworkMode: awsvpc
+      Cpu: '256'
+      Memory: '512'
+      ExecutionRoleArn: !Sub arn:aws:iam::${AWS::AccountId}:role/LabRole
+      TaskRoleArn: !Sub arn:aws:iam::${AWS::AccountId}:role/LabRole
+      ContainerDefinitions:
+        - Name: pagos
+          Image: !Sub ${AWS::AccountId}.dkr.ecr.${AWS::Region}.amazonaws.com/solventa-pagos:${ImageTag}
+          PortMappings: [{ ContainerPort: 3000 }]
+          Environment:
+            - { Name: PORT, Value: '3000' }
+            - { Name: SERVICE_NAME, Value: pagos }
+            - { Name: DB_HOST, Value: !GetAtt AuroraPagos.Endpoint.Address }   # endpoint ESCRITOR del cluster
+            - { Name: DB_PORT, Value: '5432' }
+            - { Name: DB_USER, Value: postgres }
+            - { Name: DB_PASSWORD, Value: !Ref DbPassword }
+            - { Name: DB_NAME, Value: pagos_db }
+            - { Name: DB_SSL, Value: 'true' }
+            - { Name: DB_SYNCHRONIZE, Value: 'true' }
+            - { Name: DB_POOL_MAX, Value: '20' }
+            - { Name: DB_CONNECT_TIMEOUT_MS, Value: '2000' }
+            - { Name: DB_QUERY_TIMEOUT_MS, Value: '5000' }
+            - { Name: RETRY_IDEMPOTENCY_ENABLED, Value: !Ref RetryIdempotencyEnabled }
+            - { Name: PASARELA_URL, Value: !Sub 'http://${AlbInterno.DNSName}/pasarela' }
+            - { Name: FAULT_INJECTION_ENABLED, Value: 'true' }
+            - { Name: FAULT_INJECTION_TOKEN, Value: !Ref FaultToken }
+          LogConfiguration:
+            LogDriver: awslogs
+            Options:
+              awslogs-group: !Ref Logs
+              awslogs-region: !Ref AWS::Region
+              awslogs-stream-prefix: pagos
+
+  SiniestrosTarea:
+    Type: AWS::ECS::TaskDefinition
+    Properties:
+      Family: !Sub ${AWS::StackName}-siniestros
+      RequiresCompatibilities: [FARGATE]
+      NetworkMode: awsvpc
+      Cpu: '256'
+      Memory: '512'
+      ExecutionRoleArn: !Sub arn:aws:iam::${AWS::AccountId}:role/LabRole
+      TaskRoleArn: !Sub arn:aws:iam::${AWS::AccountId}:role/LabRole
+      ContainerDefinitions:
+        - Name: siniestros
+          Image: !Sub ${AWS::AccountId}.dkr.ecr.${AWS::Region}.amazonaws.com/solventa-siniestros:${ImageTag}
+          PortMappings: [{ ContainerPort: 3000 }]
+          Environment:
+            - { Name: PORT, Value: '3000' }
+            - { Name: SERVICE_NAME, Value: siniestros }
+            - { Name: DB_HOST, Value: !GetAtt SiniestrosBD.Endpoint.Address }
+            - { Name: DB_PORT, Value: '5432' }
+            - { Name: DB_USER, Value: postgres }
+            - { Name: DB_PASSWORD, Value: !Ref DbPassword }
+            - { Name: DB_NAME, Value: siniestros_db }
+            - { Name: DB_SSL, Value: 'true' }
+            - { Name: DB_SYNCHRONIZE, Value: 'true' }
+            - { Name: DB_POOL_MAX, Value: '30' }
+            - { Name: PAGOS_URL, Value: !Sub 'http://${AlbInterno.DNSName}' }
+            - { Name: RETRY_IDEMPOTENCY_ENABLED, Value: !Ref RetryIdempotencyEnabled }
+            - { Name: PAGOS_TIMEOUT_MS, Value: '3000' }
+            - { Name: RETRY_MAX_ATTEMPTS, Value: '10' }
+            - { Name: RETRY_BASE_MS, Value: '200' }
+            - { Name: RETRY_MAX_DELAY_MS, Value: '8000' }
+            - { Name: RETRY_BUDGET_MS, Value: '30000' }
+          LogConfiguration:
+            LogDriver: awslogs
+            Options:
+              awslogs-group: !Ref Logs
+              awslogs-region: !Ref AWS::Region
+              awslogs-stream-prefix: siniestros
+
+  PasarelaTarea:
+    Type: AWS::ECS::TaskDefinition
+    Properties:
+      Family: !Sub ${AWS::StackName}-pasarela
+      RequiresCompatibilities: [FARGATE]
+      NetworkMode: awsvpc
+      Cpu: '256'
+      Memory: '512'
+      ExecutionRoleArn: !Sub arn:aws:iam::${AWS::AccountId}:role/LabRole
+      TaskRoleArn: !Sub arn:aws:iam::${AWS::AccountId}:role/LabRole
+      ContainerDefinitions:
+        - Name: pasarela
+          Image: !Sub ${AWS::AccountId}.dkr.ecr.${AWS::Region}.amazonaws.com/solventa-pasarela-mock:${ImageTag}
+          PortMappings: [{ ContainerPort: 8080 }]
+          Environment:
+            - { Name: PORT, Value: '8080' }
+            - { Name: PASARELA_LATENCIA_MS, Value: '50' }
+          LogConfiguration:
+            LogDriver: awslogs
+            Options:
+              awslogs-group: !Ref Logs
+              awslogs-region: !Ref AWS::Region
+              awslogs-stream-prefix: pasarela
+
+  # Tactica: redundancia activa (H7.2.1). Dos tareas; Fargate las reparte en
+  # las dos zonas de las subredes. Si una cae, ECS lanza otra sola.
+  PagosServicio:
+    Type: AWS::ECS::Service
+    DependsOn: [AlbInternoListener, AuroraEscritora, AuroraReplica]
+    Properties:
+      ServiceName: pagos
+      Cluster: !Ref Cluster
+      LaunchType: FARGATE
+      TaskDefinition: !Ref PagosTarea
+      DesiredCount: 2
+      HealthCheckGracePeriodSeconds: 60
+      DeploymentConfiguration: { MinimumHealthyPercent: 100, MaximumPercent: 200 }
+      NetworkConfiguration:
+        AwsvpcConfiguration:
+          AssignPublicIp: ENABLED
+          Subnets: [!Ref SubnetA, !Ref SubnetB]
+          SecurityGroups: [!Ref ServiciosSG]
+      LoadBalancers: [{ ContainerName: pagos, ContainerPort: 3000, TargetGroupArn: !Ref PagosTG }]
+
+  SiniestrosServicio:
+    Type: AWS::ECS::Service
+    DependsOn: [AlbPublicoListener, SiniestrosBD, PagosServicio]
+    Properties:
+      ServiceName: siniestros
+      Cluster: !Ref Cluster
+      LaunchType: FARGATE
+      TaskDefinition: !Ref SiniestrosTarea
+      DesiredCount: 2
+      HealthCheckGracePeriodSeconds: 60
+      DeploymentConfiguration: { MinimumHealthyPercent: 100, MaximumPercent: 200 }
+      NetworkConfiguration:
+        AwsvpcConfiguration:
+          AssignPublicIp: ENABLED
+          Subnets: [!Ref SubnetA, !Ref SubnetB]
+          SecurityGroups: [!Ref ServiciosSG]
+      LoadBalancers: [{ ContainerName: siniestros, ContainerPort: 3000, TargetGroupArn: !Ref SiniestrosTG }]
+
+  PasarelaServicio:
+    Type: AWS::ECS::Service
+    DependsOn: [ReglaPasarela]
+    Properties:
+      ServiceName: pasarela
+      Cluster: !Ref Cluster
+      LaunchType: FARGATE
+      TaskDefinition: !Ref PasarelaTarea
+      DesiredCount: 1
+      NetworkConfiguration:
+        AwsvpcConfiguration:
+          AssignPublicIp: ENABLED
+          Subnets: [!Ref SubnetA]
+          SecurityGroups: [!Ref ServiciosSG]
+      LoadBalancers: [{ ContainerName: pasarela, ContainerPort: 8080, TargetGroupArn: !Ref PasarelaTG }]
+
+  # ---------------------------------------------------------------- Carga y fallas
+  Carga:
+    Type: AWS::EC2::Instance
+    Properties:
+      ImageId: '{{resolve:ssm:/aws/service/ami-amazon-linux-latest/al2023-ami-kernel-default-x86_64}}'
+      InstanceType: t3.small
+      KeyName: !Ref KeyName
+      IamInstanceProfile: LabInstanceProfile
+      SubnetId: !Ref SubnetA
+      SecurityGroupIds: [!Ref CargaSG]
+      Tags: [{ Key: Name, Value: !Sub '${AWS::StackName}-carga' }]
+      UserData:
+        Fn::Base64: !Sub |
+          #!/bin/bash
+          set -x
+          dnf install -y jq git python3-pip postgresql16 || dnf install -y jq git python3-pip postgresql15
+          dnf install -y https://dl.k6.io/rpm/repo.rpm && dnf install -y k6
+          if ! command -v k6; then
+            curl -sL https://github.com/grafana/k6/releases/download/v0.54.0/k6-v0.54.0-linux-amd64.tar.gz | tar xz -C /tmp
+            mv /tmp/k6-v0.54.0-linux-amd64/k6 /usr/local/bin/k6
+          fi
+          pip3 install "psycopg[binary]" matplotlib
+          cat > /home/ec2-user/exp006.env <<'EOF'
+          export AWS_DEFAULT_REGION=${AWS::Region}
+          export STACK=${AWS::StackName}
+          export SINIESTROS_URL=http://${AlbPublico.DNSName}
+          export PAGOS_URL=http://${AlbInterno.DNSName}
+          export AURORA_CLUSTER=${AuroraPagos}
+          export AURORA_WRITER=${AuroraPagos.Endpoint.Address}
+          export SINIESTROS_DB=${SiniestrosBD.Endpoint.Address}
+          export DB_USER=postgres
+          export DB_PASSWORD='${DbPassword}'
+          export ECS_CLUSTER=${Cluster}
+          export LOG_GROUP=${Logs}
+          export FAULT_TOKEN='${FaultToken}'
+          EOF
+          chown ec2-user:ec2-user /home/ec2-user/exp006.env
+          echo 'source ~/exp006.env' >> /home/ec2-user/.bashrc
+
+Outputs:
+  SiniestrosUrl:
+    Description: Punto de entrada del experimento (POST /siniestros/indemnizaciones)
+    Value: !Sub http://${AlbPublico.DNSName}
+  PagosAlbInterno:
+    Value: !Sub http://${AlbInterno.DNSName}
+  AuroraCluster:
+    Value: !Ref AuroraPagos
+  AuroraEndpointEscritor:
+    Value: !GetAtt AuroraPagos.Endpoint.Address
+  SiniestrosBD:
+    Value: !GetAtt SiniestrosBD.Endpoint.Address
+  EcsCluster:
+    Value: !Ref Cluster
+  CargaIpPublica:
+    Description: IP de la EC2 de carga (ssh -i labsuser.pem ec2-user@IP)
+    Value: !GetAtt Carga.PublicIp

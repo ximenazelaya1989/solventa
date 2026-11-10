@@ -1,0 +1,82 @@
+# EXP-006 (H7.2.1) - Ensayo local del experimento, solo con los servicios que
+# usa (no toca el docker-compose general del equipo). Reproduce la topologia de
+# AWS: Pagos x2 detras de un balanceador con health check, BD de Pagos y BD de
+# Siniestros separadas, pasarela mock y Siniestros como punto de entrada.
+#
+#   cd docs/HU7.2.1-Ximena/experimento/local
+#   docker compose up -d --build
+#   curl -X POST localhost:19004/siniestros/indemnizaciones -H "content-type: application/json" -d "{\"monto\":1000}"
+#   docker compose down -v
+#
+# Para la prueba de control: RETRY=false docker compose up -d --build
+
+x-pagos: &pagos
+  build: ../../../../services/pagos
+  environment: &pagos-env
+    PORT: "3000"
+    SERVICE_NAME: pagos
+    DB_HOST: bd-pagos
+    DB_PORT: "5432"
+    DB_USER: postgres
+    DB_PASSWORD: postgres
+    DB_NAME: pagos_db
+    DB_SYNCHRONIZE: "true"
+    DB_SSL: "false"
+    RETRY_IDEMPOTENCY_ENABLED: ${RETRY:-true}
+    PASARELA_URL: http://pasarela:8080
+    FAULT_INJECTION_ENABLED: "true"
+    FAULT_INJECTION_TOKEN: secreto
+  depends_on:
+    bd-pagos: { condition: service_healthy }
+  restart: unless-stopped   # como ECS: si la replica muere, se vuelve a lanzar
+
+services:
+  bd-pagos:
+    image: postgres:16
+    environment: { POSTGRES_USER: postgres, POSTGRES_PASSWORD: postgres, POSTGRES_DB: pagos_db }
+    ports: ["19432:5432"]
+    healthcheck: { test: ["CMD-SHELL", "pg_isready -U postgres"], interval: 3s, retries: 20 }
+
+  bd-siniestros:
+    image: postgres:16
+    environment: { POSTGRES_USER: postgres, POSTGRES_PASSWORD: postgres, POSTGRES_DB: siniestros_db }
+    healthcheck: { test: ["CMD-SHELL", "pg_isready -U postgres"], interval: 3s, retries: 20 }
+
+  pasarela:
+    build: ../../../../services/pasarela-mock
+
+  pagos-1:
+    <<: *pagos
+    ports: ["19031:3000"]
+  pagos-2:
+    <<: *pagos
+    ports: ["19032:3000"]
+
+  # Balanceador round-robin con health check (/health cada 5 s, umbral 2), como el ALB interno
+  balanceador:
+    image: node:22-alpine
+    volumes: ["./balanceador.js:/app/balanceador.js:ro"]
+    command: ["node", "/app/balanceador.js"]
+    environment: { DESTINOS: "pagos-1:3000,pagos-2:3000" }
+    ports: ["19003:3000"]
+    depends_on: [pagos-1, pagos-2]
+
+  siniestros:
+    build: ../../../../services/siniestros
+    environment:
+      PORT: "3000"
+      SERVICE_NAME: siniestros
+      DB_HOST: bd-siniestros
+      DB_PORT: "5432"
+      DB_USER: postgres
+      DB_PASSWORD: postgres
+      DB_NAME: siniestros_db
+      DB_SYNCHRONIZE: "true"
+      DB_SSL: "false"
+      PAGOS_URL: http://balanceador:3000
+      RETRY_IDEMPOTENCY_ENABLED: ${RETRY:-true}
+    ports: ["19004:3000"]
+    depends_on:
+      bd-siniestros: { condition: service_healthy }
+      balanceador: { condition: service_started }
+    restart: unless-stopped
