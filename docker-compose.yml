@@ -1,16 +1,158 @@
+# Levanta TODOS los microservicios en local (desarrollo y pruebas de humo).
+# Cada servicio tiene su propia base de datos logica en un unico Postgres local;
+# en AWS cada experimento despliega lo que necesite con su propia BD (RDS/Aurora).
+#
+#   docker compose up -d --build
+#   curl http://localhost:18080/health
+#   docker compose down -v      # borra tambien los datos
+
+x-servicio-nest-bd: &nest-bd
+  depends_on:
+    postgres:
+      condition: service_healthy
+  restart: unless-stopped
+
+x-bd-comun: &bd-comun
+  DB_HOST: postgres
+  DB_PORT: "5432"
+  DB_USER: postgres
+  DB_PASSWORD: postgres
+  DB_SYNCHRONIZE: "true"
+  DB_POOL_MAX: "10"
+
 services:
-  solventa-db:
+  postgres:
     image: postgres:16
-    container_name: solventa-db
-    restart: unless-stopped
+    container_name: solventa-postgres
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
-      POSTGRES_DB: solventa
     ports:
-      - "5432:5432"
+      - "15432:5432"
     volumes:
-      - solventa-db-data:/var/lib/postgresql/data
+      - solventa-pg-data:/var/lib/postgresql/data
+      - ./infra/postgres/init-databases.sql:/docker-entrypoint-initdb.d/init-databases.sql:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+  redis:
+    image: redis:7
+    container_name: solventa-redis
+    ports:
+      - "16379:6379"
+
+  api-gateway:
+    build: ./services/api-gateway
+    container_name: solventa-api-gateway
+    environment:
+      SERVICE_NAME: api-gateway
+      COTIZACION_URL: http://cotizacion:8000
+    ports:
+      - "18080:3000"
+    depends_on:
+      - cotizacion
+    restart: unless-stopped
+
+  cotizacion:
+    build: ./services/cotizacion
+    container_name: solventa-cotizacion
+    environment:
+      SERVICE_NAME: cotizacion
+      DATABASE_URL: postgresql+psycopg://postgres:postgres@postgres:5432/cotizacion_db
+      PERFILAMIENTO_URL: http://perfilamiento:8000
+    ports:
+      - "18001:8000"
+    depends_on:
+      postgres:
+        condition: service_healthy
+      perfilamiento:
+        condition: service_started
+    restart: unless-stopped
+
+  perfilamiento:
+    build: ./services/perfilamiento
+    container_name: solventa-perfilamiento
+    environment:
+      SERVICE_NAME: perfilamiento
+      DATABASE_URL: postgresql+psycopg://postgres:postgres@postgres:5432/perfilamiento_db
+      REDIS_URL: redis://redis:6379/0
+    ports:
+      - "18002:8000"
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_started
+    restart: unless-stopped
+
+  pagos:
+    <<: *nest-bd
+    build: ./services/pagos
+    container_name: solventa-pagos
+    environment:
+      <<: *bd-comun
+      SERVICE_NAME: pagos
+      DB_NAME: pagos_db
+    ports:
+      - "18003:3000"
+
+  siniestros:
+    <<: *nest-bd
+    build: ./services/siniestros
+    container_name: solventa-siniestros
+    environment:
+      <<: *bd-comun
+      SERVICE_NAME: siniestros
+      DB_NAME: siniestros_db
+    ports:
+      - "18004:3000"
+
+  consentimiento:
+    <<: *nest-bd
+    build: ./services/consentimiento
+    container_name: solventa-consentimiento
+    environment:
+      <<: *bd-comun
+      SERVICE_NAME: consentimiento
+      DB_NAME: consentimiento_db
+    ports:
+      - "18005:3000"
+
+  distribucion-socios:
+    <<: *nest-bd
+    build: ./services/distribucion-socios
+    container_name: solventa-distribucion-socios
+    environment:
+      <<: *bd-comun
+      SERVICE_NAME: distribucion-socios
+      DB_NAME: socios_db
+    ports:
+      - "18006:3000"
+
+  suscripcion-polizas:
+    <<: *nest-bd
+    build: ./services/suscripcion-polizas
+    container_name: solventa-suscripcion-polizas
+    environment:
+      <<: *bd-comun
+      SERVICE_NAME: suscripcion-polizas
+      DB_NAME: suscripcion_db
+    ports:
+      - "18007:3000"
+
+  fraude-reportes:
+    <<: *nest-bd
+    build: ./services/fraude-reportes
+    container_name: solventa-fraude-reportes
+    environment:
+      <<: *bd-comun
+      SERVICE_NAME: fraude-reportes
+      DB_NAME: fraude_db
+    ports:
+      - "18008:3000"
 
 volumes:
-  solventa-db-data:
+  solventa-pg-data:
