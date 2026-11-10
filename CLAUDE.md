@@ -17,7 +17,7 @@ Cada integrante implementa **su propio experimento** (EXP-006 a EXP-010) sobre e
 | `services/perfilamiento` | FastAPI | `perfilamiento_db` (+ Redis) | 18002 | `GET /perfiles/{clienteId}`, `POST /perfiles`. Sin Open Finance, breaker ni cache todavia (EXP-009). |
 | `services/pagos` | NestJS | `pagos_db` | 18003 | Entidad `Pago` (llave de idempotencia unica). EXP-006. |
 | `services/siniestros` | NestJS | `siniestros_db` | 18004 | `Siniestro` (herencia de tabla unica) + `Perito`. EXP-006. |
-| `services/consentimiento` | NestJS | `consentimiento_db` | 18005 | Entidad `Consentimiento`. Stack por confirmar con su dueño (EXP-007). |
+| `services/consentimiento` | FastAPI | `consentimiento_db` | 18005 | Tabla `consentimientos` (estado `activo`/`revocado`). Solo `/health`; los endpoints y el `audit_log` los agrega EXP-007. |
 | `services/distribucion-socios` | NestJS | `socios_db` | 18006 | `SocioDistribucion` (`apiKey`: dato sensible). |
 | `services/suscripcion-polizas` | NestJS | `suscripcion_db` | 18007 | `Suscripcion` + `Poliza` (`@VersionColumn`). Ya no hay emision atomica con Pagos: cruza servicios. |
 | `services/fraude-reportes` | NestJS | `fraude_db` | 18008 | Fraude, reportes regulatorios y reaseguro. |

@@ -11,7 +11,7 @@ services/            un microservicio por carpeta (Dockerfile y BD propios)
   perfilamiento/       FastAPI   · perfilamiento_db (+ Redis)
   pagos/               NestJS    · pagos_db
   siniestros/          NestJS    · siniestros_db
-  consentimiento/      NestJS    · consentimiento_db
+  consentimiento/      FastAPI   · consentimiento_db
   distribucion-socios/ NestJS    · socios_db
   suscripcion-polizas/ NestJS    · suscripcion_db
   fraude-reportes/     NestJS    · fraude_db

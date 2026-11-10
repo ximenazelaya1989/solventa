@@ -111,15 +111,17 @@ services:
       - "18004:3000"
 
   consentimiento:
-    <<: *nest-bd
     build: ./services/consentimiento
     container_name: solventa-consentimiento
     environment:
-      <<: *bd-comun
       SERVICE_NAME: consentimiento
-      DB_NAME: consentimiento_db
+      DATABASE_URL: postgresql+psycopg://postgres:postgres@postgres:5432/consentimiento_db
     ports:
-      - "18005:3000"
+      - "18005:8000"
+    depends_on:
+      postgres:
+        condition: service_healthy
+    restart: unless-stopped
 
   distribucion-socios:
     <<: *nest-bd
