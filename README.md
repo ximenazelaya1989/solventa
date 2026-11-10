@@ -9,6 +9,7 @@ services/            un microservicio por carpeta (Dockerfile y BD propios)
   api-gateway/         NestJS    · punto de entrada
   cotizacion/          FastAPI   · cotizacion_db
   perfilamiento/       FastAPI   · perfilamiento_db (+ Redis)
+  mock-open-finance/   FastAPI   · mock compartido de Open Finance (EXP-009 y EXP-007)
   pagos/               NestJS    · pagos_db
   siniestros/          NestJS    · siniestros_db
   consentimiento/      FastAPI   · consentimiento_db
@@ -34,6 +35,7 @@ docker compose ps
 | API Gateway | http://localhost:18080 |
 | Cotizacion | http://localhost:18001 |
 | Perfilamiento | http://localhost:18002 |
+| Mock de Open Finance | http://localhost:18009 |
 | Pagos | http://localhost:18003 |
 | Siniestros | http://localhost:18004 |
 | Consentimiento | http://localhost:18005 |

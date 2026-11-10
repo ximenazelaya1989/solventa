@@ -84,6 +84,9 @@ services:
       CONSENTIMIENTO_URL: http://consentimiento:8000
       CONSENT_CACHE_TTL_S: ${CONSENT_CACHE_TTL_S:-60}
       JWT_SECRET: ${JWT_SECRET:-solventa-local}
+      # EXP-009: llamada a Open Finance (apagada por defecto)
+      OPEN_FINANCE_ENABLED: ${OPEN_FINANCE_ENABLED:-false}
+      OPEN_FINANCE_URL: http://mock-open-finance:8000
     ports:
       - "18002:8000"
     depends_on:
@@ -91,6 +94,15 @@ services:
         condition: service_healthy
       redis:
         condition: service_started
+    restart: unless-stopped
+
+  mock-open-finance:
+    build: ./services/mock-open-finance
+    container_name: solventa-mock-open-finance
+    environment:
+      SERVICE_NAME: mock-open-finance
+    ports:
+      - "18009:8000"
     restart: unless-stopped
 
   pagos:

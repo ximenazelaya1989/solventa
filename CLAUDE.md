@@ -14,7 +14,8 @@ Cada integrante implementa **su propio experimento** (EXP-006 a EXP-010) sobre e
 |---|---|---|---|---|
 | `services/api-gateway` | NestJS | — | 18080 | Punto de entrada. `POST /v1/cotizaciones` reenvia a Cotizacion. Sin JWT ni cuota todavia (EXP-010 / EXP-008). |
 | `services/cotizacion` | FastAPI | `cotizacion_db` | 18001 | `POST /cotizaciones`: prima = prima del producto x (1 + (100 - score)/200), score desde Perfilamiento por REST. |
-| `services/perfilamiento` | FastAPI | `perfilamiento_db` (+ Redis) | 18002 | `GET /perfiles/{clienteId}`, `POST /perfiles`. Sin Open Finance, breaker ni cache todavia (EXP-009). |
+| `services/perfilamiento` | FastAPI | `perfilamiento_db` (+ Redis) | 18002 | `GET /perfiles/{clienteId}`, `POST /perfiles`. Modulos por experimento: `consentimiento.py` (EXP-007) y `open_finance.py` (EXP-009: llamada al mock con `OPEN_FINANCE_ENABLED`; breaker, bulkhead y cache se agregan alli). |
+| `services/mock-open-finance` | FastAPI | — | 18009 | Mock **compartido** (EXP-009 y EXP-007). `GET /senales/{clienteId}`; `POST /admin/fail` (`ok`/`error503`/`lento2s`); `GET /admin/estado` (modo, `llamadasPorCliente`, `cambios` con hora); `POST /admin/reset`. |
 | `services/pagos` | NestJS | `pagos_db` | 18003 | Entidad `Pago` (llave de idempotencia unica). EXP-006. |
 | `services/siniestros` | NestJS | `siniestros_db` | 18004 | `Siniestro` (herencia de tabla unica) + `Perito`. EXP-006. |
 | `services/consentimiento` | FastAPI | `consentimiento_db` | 18005 | Tabla `consentimientos` (estado `activo`/`revocado`). Solo `/health`; los endpoints y el `audit_log` los agrega EXP-007. |
@@ -29,7 +30,7 @@ Cada servicio NestJS es un proyecto independiente (`package.json`, `tsconfig.jso
 ## Commands
 
 ```bash
-docker compose up -d --build        # postgres + redis + los 9 servicios
+docker compose up -d --build        # postgres + redis + los 10 servicios
 docker compose ps
 curl http://localhost:18080/health   # gateway (cada servicio: /health en su puerto)
 curl -X POST http://localhost:18080/v1/cotizaciones -H 'content-type: application/json' \
@@ -45,7 +46,7 @@ Postgres local en `localhost:15432` (usuario/clave `postgres`), Redis en `16379`
 - Nombres de entidades, tablas y enums en español, acorde al dominio.
 - Las entidades se referencian entre servicios por `uuid` simple (`clienteId`, `polizaId`, ...), nunca con relaciones TypeORM entre servicios. Solo `Poliza` ↔ `Suscripcion` (mismo servicio) tiene `@OneToOne`.
 - Liveness `/health` **sin consultar BD ni dependencias**: es una tactica de EXP-006 (el ALB no debe retirar replicas por una caida de la BD) y de EXP-009 (readiness de Perfilamiento solo verifica Redis).
-- Flags de los experimentos (apagados por defecto): `RATE_LIMIT_ENABLED`, `JWT_VALIDATION_ENABLED`, `CIRCUIT_BREAKER_ENABLED`, `CONSENT_CHECK_ENABLED`, `RETRY_IDEMPOTENCY_ENABLED`.
+- Flags de los experimentos (apagados por defecto): `OPEN_FINANCE_ENABLED` (Perfilamiento consulta el mock), `RATE_LIMIT_ENABLED`, `JWT_VALIDATION_ENABLED`, `CIRCUIT_BREAKER_ENABLED`, `CONSENT_CHECK_ENABLED`, `RETRY_IDEMPOTENCY_ENABLED`.
 - Prettier: comillas simples y comas finales (`.prettierrc`). `strictPropertyInitialization` desactivado: columnas con `!`.
 - Columnas de dinero: `numeric` + `numericTransformer` (`services/pagos/src/common/numeric.transformer.ts`), no `float`.
 - Cada servicio debe poder construirse y desplegarse **solo desde su carpeta** (cada experimento corre en la cuenta de AWS de su dueño).

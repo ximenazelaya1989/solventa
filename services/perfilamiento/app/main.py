@@ -1,8 +1,8 @@
 """Microservicio de Perfilamiento (FastAPI).
 
 Base compartida: devuelve el perfil de riesgo de un cliente desde su propia BD
-(perfilamiento_db). Aqui NO hay timeout hacia Open Finance, circuit breaker,
-bulkhead ni cache: esas tacticas las agrega EXP-009 en su propio trabajo.
+(perfilamiento_db). La llamada a Open Finance y sus tacticas (timeout, circuit
+breaker, bulkhead, cache) son de EXP-009 y viven en open_finance.py.
 
 EXP-007: la validacion de consentimiento vive en consentimiento.py y se conecta
 como dependencia de GET /perfiles (corre antes del cuerpo del endpoint).
@@ -18,6 +18,7 @@ from sqlalchemy.exc import OperationalError
 from sqlalchemy.orm import DeclarativeBase, Mapped, Session, mapped_column, sessionmaker
 
 from .consentimiento import verificar_acceso
+from .open_finance import senales_open_finance
 
 SERVICE_NAME = os.getenv("SERVICE_NAME", "perfilamiento")
 DATABASE_URL = os.getenv(
@@ -103,6 +104,9 @@ def obtener_perfil(cliente_id: uuid.UUID, db: Session = Depends(get_db)):
     perfil = db.scalar(select(PerfilRiesgo).where(PerfilRiesgo.cliente_id == cliente_id))
     if perfil is None:
         raise HTTPException(status_code=404, detail="Perfil no encontrado")
+    # EXP-009: la llamada a Open Finance (y sus tacticas) vive en open_finance.py.
+    # Con OPEN_FINANCE_ENABLED=false devuelve lo guardado en la BD.
+    perfil.senales_open_finance = senales_open_finance(cliente_id, perfil.senales_open_finance)
     return a_salida(perfil)
 
 
