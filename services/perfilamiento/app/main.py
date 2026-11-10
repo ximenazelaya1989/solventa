@@ -3,6 +3,9 @@
 Base compartida: devuelve el perfil de riesgo de un cliente desde su propia BD
 (perfilamiento_db). Aqui NO hay timeout hacia Open Finance, circuit breaker,
 bulkhead ni cache: esas tacticas las agrega EXP-009 en su propio trabajo.
+
+EXP-007: la validacion de consentimiento vive en consentimiento.py y se conecta
+como dependencia de GET /perfiles (corre antes del cuerpo del endpoint).
 """
 import os
 import time
@@ -14,6 +17,8 @@ from sqlalchemy import JSON, Float, Uuid, create_engine, select
 from sqlalchemy.exc import OperationalError
 from sqlalchemy.orm import DeclarativeBase, Mapped, Session, mapped_column, sessionmaker
 
+from .consentimiento import verificar_acceso
+
 SERVICE_NAME = os.getenv("SERVICE_NAME", "perfilamiento")
 DATABASE_URL = os.getenv(
     "DATABASE_URL", "postgresql+psycopg://postgres:postgres@localhost:5432/perfilamiento_db"
@@ -21,7 +26,10 @@ DATABASE_URL = os.getenv(
 
 CLIENTE_DEMO = uuid.UUID("11111111-1111-1111-1111-111111111111")
 
-engine = create_engine(DATABASE_URL, pool_size=int(os.getenv("DB_POOL_MAX", "10")), pool_pre_ping=True)
+_opciones_engine = {"pool_pre_ping": True}
+if not DATABASE_URL.startswith("sqlite"):
+    _opciones_engine["pool_size"] = int(os.getenv("DB_POOL_MAX", "10"))
+engine = create_engine(DATABASE_URL, **_opciones_engine)
 SessionLocal = sessionmaker(bind=engine, expire_on_commit=False)
 
 
@@ -89,7 +97,8 @@ def health():
     return {"status": "ok", "servicio": SERVICE_NAME}
 
 
-@app.get("/perfiles/{cliente_id}", response_model=PerfilOut)
+# EXP-007: verificar_acceso no hace nada si CONSENT_CHECK_ENABLED=false.
+@app.get("/perfiles/{cliente_id}", response_model=PerfilOut, dependencies=[Depends(verificar_acceso)])
 def obtener_perfil(cliente_id: uuid.UUID, db: Session = Depends(get_db)):
     perfil = db.scalar(select(PerfilRiesgo).where(PerfilRiesgo.cliente_id == cliente_id))
     if perfil is None:

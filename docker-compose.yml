@@ -79,6 +79,11 @@ services:
       SERVICE_NAME: perfilamiento
       DATABASE_URL: postgresql+psycopg://postgres:postgres@postgres:5432/perfilamiento_db
       REDIS_URL: redis://redis:6379/0
+      # EXP-007: validacion de consentimiento (apagada por defecto)
+      CONSENT_CHECK_ENABLED: ${CONSENT_CHECK_ENABLED:-false}
+      CONSENTIMIENTO_URL: http://consentimiento:8000
+      CONSENT_CACHE_TTL_S: ${CONSENT_CACHE_TTL_S:-60}
+      JWT_SECRET: ${JWT_SECRET:-solventa-local}
     ports:
       - "18002:8000"
     depends_on:
@@ -116,6 +121,7 @@ services:
     environment:
       SERVICE_NAME: consentimiento
       DATABASE_URL: postgresql+psycopg://postgres:postgres@postgres:5432/consentimiento_db
+      JWT_SECRET: ${JWT_SECRET:-solventa-local}
     ports:
       - "18005:8000"
     depends_on:
