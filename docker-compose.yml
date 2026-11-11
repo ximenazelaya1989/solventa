@@ -63,6 +63,7 @@ services:
       SERVICE_NAME: cotizacion
       DATABASE_URL: postgresql+psycopg://postgres:postgres@postgres:5432/cotizacion_db
       PERFILAMIENTO_URL: http://perfilamiento:8000
+      PERFILAMIENTO_TIMEOUT_S: ${PERFILAMIENTO_TIMEOUT_S:-2.0}
     ports:
       - "18001:8000"
     depends_on:
@@ -87,6 +88,8 @@ services:
       # EXP-009: llamada a Open Finance (apagada por defecto)
       OPEN_FINANCE_ENABLED: ${OPEN_FINANCE_ENABLED:-false}
       OPEN_FINANCE_URL: http://mock-open-finance:8000
+      CIRCUIT_BREAKER_ENABLED: ${CIRCUIT_BREAKER_ENABLED:-false}
+      OPEN_FINANCE_ADMIN_ENABLED: ${OPEN_FINANCE_ADMIN_ENABLED:-true}
     ports:
       - "18002:8000"
     depends_on:

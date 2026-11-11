@@ -14,7 +14,7 @@ Cada integrante implementa **su propio experimento** (EXP-006 a EXP-010) sobre e
 |---|---|---|---|---|
 | `services/api-gateway` | NestJS | — | 18080 | Punto de entrada. `POST /v1/cotizaciones` reenvia a Cotizacion. Sin JWT ni cuota todavia (EXP-010 / EXP-008). |
 | `services/cotizacion` | FastAPI | `cotizacion_db` | 18001 | `POST /cotizaciones`: prima = prima del producto x (1 + (100 - score)/200), score desde Perfilamiento por REST. |
-| `services/perfilamiento` | FastAPI | `perfilamiento_db` (+ Redis) | 18002 | `GET /perfiles/{clienteId}`, `POST /perfiles`. Modulos por experimento: `consentimiento.py` (EXP-007) y `open_finance.py` (EXP-009: llamada al mock con `OPEN_FINANCE_ENABLED`; breaker, bulkhead y cache se agregan alli). |
+| `services/perfilamiento` | FastAPI | `perfilamiento_db` (+ Redis) | 18002 | `GET /perfiles/{clienteId}`, `POST /perfiles`. Modulos por experimento: `consentimiento.py` (EXP-007) y `open_finance.py` (EXP-009: llamada al mock con `OPEN_FINANCE_ENABLED`; con `CIRCUIT_BREAKER_ENABLED=true` suma circuit breaker, bulkhead de 10, cache en Redis y perfil por defecto; expone `/ready` y `/admin/open-finance/*`). Redis solo se usa con ese flag. |
 | `services/mock-open-finance` | FastAPI | — | 18009 | Mock **compartido** (EXP-009 y EXP-007). `GET /senales/{clienteId}`; `POST /admin/fail` (`ok`/`error503`/`lento2s`); `GET /admin/estado` (modo, `llamadasPorCliente`, `cambios` con hora); `POST /admin/reset`. |
 | `services/pagos` | NestJS | `pagos_db` | 18003 | Entidad `Pago` (llave de idempotencia unica). EXP-006. |
 | `services/siniestros` | NestJS | `siniestros_db` | 18004 | `Siniestro` (herencia de tabla unica) + `Perito`. EXP-006. |

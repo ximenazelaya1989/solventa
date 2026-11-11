@@ -18,6 +18,7 @@ from sqlalchemy.exc import OperationalError
 from sqlalchemy.orm import DeclarativeBase, Mapped, Session, mapped_column, sessionmaker
 
 from .consentimiento import verificar_acceso
+from .open_finance import router as open_finance_router
 from .open_finance import senales_open_finance
 
 SERVICE_NAME = os.getenv("SERVICE_NAME", "perfilamiento")
@@ -73,6 +74,7 @@ def get_db():
 
 
 app = FastAPI(title="Solventa - Perfilamiento")
+app.include_router(open_finance_router)  # EXP-009: /ready y /admin/open-finance/*
 
 
 @app.on_event("startup")
