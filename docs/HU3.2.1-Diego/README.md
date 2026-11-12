@@ -37,7 +37,6 @@ con p95 ≤ 300 ms y con el 100 % de las revocaciones en el `audit_log`.
 - Variables de Consentimiento: `DATABASE_URL`, `JWT_SECRET` (la misma).
 - EC2 para JMeter y el script: `pip install -r medicion/requirements.txt`.
 
-Para desplegar en AWS Academy paso a paso, ver [DESPLIEGUE.md](DESPLIEGUE.md).
 
 ## Ejecución
 
