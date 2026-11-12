@@ -1,0 +1,16 @@
+{
+  "solicitudes": 15014,
+  "codigos": {
+    "200": 15014
+  },
+  "latencia_ms": {
+    "p50": 64.0,
+    "p95": 85,
+    "max": 796
+  },
+  "rechazos_falsos_(403_a_clientes_de_fondo)": 0,
+  "criterio": {
+    "p95_<=_300ms": true,
+    "0_rechazos_falsos": true
+  }
+}

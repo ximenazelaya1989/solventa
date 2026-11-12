@@ -1,0 +1,24 @@
+{
+  "fecha": "2026-11-12T16:23:31.567+00:00",
+  "clientes": 50,
+  "revocaciones_medidas": 50,
+  "delta_s": {
+    "min": 33.272,
+    "promedio": 59.787,
+    "p95": 61.97,
+    "max": 61.983
+  },
+  "accesos_indebidos_despues_de_5_min": 0,
+  "200_tras_primer_403": 0,
+  "rechazos_falsos_antes_de_revocar": 0,
+  "revocaciones_en_audit_log": "50/50",
+  "llamadas_open_finance_tras_403": 0,
+  "errores": [],
+  "criterio": {
+    "delta_max_<=_300s": true,
+    "0_accesos_indebidos": true,
+    "0_rechazos_falsos_(script)": true,
+    "audit_log_completo": true,
+    "p95_latencia": "ver subcomando jmeter"
+  }
+}

@@ -1,0 +1,416 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: >
+  EXP-007 (HU3.2.1, Diego) - Revocacion efectiva de consentimiento Open Finance.
+  Despliega Consentimiento, Perfilamiento y el mock de Open Finance en ECS Fargate
+  detras de un ALB con HTTPS (certificado autofirmado), una RDS PostgreSQL cifrada
+  por servicio (database per service) y una EC2 con JMeter y el script de medicion.
+  Pensado para AWS Academy Learner Lab (usa LabRole y LabInstanceProfile).
+
+Parameters:
+  VpcId:
+    Type: AWS::EC2::VPC::Id
+    Description: VPC por defecto de la cuenta
+  SubnetA:
+    Type: AWS::EC2::Subnet::Id
+    Description: Subred publica de la zona A
+  SubnetB:
+    Type: AWS::EC2::Subnet::Id
+    Description: Subred publica de la zona B (distinta de la A)
+  CertificateArn:
+    Type: String
+    Description: ARN del certificado autofirmado (ACM o IAM) para el listener HTTPS del ALB
+  DbPassword:
+    Type: String
+    NoEcho: true
+    AllowedPattern: '^[A-Za-z0-9]{8,40}$'
+    ConstraintDescription: solo letras y numeros, 8 a 40 caracteres (va dentro de una URL)
+    Description: Clave del usuario postgres de las dos RDS
+  JwtSecret:
+    Type: String
+    NoEcho: true
+    MinLength: 16
+    Description: Llave compartida HS256 para firmar y validar los JWT
+  ConsentCacheTtl:
+    Type: Number
+    Default: 60
+    Description: TTL en segundos de la cache de consentimiento en Perfilamiento (variable fija del experimento)
+  AllowedCidr:
+    Type: String
+    Default: 0.0.0.0/0
+    Description: Desde donde se permite SSH a la EC2 de carga
+  KeyName:
+    Type: String
+    Default: vockey
+    Description: Par de llaves de la EC2 (en Learner Lab es vockey)
+  ImageTag:
+    Type: String
+    Default: exp007
+
+Resources:
+  # ================================================================ Redes
+  # El ALB recibe HTTPS (443) y el trafico al mock (8080). Las tareas de ECS
+  # llegan al ALB por su IP publica, por eso la entrada es 0.0.0.0/0.
+  AlbSG:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: exp007 - ALB
+      VpcId: !Ref VpcId
+      SecurityGroupIngress:
+        - { IpProtocol: tcp, FromPort: 443, ToPort: 443, CidrIp: 0.0.0.0/0 }
+        - { IpProtocol: tcp, FromPort: 8080, ToPort: 8080, CidrIp: 0.0.0.0/0 }
+
+  # Las tareas solo aceptan trafico que venga del ALB.
+  ServiciosSG:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: exp007 - tareas de ECS
+      VpcId: !Ref VpcId
+      SecurityGroupIngress:
+        - { IpProtocol: tcp, FromPort: 8000, ToPort: 8000, SourceSecurityGroupId: !Ref AlbSG }
+
+  CargaSG:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: exp007 - EC2 de carga (JMeter y script de medicion)
+      VpcId: !Ref VpcId
+      SecurityGroupIngress:
+        - { IpProtocol: tcp, FromPort: 22, ToPort: 22, CidrIp: !Ref AllowedCidr }
+
+  # Las bases solo aceptan a las tareas de ECS y a la EC2 (para revisar el audit_log con psql).
+  BaseDatosSG:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: exp007 - RDS
+      VpcId: !Ref VpcId
+      SecurityGroupIngress:
+        - { IpProtocol: tcp, FromPort: 5432, ToPort: 5432, SourceSecurityGroupId: !Ref ServiciosSG }
+        - { IpProtocol: tcp, FromPort: 5432, ToPort: 5432, SourceSecurityGroupId: !Ref CargaSG }
+
+  # ================================================================ Datos
+  SubredesBD:
+    Type: AWS::RDS::DBSubnetGroup
+    Properties:
+      DBSubnetGroupDescription: exp007 - subredes de las bases de datos
+      SubnetIds: [!Ref SubnetA, !Ref SubnetB]
+
+  # Tacticas: Database per Service (Consentimiento es el unico dueño de los
+  # consentimientos y del audit_log) y cifrado en reposo (StorageEncrypted).
+  ConsentimientoBD:
+    Type: AWS::RDS::DBInstance
+    DeletionPolicy: Delete
+    UpdateReplacePolicy: Delete
+    Properties:
+      DBInstanceIdentifier: !Sub ${AWS::StackName}-consentimiento
+      Engine: postgres
+      DBInstanceClass: db.t3.micro
+      AllocatedStorage: '20'
+      DBName: consentimiento_db
+      MasterUsername: postgres
+      MasterUserPassword: !Ref DbPassword
+      StorageEncrypted: true
+      DBSubnetGroupName: !Ref SubredesBD
+      VPCSecurityGroups: [!Ref BaseDatosSG]
+      MultiAZ: false
+      PubliclyAccessible: false
+      BackupRetentionPeriod: 0
+      DeletionProtection: false
+
+  PerfilamientoBD:
+    Type: AWS::RDS::DBInstance
+    DeletionPolicy: Delete
+    UpdateReplacePolicy: Delete
+    Properties:
+      DBInstanceIdentifier: !Sub ${AWS::StackName}-perfilamiento
+      Engine: postgres
+      DBInstanceClass: db.t3.micro
+      AllocatedStorage: '20'
+      DBName: perfilamiento_db
+      MasterUsername: postgres
+      MasterUserPassword: !Ref DbPassword
+      StorageEncrypted: true
+      DBSubnetGroupName: !Ref SubredesBD
+      VPCSecurityGroups: [!Ref BaseDatosSG]
+      MultiAZ: false
+      PubliclyAccessible: false
+      BackupRetentionPeriod: 0
+      DeletionProtection: false
+
+  # ================================================================ Balanceador
+  Alb:
+    Type: AWS::ElasticLoadBalancingV2::LoadBalancer
+    Properties:
+      Name: !Sub ${AWS::StackName}-alb
+      Scheme: internet-facing
+      Subnets: [!Ref SubnetA, !Ref SubnetB]
+      SecurityGroups: [!Ref AlbSG]
+
+  PerfilamientoTG:
+    Type: AWS::ElasticLoadBalancingV2::TargetGroup
+    Properties:
+      Name: !Sub ${AWS::StackName}-perfilamiento
+      VpcId: !Ref VpcId
+      TargetType: ip
+      Protocol: HTTP
+      Port: 8000
+      HealthCheckPath: /health
+      HealthCheckIntervalSeconds: 10
+      TargetGroupAttributes:
+        - { Key: deregistration_delay.timeout_seconds, Value: '5' }
+
+  ConsentimientoTG:
+    Type: AWS::ElasticLoadBalancingV2::TargetGroup
+    Properties:
+      Name: !Sub ${AWS::StackName}-consentimiento
+      VpcId: !Ref VpcId
+      TargetType: ip
+      Protocol: HTTP
+      Port: 8000
+      HealthCheckPath: /health
+      HealthCheckIntervalSeconds: 10
+      TargetGroupAttributes:
+        - { Key: deregistration_delay.timeout_seconds, Value: '5' }
+
+  MockTG:
+    Type: AWS::ElasticLoadBalancingV2::TargetGroup
+    Properties:
+      Name: !Sub ${AWS::StackName}-mock-of
+      VpcId: !Ref VpcId
+      TargetType: ip
+      Protocol: HTTP
+      Port: 8000
+      HealthCheckPath: /health
+      HealthCheckIntervalSeconds: 10
+      TargetGroupAttributes:
+        - { Key: deregistration_delay.timeout_seconds, Value: '5' }
+
+  # Tactica: cifrado en transito. HTTPS con el certificado autofirmado.
+  ListenerHttps:
+    Type: AWS::ElasticLoadBalancingV2::Listener
+    Properties:
+      LoadBalancerArn: !Ref Alb
+      Port: 443
+      Protocol: HTTPS
+      SslPolicy: ELBSecurityPolicy-TLS13-1-2-2021-06
+      Certificates: [{ CertificateArn: !Ref CertificateArn }]
+      DefaultActions: [{ Type: forward, TargetGroupArn: !Ref PerfilamientoTG }]
+
+  # /perfiles* va a Perfilamiento (accion por defecto); esto manda lo de Consentimiento.
+  ReglaConsentimiento:
+    Type: AWS::ElasticLoadBalancingV2::ListenerRule
+    Properties:
+      ListenerArn: !Ref ListenerHttps
+      Priority: 10
+      Conditions: [{ Field: path-pattern, Values: ['/consentimientos*', '/auditoria*'] }]
+      Actions: [{ Type: forward, TargetGroupArn: !Ref ConsentimientoTG }]
+
+  # El mock representa un proveedor externo: queda en HTTP aparte.
+  ListenerMock:
+    Type: AWS::ElasticLoadBalancingV2::Listener
+    Properties:
+      LoadBalancerArn: !Ref Alb
+      Port: 8080
+      Protocol: HTTP
+      DefaultActions: [{ Type: forward, TargetGroupArn: !Ref MockTG }]
+
+  # ================================================================ ECS Fargate
+  Logs:
+    Type: AWS::Logs::LogGroup
+    Properties:
+      LogGroupName: !Sub /ecs/${AWS::StackName}
+      RetentionInDays: 7
+
+  Cluster:
+    Type: AWS::ECS::Cluster
+    Properties:
+      ClusterName: !Ref AWS::StackName
+
+  ConsentimientoTarea:
+    Type: AWS::ECS::TaskDefinition
+    Properties:
+      Family: !Sub ${AWS::StackName}-consentimiento
+      RequiresCompatibilities: [FARGATE]
+      NetworkMode: awsvpc
+      Cpu: '512'
+      Memory: '1024'
+      ExecutionRoleArn: !Sub arn:aws:iam::${AWS::AccountId}:role/LabRole
+      TaskRoleArn: !Sub arn:aws:iam::${AWS::AccountId}:role/LabRole
+      ContainerDefinitions:
+        - Name: consentimiento
+          Image: !Sub ${AWS::AccountId}.dkr.ecr.${AWS::Region}.amazonaws.com/solventa-consentimiento:${ImageTag}
+          PortMappings: [{ ContainerPort: 8000 }]
+          Environment:
+            - { Name: SERVICE_NAME, Value: consentimiento }
+            # sslmode=require: la conexion a la RDS tambien va cifrada
+            - { Name: DATABASE_URL, Value: !Sub 'postgresql+psycopg://postgres:${DbPassword}@${ConsentimientoBD.Endpoint.Address}:5432/consentimiento_db?sslmode=require' }
+            - { Name: JWT_SECRET, Value: !Ref JwtSecret }
+          LogConfiguration:
+            LogDriver: awslogs
+            Options:
+              awslogs-group: !Ref Logs
+              awslogs-region: !Ref AWS::Region
+              awslogs-stream-prefix: consentimiento
+
+  PerfilamientoTarea:
+    Type: AWS::ECS::TaskDefinition
+    Properties:
+      Family: !Sub ${AWS::StackName}-perfilamiento
+      RequiresCompatibilities: [FARGATE]
+      NetworkMode: awsvpc
+      Cpu: '512'
+      Memory: '1024'
+      ExecutionRoleArn: !Sub arn:aws:iam::${AWS::AccountId}:role/LabRole
+      TaskRoleArn: !Sub arn:aws:iam::${AWS::AccountId}:role/LabRole
+      ContainerDefinitions:
+        - Name: perfilamiento
+          Image: !Sub ${AWS::AccountId}.dkr.ecr.${AWS::Region}.amazonaws.com/solventa-perfilamiento:${ImageTag}
+          PortMappings: [{ ContainerPort: 8000 }]
+          Environment:
+            - { Name: SERVICE_NAME, Value: perfilamiento }
+            - { Name: DATABASE_URL, Value: !Sub 'postgresql+psycopg://postgres:${DbPassword}@${PerfilamientoBD.Endpoint.Address}:5432/perfilamiento_db?sslmode=require' }
+            - { Name: JWT_SECRET, Value: !Ref JwtSecret }
+            # EXP-007: tacticas bajo prueba
+            - { Name: CONSENT_CHECK_ENABLED, Value: 'true' }
+            - { Name: CONSENTIMIENTO_URL, Value: !Sub 'https://${Alb.DNSName}' }
+            - { Name: CONSENT_CACHE_TTL_S, Value: !Ref ConsentCacheTtl }
+            - { Name: CONSENT_TIMEOUT_S, Value: '1.0' }
+            - { Name: CONSENTIMIENTO_TLS_VERIFY, Value: 'false' }  # certificado autofirmado
+            # Fuente de datos financieros: el mock compartido con EXP-009
+            - { Name: OPEN_FINANCE_ENABLED, Value: 'true' }
+            - { Name: OPEN_FINANCE_URL, Value: !Sub 'http://${Alb.DNSName}:8080' }
+            # Flags de los demas experimentos: apagados (variables controladas)
+            - { Name: CIRCUIT_BREAKER_ENABLED, Value: 'false' }
+            - { Name: RATE_LIMIT_ENABLED, Value: 'false' }
+            - { Name: JWT_VALIDATION_ENABLED, Value: 'false' }
+            - { Name: RETRY_IDEMPOTENCY_ENABLED, Value: 'false' }
+          LogConfiguration:
+            LogDriver: awslogs
+            Options:
+              awslogs-group: !Ref Logs
+              awslogs-region: !Ref AWS::Region
+              awslogs-stream-prefix: perfilamiento
+
+  MockTarea:
+    Type: AWS::ECS::TaskDefinition
+    Properties:
+      Family: !Sub ${AWS::StackName}-mock-open-finance
+      RequiresCompatibilities: [FARGATE]
+      NetworkMode: awsvpc
+      Cpu: '256'
+      Memory: '512'
+      ExecutionRoleArn: !Sub arn:aws:iam::${AWS::AccountId}:role/LabRole
+      TaskRoleArn: !Sub arn:aws:iam::${AWS::AccountId}:role/LabRole
+      ContainerDefinitions:
+        - Name: mock-open-finance
+          Image: !Sub ${AWS::AccountId}.dkr.ecr.${AWS::Region}.amazonaws.com/solventa-mock-open-finance:${ImageTag}
+          PortMappings: [{ ContainerPort: 8000 }]
+          Environment:
+            - { Name: SERVICE_NAME, Value: mock-open-finance }
+          LogConfiguration:
+            LogDriver: awslogs
+            Options:
+              awslogs-group: !Ref Logs
+              awslogs-region: !Ref AWS::Region
+              awslogs-stream-prefix: mock-open-finance
+
+  # Una tarea por servicio: una sola cache de consentimiento, Δt facil de explicar.
+  ConsentimientoServicio:
+    Type: AWS::ECS::Service
+    DependsOn: [ReglaConsentimiento]
+    Properties:
+      ServiceName: consentimiento
+      Cluster: !Ref Cluster
+      LaunchType: FARGATE
+      TaskDefinition: !Ref ConsentimientoTarea
+      DesiredCount: 1
+      HealthCheckGracePeriodSeconds: 60
+      NetworkConfiguration:
+        AwsvpcConfiguration:
+          AssignPublicIp: ENABLED  # sin NAT: la IP publica deja bajar la imagen de ECR
+          Subnets: [!Ref SubnetA, !Ref SubnetB]
+          SecurityGroups: [!Ref ServiciosSG]
+      LoadBalancers: [{ ContainerName: consentimiento, ContainerPort: 8000, TargetGroupArn: !Ref ConsentimientoTG }]
+
+  PerfilamientoServicio:
+    Type: AWS::ECS::Service
+    DependsOn: [ListenerHttps, ConsentimientoServicio, MockServicio]
+    Properties:
+      ServiceName: perfilamiento
+      Cluster: !Ref Cluster
+      LaunchType: FARGATE
+      TaskDefinition: !Ref PerfilamientoTarea
+      DesiredCount: 1
+      HealthCheckGracePeriodSeconds: 60
+      NetworkConfiguration:
+        AwsvpcConfiguration:
+          AssignPublicIp: ENABLED
+          Subnets: [!Ref SubnetA, !Ref SubnetB]
+          SecurityGroups: [!Ref ServiciosSG]
+      LoadBalancers: [{ ContainerName: perfilamiento, ContainerPort: 8000, TargetGroupArn: !Ref PerfilamientoTG }]
+
+  MockServicio:
+    Type: AWS::ECS::Service
+    DependsOn: [ListenerMock]
+    Properties:
+      ServiceName: mock-open-finance
+      Cluster: !Ref Cluster
+      LaunchType: FARGATE
+      TaskDefinition: !Ref MockTarea
+      DesiredCount: 1
+      NetworkConfiguration:
+        AwsvpcConfiguration:
+          AssignPublicIp: ENABLED
+          Subnets: [!Ref SubnetA, !Ref SubnetB]
+          SecurityGroups: [!Ref ServiciosSG]
+      LoadBalancers: [{ ContainerName: mock-open-finance, ContainerPort: 8000, TargetGroupArn: !Ref MockTG }]
+
+  # ================================================================ EC2 de carga
+  Carga:
+    Type: AWS::EC2::Instance
+    Properties:
+      ImageId: '{{resolve:ssm:/aws/service/ami-amazon-linux-latest/al2023-ami-kernel-default-x86_64}}'
+      InstanceType: t3.medium
+      KeyName: !Ref KeyName
+      IamInstanceProfile: LabInstanceProfile
+      SubnetId: !Ref SubnetA
+      SecurityGroupIds: [!Ref CargaSG]
+      Tags: [{ Key: Name, Value: !Sub '${AWS::StackName}-carga' }]
+      UserData:
+        Fn::Base64: !Sub |
+          #!/bin/bash
+          set -x
+          dnf install -y java-17-amazon-corretto-headless python3-pip tmux jq postgresql15
+          curl -sL https://archive.apache.org/dist/jmeter/binaries/apache-jmeter-5.6.3.tgz | tar xz -C /opt
+          ln -sf /opt/apache-jmeter-5.6.3/bin/jmeter /usr/local/bin/jmeter
+          pip3 install httpx==0.28.1 PyJWT==2.10.1
+          cat > /home/ec2-user/exp007.env <<'EOF'
+          export AWS_DEFAULT_REGION=${AWS::Region}
+          export STACK=${AWS::StackName}
+          export ALB=${Alb.DNSName}
+          export PERF=https://${Alb.DNSName}
+          export CONS=https://${Alb.DNSName}
+          export MOCK=http://${Alb.DNSName}:8080
+          export JWT_SECRET='${JwtSecret}'
+          export PGPASSWORD='${DbPassword}'
+          export CONS_DB=${ConsentimientoBD.Endpoint.Address}
+          export PERF_DB=${PerfilamientoBD.Endpoint.Address}
+          export LOG_GROUP=${Logs}
+          EOF
+          chown ec2-user:ec2-user /home/ec2-user/exp007.env
+          echo 'source ~/exp007.env' >> /home/ec2-user/.bashrc
+          touch /home/ec2-user/LISTO
+
+Outputs:
+  AlbDns:
+    Description: DNS del ALB (HTTPS 443 para los servicios, HTTP 8080 para el mock)
+    Value: !GetAtt Alb.DNSName
+  ConsentimientoBD:
+    Value: !GetAtt ConsentimientoBD.Endpoint.Address
+  PerfilamientoBD:
+    Value: !GetAtt PerfilamientoBD.Endpoint.Address
+  EcsCluster:
+    Value: !Ref Cluster
+  LogGroup:
+    Value: !Ref Logs
+  CargaIpPublica:
+    Description: IP de la EC2 de carga (cambia si el laboratorio la reinicia; los scripts la buscan solos)
+    Value: !GetAtt Carga.PublicIp
