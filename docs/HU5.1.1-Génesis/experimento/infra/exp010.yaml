@@ -5,7 +5,7 @@ Description: >
   de borde con autorizador JWT de Amazon Cognito y scope cotizaciones/crear,
   delante del api-gateway interno (NestJS) que reenvia a Distribucion y socios,
   que verifica la pertenencia del cliente y llama a Cotizacion -> Perfilamiento.
-  Pensado para AWS Academy Learner Lab (usa LabRole).
+  Funciona en AWS Academy (UsarLabRole=true) o en una cuenta propia (UsarLabRole=false).
 
 Parameters:
   VpcId:
@@ -31,8 +31,44 @@ Parameters:
   ImageTag:
     Type: String
     Default: latest
+  UsarLabRole:
+    Type: String
+    AllowedValues: ['true', 'false']
+    Default: 'true'
+    Description: true en AWS Academy (usa LabRole); false en una cuenta propia (crea sus roles)
+
+Conditions:
+  ConLabRole: !Equals [!Ref UsarLabRole, 'true']
+  SinLabRole: !Equals [!Ref UsarLabRole, 'false']
 
 Resources:
+  # ============================================================ Roles (solo cuenta propia)
+  RolEjecucionTareas:
+    Type: AWS::IAM::Role
+    Condition: SinLabRole
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - { Effect: Allow, Principal: { Service: ecs-tasks.amazonaws.com }, Action: sts:AssumeRole }
+      ManagedPolicyArns:
+        - arn:aws:iam::aws:policy/service-role/AmazonECSTaskExecutionRolePolicy
+      Policies:
+        - PolicyName: leer-secreto-origen
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - { Effect: Allow, Action: secretsmanager:GetSecretValue, Resource: !Ref SecretoOrigen }
+
+  RolTareas:
+    Type: AWS::IAM::Role
+    Condition: SinLabRole
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - { Effect: Allow, Principal: { Service: ecs-tasks.amazonaws.com }, Action: sts:AssumeRole }
+
   # ============================================================ Identidad (Cognito)
   # Tactica: autenticar actores. Cognito emite a cada socio un JWT (OAuth2
   # client_credentials). Cada "app client" es la aplicacion de un socio.
@@ -312,8 +348,8 @@ Resources:
       NetworkMode: awsvpc
       Cpu: '256'
       Memory: '512'
-      ExecutionRoleArn: !Sub arn:aws:iam::${AWS::AccountId}:role/LabRole
-      TaskRoleArn: !Sub arn:aws:iam::${AWS::AccountId}:role/LabRole
+      ExecutionRoleArn: !If [ConLabRole, !Sub 'arn:aws:iam::${AWS::AccountId}:role/LabRole', !GetAtt RolEjecucionTareas.Arn]
+      TaskRoleArn: !If [ConLabRole, !Sub 'arn:aws:iam::${AWS::AccountId}:role/LabRole', !GetAtt RolTareas.Arn]
       ContainerDefinitions:
         - Name: api-gateway
           Image: !Sub ${AWS::AccountId}.dkr.ecr.${AWS::Region}.amazonaws.com/solventa-api-gateway:${ImageTag}
@@ -342,8 +378,8 @@ Resources:
       NetworkMode: awsvpc
       Cpu: '256'
       Memory: '512'
-      ExecutionRoleArn: !Sub arn:aws:iam::${AWS::AccountId}:role/LabRole
-      TaskRoleArn: !Sub arn:aws:iam::${AWS::AccountId}:role/LabRole
+      ExecutionRoleArn: !If [ConLabRole, !Sub 'arn:aws:iam::${AWS::AccountId}:role/LabRole', !GetAtt RolEjecucionTareas.Arn]
+      TaskRoleArn: !If [ConLabRole, !Sub 'arn:aws:iam::${AWS::AccountId}:role/LabRole', !GetAtt RolTareas.Arn]
       ContainerDefinitions:
         # Crea las BD de Cotizacion y Perfilamiento en la misma instancia RDS
         # (si ya existen, no hace nada) y termina.
@@ -403,8 +439,8 @@ Resources:
       NetworkMode: awsvpc
       Cpu: '256'
       Memory: '512'
-      ExecutionRoleArn: !Sub arn:aws:iam::${AWS::AccountId}:role/LabRole
-      TaskRoleArn: !Sub arn:aws:iam::${AWS::AccountId}:role/LabRole
+      ExecutionRoleArn: !If [ConLabRole, !Sub 'arn:aws:iam::${AWS::AccountId}:role/LabRole', !GetAtt RolEjecucionTareas.Arn]
+      TaskRoleArn: !If [ConLabRole, !Sub 'arn:aws:iam::${AWS::AccountId}:role/LabRole', !GetAtt RolTareas.Arn]
       ContainerDefinitions:
         - Name: cotizacion
           Image: !Sub ${AWS::AccountId}.dkr.ecr.${AWS::Region}.amazonaws.com/solventa-cotizacion:${ImageTag}
@@ -428,8 +464,8 @@ Resources:
       NetworkMode: awsvpc
       Cpu: '256'
       Memory: '512'
-      ExecutionRoleArn: !Sub arn:aws:iam::${AWS::AccountId}:role/LabRole
-      TaskRoleArn: !Sub arn:aws:iam::${AWS::AccountId}:role/LabRole
+      ExecutionRoleArn: !If [ConLabRole, !Sub 'arn:aws:iam::${AWS::AccountId}:role/LabRole', !GetAtt RolEjecucionTareas.Arn]
+      TaskRoleArn: !If [ConLabRole, !Sub 'arn:aws:iam::${AWS::AccountId}:role/LabRole', !GetAtt RolTareas.Arn]
       ContainerDefinitions:
         - Name: perfilamiento
           Image: !Sub ${AWS::AccountId}.dkr.ecr.${AWS::Region}.amazonaws.com/solventa-perfilamiento:${ImageTag}
