@@ -48,6 +48,10 @@ cat > "$OUT/corrida.json" <<EOF
  "tps": "${TPS:-10}", "duracion": "${DURACION:-1000s}", "task_definition_siniestros": "$TD"}
 EOF
 
+# Eventos del servicio pagos en ECS (cuando el ALB retira y registra replicas)
+aws ecs describe-services --cluster "$ECS_CLUSTER" --services pagos \
+  --query 'services[0].events' --output json > "$OUT/ecs-eventos-pagos.json" || echo "[]" > "$OUT/ecs-eventos-pagos.json"
+
 echo "Verificando perdidas y duplicados..."
 python3 verificar.py --salida "$OUT/verificacion.json"
 echo "Descargando logs de CloudWatch..."

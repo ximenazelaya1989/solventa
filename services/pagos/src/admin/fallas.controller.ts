@@ -33,8 +33,18 @@ export class FallasController {
         replica,
       }),
     );
-    // Se responde primero y luego se mata el proceso con SIGKILL (sin limpieza).
-    setTimeout(() => process.kill(process.pid, 'SIGKILL'), 100);
+    // Se responde primero y luego se termina el proceso de golpe (sin cerrar
+    // conexiones ni avisar al ALB). En el contenedor Node es el PID 1 y el
+    // kernel ignora el SIGKILL que el PID 1 se envia a si mismo, por eso, si
+    // sigue vivo, se sale con process.exit(137): el mismo codigo de un SIGKILL.
+    setTimeout(() => {
+      try {
+        process.kill(process.pid, 'SIGKILL');
+      } catch {
+        /* sin efecto como PID 1 */
+      }
+      setTimeout(() => process.exit(137), 20);
+    }, 100);
     return { replica, accion: 'caida abrupta en 100 ms' };
   }
 }

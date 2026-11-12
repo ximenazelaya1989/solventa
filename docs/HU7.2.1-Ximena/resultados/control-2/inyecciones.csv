@@ -1,0 +1,3 @@
+ts_utc,evento,detalle
+2026-11-12T00:01:49.294Z,caida_pagos,172.31.44.126@us-east-1b
+2026-11-12T00:06:48.061Z,failover_aurora,escritora_previa=solventa-exp006-aurorareplica-wic8exwfqp2p

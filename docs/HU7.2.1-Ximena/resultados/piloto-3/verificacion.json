@@ -1,0 +1,21 @@
+{
+  "siniestros_registrados": 360,
+  "confirmados_por_pagos": 360,
+  "no_confirmados": 0,
+  "pagos_registrados": 360,
+  "pagos_procesados": 360,
+  "pagos_pendientes": 0,
+  "transacciones_confirmadas_perdidas": 0,
+  "siniestros_con_pago_duplicado": 0,
+  "pagos_huerfanos": 0,
+  "pagos_por_replica": {
+    "ip-172-31-21-255.ec2.internal@us-east-1a": 33,
+    "ip-172-31-47-77.ec2.internal@us-east-1b": 260,
+    "ip-172-31-23-103.ec2.internal@us-east-1a": 67
+  },
+  "ejemplos": {
+    "perdidas": [],
+    "duplicados": [],
+    "huerfanos": []
+  }
+}

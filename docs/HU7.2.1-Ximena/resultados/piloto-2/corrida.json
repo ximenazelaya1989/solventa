@@ -1,0 +1,2 @@
+{"nombre": "piloto-2", "retry_idempotency_enabled": "true", "inicio": "2026-11-11T21:42:35.177Z", "fin": "2026-11-11T21:45:55.494Z",
+ "tps": "2", "duracion": "180s", "task_definition_siniestros": "arn:aws:ecs:us-east-1:508939505139:task-definition/solventa-exp006-siniestros:1"}

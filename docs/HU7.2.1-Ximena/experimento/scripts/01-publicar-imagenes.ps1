@@ -8,10 +8,12 @@ param(
   [string]$Region = "us-east-1",
   [string]$Tag = "latest"
 )
-$ErrorActionPreference = "Stop"
+$ErrorActionPreference = "Continue"  # PowerShell 5.1 trata la salida de error de aws/docker como excepcion con "Stop"; se valida $LASTEXITCODE
 
 $raiz = Resolve-Path (Join-Path $PSScriptRoot "..\..\..\..")
-$cuenta = (aws sts get-caller-identity --query Account --output text).Trim()
+$cuenta = (aws sts get-caller-identity --query Account --output text)
+if ($LASTEXITCODE -ne 0 -or -not $cuenta) { throw "Credenciales de AWS invalidas o vencidas" }
+$cuenta = $cuenta.Trim()
 $registro = "$cuenta.dkr.ecr.$Region.amazonaws.com"
 Write-Host "Cuenta $cuenta - registro $registro" -ForegroundColor Cyan
 
@@ -30,6 +32,7 @@ foreach ($s in $servicios) {
   if ($LASTEXITCODE -ne 0) {
     Write-Host "Creando repositorio $repo" -ForegroundColor Yellow
     aws ecr create-repository --repository-name $repo --region $Region | Out-Null
+    if ($LASTEXITCODE -ne 0) { throw "No se pudo crear el repositorio $repo" }
   }
   $imagen = "$registro/${repo}:$Tag"
   Write-Host "Construyendo $imagen" -ForegroundColor Cyan

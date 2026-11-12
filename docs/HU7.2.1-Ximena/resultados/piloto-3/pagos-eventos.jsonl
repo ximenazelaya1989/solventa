@@ -1,0 +1,2 @@
+{"ts":"2026-11-11T21:55:11.696Z","evento":"falla_inyectada","replica":"ip-172-31-21-255.ec2.internal@us-east-1a"}
+{"ts":"2026-11-11T21:56:24.281Z","evento":"replica_iniciada","replica":"ip-172-31-23-103.ec2.internal@us-east-1a","retryIdempotency":true}
