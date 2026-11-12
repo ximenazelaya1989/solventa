@@ -50,6 +50,10 @@ services:
     environment:
       SERVICE_NAME: api-gateway
       COTIZACION_URL: http://cotizacion:8000
+      # EXP-010: ruta de socios hacia Distribucion y socios (apagada por defecto)
+      JWT_VALIDATION_ENABLED: ${JWT_VALIDATION_ENABLED:-false}
+      DISTRIBUCION_URL: http://distribucion-socios:3000
+      ORIGIN_VERIFY_SECRET: ${ORIGIN_VERIFY_SECRET:-}
     ports:
       - "18080:3000"
     depends_on:
@@ -152,6 +156,9 @@ services:
       <<: *bd-comun
       SERVICE_NAME: distribucion-socios
       DB_NAME: socios_db
+      # EXP-010: pertenencia del cliente al socio (apagada por defecto)
+      JWT_VALIDATION_ENABLED: ${JWT_VALIDATION_ENABLED:-false}
+      COTIZACION_URL: http://cotizacion:8000
     ports:
       - "18006:3000"
 

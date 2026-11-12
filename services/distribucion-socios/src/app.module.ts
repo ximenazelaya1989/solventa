@@ -2,6 +2,8 @@ import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { join } from 'path';
 import { HealthController } from './health.controller';
+import { SociosCotizacionesController } from './exp010/socios-cotizaciones.controller'; // EXP-010
+import { SemillaExp010Service } from './exp010/semilla.service'; // EXP-010
 
 @Module({
   imports: [
@@ -18,6 +20,7 @@ import { HealthController } from './health.controller';
       extra: { max: Number(process.env.DB_POOL_MAX ?? 10) },
     }),
   ],
-  controllers: [HealthController],
+  controllers: [HealthController, SociosCotizacionesController],
+  providers: [SemillaExp010Service],
 })
 export class AppModule {}
