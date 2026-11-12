@@ -1,0 +1,611 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: >
+  EXP-010 (HU5.1.1, Genesis) - Autenticacion y autorizacion de socios al
+  solicitar una cotizacion. Gateway en dos niveles: AWS API Gateway (HTTP API)
+  de borde con autorizador JWT de Amazon Cognito y scope cotizaciones/crear,
+  delante del api-gateway interno (NestJS) que reenvia a Distribucion y socios,
+  que verifica la pertenencia del cliente y llama a Cotizacion -> Perfilamiento.
+  Pensado para AWS Academy Learner Lab (usa LabRole).
+
+Parameters:
+  VpcId:
+    Type: AWS::EC2::VPC::Id
+    Description: VPC por defecto de la cuenta
+  SubnetA:
+    Type: AWS::EC2::Subnet::Id
+    Description: Subred publica de la zona A
+  SubnetB:
+    Type: AWS::EC2::Subnet::Id
+    Description: Subred publica de la zona B (distinta de la A)
+  DbPassword:
+    Type: String
+    NoEcho: true
+    MinLength: 8
+    AllowedPattern: '[A-Za-z0-9]+'
+    Description: Clave del usuario postgres de RDS (solo letras y numeros)
+  JwtValidationEnabled:
+    Type: String
+    AllowedValues: ['true', 'false']
+    Default: 'true'
+    Description: Flag del EXP-010 en el gateway interno y en Distribucion y socios
+  ImageTag:
+    Type: String
+    Default: latest
+
+Resources:
+  # ============================================================ Identidad (Cognito)
+  # Tactica: autenticar actores. Cognito emite a cada socio un JWT (OAuth2
+  # client_credentials). Cada "app client" es la aplicacion de un socio.
+  UserPool:
+    Type: AWS::Cognito::UserPool
+    Properties:
+      UserPoolName: !Sub ${AWS::StackName}-socios
+
+  UserPoolDomain:
+    Type: AWS::Cognito::UserPoolDomain
+    Properties:
+      UserPoolId: !Ref UserPool
+      Domain: !Sub solventa-exp010-${AWS::AccountId}
+
+  ServidorRecursos:
+    Type: AWS::Cognito::UserPoolResourceServer
+    Properties:
+      UserPoolId: !Ref UserPool
+      Identifier: cotizaciones
+      Name: API de cotizaciones para socios
+      Scopes:
+        - { ScopeName: crear, ScopeDescription: Solicitar cotizaciones para sus clientes }
+        - { ScopeName: consultar, ScopeDescription: Solo consultar (sin permiso de crear) }
+
+  ClienteSocioA:
+    Type: AWS::Cognito::UserPoolClient
+    DependsOn: ServidorRecursos
+    Properties:
+      UserPoolId: !Ref UserPool
+      ClientName: socio-a
+      GenerateSecret: true
+      AllowedOAuthFlowsUserPoolClient: true
+      AllowedOAuthFlows: [client_credentials]
+      AllowedOAuthScopes: [cotizaciones/crear]
+      AccessTokenValidity: 60
+      TokenValidityUnits: { AccessToken: minutes }
+
+  ClienteSocioB:
+    Type: AWS::Cognito::UserPoolClient
+    DependsOn: ServidorRecursos
+    Properties:
+      UserPoolId: !Ref UserPool
+      ClientName: socio-b
+      GenerateSecret: true
+      AllowedOAuthFlowsUserPoolClient: true
+      AllowedOAuthFlows: [client_credentials]
+      AllowedOAuthScopes: [cotizaciones/crear]
+      AccessTokenValidity: 60
+      TokenValidityUnits: { AccessToken: minutes }
+
+  # Caso 4: aplicacion del socio A SIN el scope cotizaciones/crear.
+  ClienteSocioASinScope:
+    Type: AWS::Cognito::UserPoolClient
+    DependsOn: ServidorRecursos
+    Properties:
+      UserPoolId: !Ref UserPool
+      ClientName: socio-a-sin-scope
+      GenerateSecret: true
+      AllowedOAuthFlowsUserPoolClient: true
+      AllowedOAuthFlows: [client_credentials]
+      AllowedOAuthScopes: [cotizaciones/consultar]
+      AccessTokenValidity: 60
+      TokenValidityUnits: { AccessToken: minutes }
+
+  # Caso 3: aplicacion del socio A con tokens de vida minima (5 min) para
+  # obtener un token que expire antes de la corrida.
+  ClienteSocioAExpira:
+    Type: AWS::Cognito::UserPoolClient
+    DependsOn: ServidorRecursos
+    Properties:
+      UserPoolId: !Ref UserPool
+      ClientName: socio-a-expira
+      GenerateSecret: true
+      AllowedOAuthFlowsUserPoolClient: true
+      AllowedOAuthFlows: [client_credentials]
+      AllowedOAuthScopes: [cotizaciones/crear]
+      AccessTokenValidity: 5
+      TokenValidityUnits: { AccessToken: minutes }
+
+  # ============================================================ Secretos
+  # Tactica complementaria (limitar acceso): solo el gateway de borde conoce
+  # este secreto y lo agrega como encabezado; el gateway interno lo exige.
+  SecretoOrigen:
+    Type: AWS::SecretsManager::Secret
+    Properties:
+      Name: !Sub ${AWS::StackName}/origen-gateway-borde
+      GenerateSecretString:
+        PasswordLength: 40
+        ExcludePunctuation: true
+
+  # ============================================================ Redes
+  AlbPublicoSG:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: exp010 - ALB del gateway interno (lo llama el AWS API Gateway)
+      VpcId: !Ref VpcId
+      SecurityGroupIngress:
+        - { IpProtocol: tcp, FromPort: 80, ToPort: 80, CidrIp: 0.0.0.0/0 }
+
+  AlbInternoSG:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: exp010 - ALB interno entre microservicios
+      VpcId: !Ref VpcId
+
+  ServiciosSG:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: exp010 - tareas de ECS
+      VpcId: !Ref VpcId
+
+  AlbInternoDesdeServicios:
+    Type: AWS::EC2::SecurityGroupIngress
+    Properties: { GroupId: !Ref AlbInternoSG, IpProtocol: tcp, FromPort: 80, ToPort: 80, SourceSecurityGroupId: !Ref ServiciosSG }
+  ServiciosDesdeAlbPublico:
+    Type: AWS::EC2::SecurityGroupIngress
+    Properties: { GroupId: !Ref ServiciosSG, IpProtocol: tcp, FromPort: 3000, ToPort: 3000, SourceSecurityGroupId: !Ref AlbPublicoSG }
+  ServiciosDesdeAlbInterno:
+    Type: AWS::EC2::SecurityGroupIngress
+    Properties: { GroupId: !Ref ServiciosSG, IpProtocol: tcp, FromPort: 3000, ToPort: 8000, SourceSecurityGroupId: !Ref AlbInternoSG }
+
+  BaseDatosSG:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: exp010 - RDS PostgreSQL
+      VpcId: !Ref VpcId
+      SecurityGroupIngress:
+        - { IpProtocol: tcp, FromPort: 5432, ToPort: 5432, SourceSecurityGroupId: !Ref ServiciosSG }
+
+  # ============================================================ Datos
+  # Una instancia RDS; una BD logica por servicio (database per service).
+  SubredesBD:
+    Type: AWS::RDS::DBSubnetGroup
+    Properties:
+      DBSubnetGroupDescription: exp010
+      SubnetIds: [!Ref SubnetA, !Ref SubnetB]
+
+  BaseDatos:
+    Type: AWS::RDS::DBInstance
+    DeletionPolicy: Delete
+    Properties:
+      Engine: postgres
+      DBInstanceClass: db.t3.micro
+      AllocatedStorage: '20'
+      DBName: socios_db
+      MasterUsername: postgres
+      MasterUserPassword: !Ref DbPassword
+      DBSubnetGroupName: !Ref SubredesBD
+      VPCSecurityGroups: [!Ref BaseDatosSG]
+      PubliclyAccessible: false
+      StorageEncrypted: true
+      BackupRetentionPeriod: 0
+      DeletionProtection: false
+
+  # ============================================================ Balanceadores
+  AlbPublico:
+    Type: AWS::ElasticLoadBalancingV2::LoadBalancer
+    Properties:
+      Scheme: internet-facing
+      Subnets: [!Ref SubnetA, !Ref SubnetB]
+      SecurityGroups: [!Ref AlbPublicoSG]
+
+  GatewayTG:
+    Type: AWS::ElasticLoadBalancingV2::TargetGroup
+    Properties:
+      VpcId: !Ref VpcId
+      TargetType: ip
+      Protocol: HTTP
+      Port: 3000
+      HealthCheckPath: /health
+      HealthCheckIntervalSeconds: 10
+      TargetGroupAttributes:
+        - { Key: deregistration_delay.timeout_seconds, Value: '5' }
+
+  AlbPublicoListener:
+    Type: AWS::ElasticLoadBalancingV2::Listener
+    Properties:
+      LoadBalancerArn: !Ref AlbPublico
+      Port: 80
+      Protocol: HTTP
+      DefaultActions: [{ Type: forward, TargetGroupArn: !Ref GatewayTG }]
+
+  AlbInterno:
+    Type: AWS::ElasticLoadBalancingV2::LoadBalancer
+    Properties:
+      Scheme: internal
+      Subnets: [!Ref SubnetA, !Ref SubnetB]
+      SecurityGroups: [!Ref AlbInternoSG]
+
+  DistribucionTG:
+    Type: AWS::ElasticLoadBalancingV2::TargetGroup
+    Properties:
+      VpcId: !Ref VpcId
+      TargetType: ip
+      Protocol: HTTP
+      Port: 3000
+      HealthCheckPath: /health
+      HealthCheckIntervalSeconds: 10
+      TargetGroupAttributes:
+        - { Key: deregistration_delay.timeout_seconds, Value: '5' }
+
+  CotizacionTG:
+    Type: AWS::ElasticLoadBalancingV2::TargetGroup
+    Properties:
+      VpcId: !Ref VpcId
+      TargetType: ip
+      Protocol: HTTP
+      Port: 8000
+      HealthCheckPath: /health
+      HealthCheckIntervalSeconds: 10
+      TargetGroupAttributes:
+        - { Key: deregistration_delay.timeout_seconds, Value: '5' }
+
+  PerfilamientoTG:
+    Type: AWS::ElasticLoadBalancingV2::TargetGroup
+    Properties:
+      VpcId: !Ref VpcId
+      TargetType: ip
+      Protocol: HTTP
+      Port: 8000
+      HealthCheckPath: /health
+      HealthCheckIntervalSeconds: 10
+      TargetGroupAttributes:
+        - { Key: deregistration_delay.timeout_seconds, Value: '5' }
+
+  AlbInternoListener:
+    Type: AWS::ElasticLoadBalancingV2::Listener
+    Properties:
+      LoadBalancerArn: !Ref AlbInterno
+      Port: 80
+      Protocol: HTTP
+      DefaultActions:
+        - Type: fixed-response
+          FixedResponseConfig: { StatusCode: '404', ContentType: text/plain, MessageBody: ruta no encontrada }
+
+  ReglaDistribucion:
+    Type: AWS::ElasticLoadBalancingV2::ListenerRule
+    Properties:
+      ListenerArn: !Ref AlbInternoListener
+      Priority: 10
+      Conditions: [{ Field: path-pattern, Values: ['/socios/*'] }]
+      Actions: [{ Type: forward, TargetGroupArn: !Ref DistribucionTG }]
+
+  ReglaCotizacion:
+    Type: AWS::ElasticLoadBalancingV2::ListenerRule
+    Properties:
+      ListenerArn: !Ref AlbInternoListener
+      Priority: 20
+      Conditions: [{ Field: path-pattern, Values: ['/cotizaciones', '/cotizaciones/*'] }]
+      Actions: [{ Type: forward, TargetGroupArn: !Ref CotizacionTG }]
+
+  ReglaPerfilamiento:
+    Type: AWS::ElasticLoadBalancingV2::ListenerRule
+    Properties:
+      ListenerArn: !Ref AlbInternoListener
+      Priority: 30
+      Conditions: [{ Field: path-pattern, Values: ['/perfiles/*'] }]
+      Actions: [{ Type: forward, TargetGroupArn: !Ref PerfilamientoTG }]
+
+  # ============================================================ ECS Fargate
+  Logs:
+    Type: AWS::Logs::LogGroup
+    Properties:
+      LogGroupName: !Sub /ecs/${AWS::StackName}
+      RetentionInDays: 7
+
+  Cluster:
+    Type: AWS::ECS::Cluster
+    Properties:
+      ClusterName: !Sub ${AWS::StackName}
+
+  GatewayTarea:
+    Type: AWS::ECS::TaskDefinition
+    Properties:
+      Family: !Sub ${AWS::StackName}-api-gateway
+      RequiresCompatibilities: [FARGATE]
+      NetworkMode: awsvpc
+      Cpu: '256'
+      Memory: '512'
+      ExecutionRoleArn: !Sub arn:aws:iam::${AWS::AccountId}:role/LabRole
+      TaskRoleArn: !Sub arn:aws:iam::${AWS::AccountId}:role/LabRole
+      ContainerDefinitions:
+        - Name: api-gateway
+          Image: !Sub ${AWS::AccountId}.dkr.ecr.${AWS::Region}.amazonaws.com/solventa-api-gateway:${ImageTag}
+          PortMappings: [{ ContainerPort: 3000 }]
+          Environment:
+            - { Name: PORT, Value: '3000' }
+            - { Name: SERVICE_NAME, Value: api-gateway }
+            - { Name: COTIZACION_URL, Value: !Sub 'http://${AlbInterno.DNSName}' }
+            - { Name: DISTRIBUCION_URL, Value: !Sub 'http://${AlbInterno.DNSName}' }
+            - { Name: JWT_VALIDATION_ENABLED, Value: !Ref JwtValidationEnabled }
+            - { Name: RATE_LIMIT_ENABLED, Value: 'false' }   # variable controlada: limitador de EXP-008 apagado
+          Secrets:
+            - { Name: ORIGIN_VERIFY_SECRET, ValueFrom: !Ref SecretoOrigen }
+          LogConfiguration:
+            LogDriver: awslogs
+            Options:
+              awslogs-group: !Ref Logs
+              awslogs-region: !Ref AWS::Region
+              awslogs-stream-prefix: api-gateway
+
+  DistribucionTarea:
+    Type: AWS::ECS::TaskDefinition
+    Properties:
+      Family: !Sub ${AWS::StackName}-distribucion-socios
+      RequiresCompatibilities: [FARGATE]
+      NetworkMode: awsvpc
+      Cpu: '256'
+      Memory: '512'
+      ExecutionRoleArn: !Sub arn:aws:iam::${AWS::AccountId}:role/LabRole
+      TaskRoleArn: !Sub arn:aws:iam::${AWS::AccountId}:role/LabRole
+      ContainerDefinitions:
+        # Crea las BD de Cotizacion y Perfilamiento en la misma instancia RDS
+        # (si ya existen, no hace nada) y termina.
+        - Name: crear-bases
+          Image: public.ecr.aws/docker/library/postgres:17-alpine
+          Essential: false
+          Environment:
+            - { Name: PGHOST, Value: !GetAtt BaseDatos.Endpoint.Address }
+            - { Name: PGUSER, Value: postgres }
+            - { Name: PGPASSWORD, Value: !Ref DbPassword }
+            - { Name: PGDATABASE, Value: socios_db }
+            - { Name: PGSSLMODE, Value: require }
+          Command:
+            - sh
+            - -c
+            - >-
+              for db in cotizacion_db perfilamiento_db; do
+              psql -tc "SELECT 1 FROM pg_database WHERE datname='$db'" | grep -q 1 || psql -c "CREATE DATABASE $db";
+              done
+          LogConfiguration:
+            LogDriver: awslogs
+            Options:
+              awslogs-group: !Ref Logs
+              awslogs-region: !Ref AWS::Region
+              awslogs-stream-prefix: crear-bases
+        - Name: distribucion-socios
+          Image: !Sub ${AWS::AccountId}.dkr.ecr.${AWS::Region}.amazonaws.com/solventa-distribucion-socios:${ImageTag}
+          DependsOn: [{ ContainerName: crear-bases, Condition: SUCCESS }]
+          PortMappings: [{ ContainerPort: 3000 }]
+          Environment:
+            - { Name: PORT, Value: '3000' }
+            - { Name: SERVICE_NAME, Value: distribucion-socios }
+            - { Name: DB_HOST, Value: !GetAtt BaseDatos.Endpoint.Address }
+            - { Name: DB_PORT, Value: '5432' }
+            - { Name: DB_USER, Value: postgres }
+            - { Name: DB_PASSWORD, Value: !Ref DbPassword }
+            - { Name: DB_NAME, Value: socios_db }
+            - { Name: DB_SSL, Value: 'true' }
+            - { Name: DB_SYNCHRONIZE, Value: 'true' }
+            - { Name: JWT_VALIDATION_ENABLED, Value: !Ref JwtValidationEnabled }
+            - { Name: COTIZACION_URL, Value: !Sub 'http://${AlbInterno.DNSName}' }
+            - Name: EXP010_COGNITO_CLIENTES_SOCIO_A
+              Value: !Join [',', [!Ref ClienteSocioA, !Ref ClienteSocioASinScope, !Ref ClienteSocioAExpira]]
+            - { Name: EXP010_COGNITO_CLIENTES_SOCIO_B, Value: !Ref ClienteSocioB }
+          LogConfiguration:
+            LogDriver: awslogs
+            Options:
+              awslogs-group: !Ref Logs
+              awslogs-region: !Ref AWS::Region
+              awslogs-stream-prefix: distribucion-socios
+
+  CotizacionTarea:
+    Type: AWS::ECS::TaskDefinition
+    Properties:
+      Family: !Sub ${AWS::StackName}-cotizacion
+      RequiresCompatibilities: [FARGATE]
+      NetworkMode: awsvpc
+      Cpu: '256'
+      Memory: '512'
+      ExecutionRoleArn: !Sub arn:aws:iam::${AWS::AccountId}:role/LabRole
+      TaskRoleArn: !Sub arn:aws:iam::${AWS::AccountId}:role/LabRole
+      ContainerDefinitions:
+        - Name: cotizacion
+          Image: !Sub ${AWS::AccountId}.dkr.ecr.${AWS::Region}.amazonaws.com/solventa-cotizacion:${ImageTag}
+          PortMappings: [{ ContainerPort: 8000 }]
+          Environment:
+            - { Name: SERVICE_NAME, Value: cotizacion }
+            - { Name: DATABASE_URL, Value: !Sub 'postgresql+psycopg://postgres:${DbPassword}@${BaseDatos.Endpoint.Address}:5432/cotizacion_db?sslmode=require' }
+            - { Name: PERFILAMIENTO_URL, Value: !Sub 'http://${AlbInterno.DNSName}' }
+          LogConfiguration:
+            LogDriver: awslogs
+            Options:
+              awslogs-group: !Ref Logs
+              awslogs-region: !Ref AWS::Region
+              awslogs-stream-prefix: cotizacion
+
+  PerfilamientoTarea:
+    Type: AWS::ECS::TaskDefinition
+    Properties:
+      Family: !Sub ${AWS::StackName}-perfilamiento
+      RequiresCompatibilities: [FARGATE]
+      NetworkMode: awsvpc
+      Cpu: '256'
+      Memory: '512'
+      ExecutionRoleArn: !Sub arn:aws:iam::${AWS::AccountId}:role/LabRole
+      TaskRoleArn: !Sub arn:aws:iam::${AWS::AccountId}:role/LabRole
+      ContainerDefinitions:
+        - Name: perfilamiento
+          Image: !Sub ${AWS::AccountId}.dkr.ecr.${AWS::Region}.amazonaws.com/solventa-perfilamiento:${ImageTag}
+          PortMappings: [{ ContainerPort: 8000 }]
+          Environment:
+            - { Name: SERVICE_NAME, Value: perfilamiento }
+            - { Name: DATABASE_URL, Value: !Sub 'postgresql+psycopg://postgres:${DbPassword}@${BaseDatos.Endpoint.Address}:5432/perfilamiento_db?sslmode=require' }
+            - { Name: CONSENT_CHECK_ENABLED, Value: 'false' }
+            - { Name: OPEN_FINANCE_ENABLED, Value: 'false' }
+          LogConfiguration:
+            LogDriver: awslogs
+            Options:
+              awslogs-group: !Ref Logs
+              awslogs-region: !Ref AWS::Region
+              awslogs-stream-prefix: perfilamiento
+
+  DistribucionServicio:
+    Type: AWS::ECS::Service
+    DependsOn: [ReglaDistribucion]
+    Properties:
+      ServiceName: distribucion-socios
+      Cluster: !Ref Cluster
+      LaunchType: FARGATE
+      TaskDefinition: !Ref DistribucionTarea
+      DesiredCount: 1
+      HealthCheckGracePeriodSeconds: 60
+      NetworkConfiguration:
+        AwsvpcConfiguration:
+          AssignPublicIp: ENABLED
+          Subnets: [!Ref SubnetA, !Ref SubnetB]
+          SecurityGroups: [!Ref ServiciosSG]
+      LoadBalancers: [{ ContainerName: distribucion-socios, ContainerPort: 3000, TargetGroupArn: !Ref DistribucionTG }]
+
+  # Esperan a Distribucion para que sus BD ya existan.
+  PerfilamientoServicio:
+    Type: AWS::ECS::Service
+    DependsOn: [ReglaPerfilamiento, DistribucionServicio]
+    Properties:
+      ServiceName: perfilamiento
+      Cluster: !Ref Cluster
+      LaunchType: FARGATE
+      TaskDefinition: !Ref PerfilamientoTarea
+      DesiredCount: 1
+      HealthCheckGracePeriodSeconds: 60
+      NetworkConfiguration:
+        AwsvpcConfiguration:
+          AssignPublicIp: ENABLED
+          Subnets: [!Ref SubnetA, !Ref SubnetB]
+          SecurityGroups: [!Ref ServiciosSG]
+      LoadBalancers: [{ ContainerName: perfilamiento, ContainerPort: 8000, TargetGroupArn: !Ref PerfilamientoTG }]
+
+  CotizacionServicio:
+    Type: AWS::ECS::Service
+    DependsOn: [ReglaCotizacion, DistribucionServicio]
+    Properties:
+      ServiceName: cotizacion
+      Cluster: !Ref Cluster
+      LaunchType: FARGATE
+      TaskDefinition: !Ref CotizacionTarea
+      DesiredCount: 1
+      HealthCheckGracePeriodSeconds: 60
+      NetworkConfiguration:
+        AwsvpcConfiguration:
+          AssignPublicIp: ENABLED
+          Subnets: [!Ref SubnetA, !Ref SubnetB]
+          SecurityGroups: [!Ref ServiciosSG]
+      LoadBalancers: [{ ContainerName: cotizacion, ContainerPort: 8000, TargetGroupArn: !Ref CotizacionTG }]
+
+  GatewayServicio:
+    Type: AWS::ECS::Service
+    DependsOn: [AlbPublicoListener]
+    Properties:
+      ServiceName: api-gateway
+      Cluster: !Ref Cluster
+      LaunchType: FARGATE
+      TaskDefinition: !Ref GatewayTarea
+      DesiredCount: 1
+      HealthCheckGracePeriodSeconds: 60
+      NetworkConfiguration:
+        AwsvpcConfiguration:
+          AssignPublicIp: ENABLED
+          Subnets: [!Ref SubnetA, !Ref SubnetB]
+          SecurityGroups: [!Ref ServiciosSG]
+      LoadBalancers: [{ ContainerName: api-gateway, ContainerPort: 3000, TargetGroupArn: !Ref GatewayTG }]
+
+  # ============================================================ Gateway de borde
+  # AWS API Gateway (HTTP API): gateway de terceros. Valida el JWT y el scope
+  # SIN codigo propio (configuracion), y solo entonces reenvia al gateway interno.
+  ApiBorde:
+    Type: AWS::ApiGatewayV2::Api
+    Properties:
+      Name: !Sub ${AWS::StackName}-api-socios
+      ProtocolType: HTTP
+      Description: Gateway de borde de la API de socios (EXP-010)
+
+  # Tactica: autenticar actores (firma, emisor, vencimiento y audiencia/client_id).
+  AutorizadorJwt:
+    Type: AWS::ApiGatewayV2::Authorizer
+    Properties:
+      ApiId: !Ref ApiBorde
+      Name: cognito-socios
+      AuthorizerType: JWT
+      IdentitySource: ['$request.header.Authorization']
+      JwtConfiguration:
+        Issuer: !Sub https://cognito-idp.${AWS::Region}.amazonaws.com/${UserPool}
+        Audience: [!Ref ClienteSocioA, !Ref ClienteSocioB, !Ref ClienteSocioASinScope, !Ref ClienteSocioAExpira]
+
+  IntegracionGatewayInterno:
+    Type: AWS::ApiGatewayV2::Integration
+    Properties:
+      ApiId: !Ref ApiBorde
+      IntegrationType: HTTP_PROXY
+      IntegrationMethod: POST
+      IntegrationUri: !Sub http://${AlbPublico.DNSName}/v1/socios/cotizaciones
+      PayloadFormatVersion: '1.0'
+      TimeoutInMillis: 10000
+      RequestParameters:
+        # Identidad del socio tomada del token ya validado (claim client_id).
+        'overwrite:header.x-socio-client-id': '$context.authorizer.claims.client_id'
+        'overwrite:header.x-request-id': '$context.requestId'
+        # Secreto que demuestra que la peticion paso por el borde.
+        'overwrite:header.x-origin-verify': !Sub '{{resolve:secretsmanager:${SecretoOrigen}:SecretString}}'
+
+  # Tactica: autorizar actores por scope (403 si el token no tiene cotizaciones/crear).
+  RutaCotizacionSocio:
+    Type: AWS::ApiGatewayV2::Route
+    Properties:
+      ApiId: !Ref ApiBorde
+      RouteKey: POST /v1/socios/cotizaciones
+      AuthorizationType: JWT
+      AuthorizerId: !Ref AutorizadorJwt
+      AuthorizationScopes: [cotizaciones/crear]
+      Target: !Sub integrations/${IntegracionGatewayInterno}
+
+  LogsBorde:
+    Type: AWS::Logs::LogGroup
+    Properties:
+      LogGroupName: !Sub /apigw/${AWS::StackName}
+      RetentionInDays: 7
+
+  EtapaBorde:
+    Type: AWS::ApiGatewayV2::Stage
+    Properties:
+      ApiId: !Ref ApiBorde
+      StageName: $default
+      AutoDeploy: true
+      AccessLogSettings:
+        DestinationArn: !GetAtt LogsBorde.Arn
+        Format: >-
+          {"requestId":"$context.requestId","ip":"$context.identity.sourceIp","ruta":"$context.routeKey",
+          "status":"$context.status","integrationStatus":"$context.integrationStatus",
+          "clientId":"$context.authorizer.claims.client_id","errorAutorizador":"$context.authorizer.error",
+          "error":"$context.error.message","latenciaMs":"$context.responseLatency"}
+
+Outputs:
+  ApiUrl:
+    Description: Punto de entrada de los socios (AWS API Gateway de borde)
+    Value: !GetAtt ApiBorde.ApiEndpoint
+  GatewayInternoUrl:
+    Description: ALB del gateway interno (solo para la prueba de bypass, debe responder 403)
+    Value: !Sub http://${AlbPublico.DNSName}
+  TokenUrl:
+    Value: !Sub https://${UserPoolDomain}.auth.${AWS::Region}.amazoncognito.com/oauth2/token
+  UserPoolId:
+    Value: !Ref UserPool
+  ClienteSocioA:
+    Value: !Ref ClienteSocioA
+  ClienteSocioB:
+    Value: !Ref ClienteSocioB
+  ClienteSocioASinScope:
+    Value: !Ref ClienteSocioASinScope
+  ClienteSocioAExpira:
+    Value: !Ref ClienteSocioAExpira
+  EcsCluster:
+    Value: !Ref Cluster
+  LogGroupServicios:
+    Value: !Ref Logs
+  LogGroupBorde:
+    Value: !Ref LogsBorde

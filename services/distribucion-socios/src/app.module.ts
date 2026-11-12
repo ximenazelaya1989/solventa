@@ -17,6 +17,9 @@ import { SemillaExp010Service } from './exp010/semilla.service'; // EXP-010
       // Carga todas las entidades de src/entities/*.entity.ts (ya compiladas)
       entities: [join(__dirname, 'entities', '*.entity.js')],
       synchronize: process.env.DB_SYNCHRONIZE === 'true',
+      // RDS PostgreSQL exige TLS (rds.force_ssl). En local va en false. (EXP-010)
+      ssl:
+        process.env.DB_SSL === 'true' ? { rejectUnauthorized: false } : false,
       extra: { max: Number(process.env.DB_POOL_MAX ?? 10) },
     }),
   ],
