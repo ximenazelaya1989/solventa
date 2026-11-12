@@ -10,20 +10,27 @@ param(
   [string]$Region = "us-east-1",
   [string]$Pila = "solventa-exp006"
 )
-$ErrorActionPreference = "Stop"
+$ErrorActionPreference = "Continue"  # PowerShell 5.1 trata la salida de error de aws/docker como excepcion con "Stop"; se valida $LASTEXITCODE
 
-$ip = (aws cloudformation describe-stacks --region $Region --stack-name $Pila `
-  --query "Stacks[0].Outputs[?OutputKey=='CargaIpPublica'].OutputValue" --output text).Trim()
+# IP actual de la EC2 de carga (cambia cada vez que el Learner Lab la reinicia;
+# la salida CargaIpPublica de la pila no se actualiza)
+$ip = (aws ec2 describe-instances --region $Region `
+  --filters "Name=tag:aws:cloudformation:stack-name,Values=$Pila" "Name=tag:aws:cloudformation:logical-id,Values=Carga" "Name=instance-state-name,Values=running" `
+  --query "Reservations[0].Instances[0].PublicIpAddress" --output text)
+if ($LASTEXITCODE -ne 0 -or -not $ip -or $ip.Trim() -eq "None") { throw "No encontre la EC2 de carga encendida (credenciales vencidas o Lab apagado?)" }
+$ip = $ip.Trim()
 Write-Host "EC2 de carga: $ip" -ForegroundColor Cyan
 
 if ($Traer) {
   $destino = Join-Path $PSScriptRoot "..\..\resultados"
   New-Item -ItemType Directory -Force -Path $destino | Out-Null
   scp -i $Llave -o StrictHostKeyChecking=no -r "ec2-user@${ip}:~/resultados/*" $destino
+  if ($LASTEXITCODE -ne 0) { throw "Fallo la copia de resultados" }
   Write-Host "Resultados copiados en $destino" -ForegroundColor Green
 } else {
   $carga = Join-Path $PSScriptRoot "..\carga"
   scp -i $Llave -o StrictHostKeyChecking=no -r $carga "ec2-user@${ip}:~/"
+  if ($LASTEXITCODE -ne 0) { throw "Fallo la copia de scripts a la EC2" }
   ssh -i $Llave -o StrictHostKeyChecking=no "ec2-user@$ip" "sed -i 's/\r$//' ~/carga/*.sh ~/carga/*.py && chmod +x ~/carga/*.sh"
   Write-Host "Scripts copiados. Conectate con: ssh -i $Llave ec2-user@$ip" -ForegroundColor Green
 }

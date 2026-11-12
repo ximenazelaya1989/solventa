@@ -9,7 +9,7 @@ param(
   [string]$Pila = "solventa-exp006",
   [switch]$ConImagenes
 )
-$ErrorActionPreference = "Stop"
+$ErrorActionPreference = "Continue"  # PowerShell 5.1 trata la salida de error de aws/docker como excepcion con "Stop"; se valida $LASTEXITCODE
 
 Write-Host "Eliminando la pila $Pila (tarda unos 10-15 minutos)..." -ForegroundColor Yellow
 aws cloudformation delete-stack --region $Region --stack-name $Pila

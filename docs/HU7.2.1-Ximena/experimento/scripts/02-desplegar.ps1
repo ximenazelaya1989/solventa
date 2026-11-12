@@ -14,7 +14,7 @@ param(
   [string]$ZonaB = "us-east-1b",
   [string]$ImageTag = "latest"
 )
-$ErrorActionPreference = "Stop"
+$ErrorActionPreference = "Continue"  # PowerShell 5.1 trata la salida de error de aws/docker como excepcion con "Stop"; se valida $LASTEXITCODE
 
 $vpc = (aws ec2 describe-vpcs --region $Region --filters Name=isDefault,Values=true `
   --query "Vpcs[0].VpcId" --output text).Trim()

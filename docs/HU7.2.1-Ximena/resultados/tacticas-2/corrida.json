@@ -1,0 +1,2 @@
+{"nombre": "tacticas-2", "retry_idempotency_enabled": "true", "inicio": "2026-11-12T01:23:40.395Z", "fin": "2026-11-12T01:40:41.030Z",
+ "tps": "10", "duracion": "1000s", "task_definition_siniestros": "arn:aws:ecs:us-east-1:508939505139:task-definition/solventa-exp006-siniestros:4"}

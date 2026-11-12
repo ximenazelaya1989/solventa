@@ -1,0 +1,2 @@
+{"nombre": "control-1", "retry_idempotency_enabled": "false", "inicio": "2026-11-11T23:36:03.794Z", "fin": "2026-11-11T23:53:04.586Z",
+ "tps": "10", "duracion": "1000s", "task_definition_siniestros": "arn:aws:ecs:us-east-1:508939505139:task-definition/solventa-exp006-siniestros:2"}

@@ -1,0 +1,21 @@
+{
+  "siniestros_registrados": 10001,
+  "confirmados_por_pagos": 9937,
+  "no_confirmados": 64,
+  "pagos_registrados": 9940,
+  "pagos_procesados": 9937,
+  "pagos_pendientes": 3,
+  "transacciones_confirmadas_perdidas": 0,
+  "siniestros_con_pago_duplicado": 0,
+  "pagos_huerfanos": 0,
+  "pagos_por_replica": {
+    "ip-172-31-44-126.ec2.internal@us-east-1b": 5377,
+    "ip-172-31-26-192.ec2.internal@us-east-1a": 1509,
+    "ip-172-31-19-70.ec2.internal@us-east-1a": 3054
+  },
+  "ejemplos": {
+    "perdidas": [],
+    "duplicados": [],
+    "huerfanos": []
+  }
+}

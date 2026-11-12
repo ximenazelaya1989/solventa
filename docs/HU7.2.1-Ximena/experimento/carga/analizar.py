@@ -10,8 +10,13 @@ calcula las variables dependientes del diseno:
       deteccion = t1 - t0, recuperacion = t2 - t0
       * caida de Pagos: t1 = primer error que recibe Siniestros,
         t2 = primera orden completada por reintento   (siniestros-eventos.jsonl)
+        Si ninguna orden fallo (el ALB/ECS retiro la replica antes de que le
+        llegara trafico), t1 = cuando ECS retiro la replica del balanceador y
+        t2 = t1: el servicio nunca dejo de atender      (ecs-eventos-pagos.json)
       * failover de Aurora: t1 = primera escritura fallida de la sonda,
-        t2 = primera escritura exitosa posterior     (sonda.csv)
+        t2 = primera escritura exitosa en la NUEVA escritora (sonda.csv)
+  Cada falla se analiza solo hasta la siguiente inyeccion, para no mezclar
+  los errores de una falla con los de la otra.
   - latencia p50/p95/p99 de las ordenes
 Escribe resumen.json, resumen.md y grafica.png, y evalua la hipotesis H1.
 
@@ -110,32 +115,58 @@ def primero(lista, condicion):
     return next((x for x in lista if condicion(x)), None)
 
 
+# Eventos del servicio pagos en ECS (retiro y registro de replicas en el ALB)
+ecs_eventos = []
+if (carpeta / "ecs-eventos-pagos.json").exists():
+    try:
+        crudos = json.loads((carpeta / "ecs-eventos-pagos.json").read_text(encoding="utf-8")) or []
+        ecs_eventos = sorted((ts(str(e["createdAt"])), e.get("message", "")) for e in crudos)
+    except (ValueError, KeyError, TypeError):
+        ecs_eventos = []
+
+ev = [(ts(e["ts"]), e) for e in eventos]
+tiempos_inyeccion = sorted(t for t, _, _ in inyecciones)
+
 fallas = []
 for t0, evento, detalle in inyecciones:
     r = {"evento": evento, "detalle": detalle, "t0": iso(t0)}
+    siguiente = min((t for t in tiempos_inyeccion if t > t0), default=float("inf"))
+    fin = min(t0 + VENTANA, siguiente)          # ventana de esta falla
+    afectadas = {e["clave"] for t, e in ev if t0 <= t < fin and e["evento"] == "intento_fallido"}
+    r["ordenes_afectadas"] = len(afectadas)
     if evento == "caida_pagos":
-        ev = [(ts(e["ts"]), e) for e in eventos]
-        f1 = primero(ev, lambda x: x[0] >= t0 and x[0] <= t0 + VENTANA and x[1]["evento"] == "intento_fallido")
+        f1 = primero(ev, lambda x: t0 <= x[0] < fin and x[1]["evento"] == "intento_fallido")
         t1 = f1[0] if f1 else None
-        f2 = primero(ev, lambda x: t1 is not None and x[0] >= t1 and x[1]["evento"] == "pago_confirmado"
+        f2 = primero(ev, lambda x: t1 is not None and t1 <= x[0] < fin and x[1]["evento"] == "pago_confirmado"
                      and x[1].get("intentos", 1) > 1) if t1 else None
         t2 = f2[0] if f2 else None
-        afectadas = {e["clave"] for t, e in ev if t0 <= t <= t0 + VENTANA and e["evento"] == "intento_fallido"}
-        r.update(fuente="Siniestros (CloudWatch)", ordenes_afectadas=len(afectadas))
+        r["fuente"] = "Siniestros (CloudWatch)"
+        retiro = primero(ecs_eventos, lambda x: t0 <= x[0] < fin and "deregistered" in x[1])
+        registro = primero(ecs_eventos, lambda x: t0 <= x[0] and "registered" in x[1] and "deregistered" not in x[1])
+        r["ecs_replica_retirada"] = iso(retiro[0]) if retiro else None
+        r["ecs_replica_nueva_registrada"] = iso(registro[0]) if registro else None
+        r["reemplazo_replica_s"] = round(registro[0] - t0, 3) if registro else None
+        if t1 is None and retiro:
+            # Ninguna orden fallo: la deteccion la hizo la plataforma y el servicio no se interrumpio
+            t1 = t2 = retiro[0]
+            r["fuente"] = "ECS/ALB (sin órdenes fallidas)"
     else:  # failover_aurora
-        f1 = primero(sonda, lambda x: x[0] >= t0 and x[0] <= t0 + VENTANA and x[1] == "FALLA")
+        f1 = primero(sonda, lambda x: t0 <= x[0] < fin and x[1] == "FALLA")
         t1 = f1[0] if f1 else None
-        f2 = primero(sonda, lambda x: t1 is not None and x[0] >= t1 and x[1] == "OK") if t1 else None
-        t2 = f2[0] if f2 else None
         antes = primero(reversed(sonda), lambda x: x[0] < t0 and x[1] == "OK")
-        r.update(fuente="sonda 200 ms", escritora_antes=antes[2] if antes else None,
-                 escritora_despues=f2[2] if f2 else None,
-                 escrituras_fallidas=sum(1 for x in sonda if t0 <= x[0] <= t0 + VENTANA and x[1] == "FALLA"))
-        # Referencia secundaria: lo que vio Siniestros
-        ev = [(ts(e["ts"]), e) for e in eventos]
-        g1 = primero(ev, lambda x: x[0] >= t0 and x[0] <= t0 + VENTANA and x[1]["evento"] == "intento_fallido")
-        r["ordenes_afectadas"] = len({e["clave"] for t, e in ev
-                                      if t0 <= t <= t0 + VENTANA and e["evento"] == "intento_fallido"})
+        escritora_antes = antes[2] if antes else None
+        # t2: primera escritura OK en la NUEVA escritora; si la sonda no la vio, primera OK tras la ultima falla
+        f2 = primero(sonda, lambda x: t1 is not None and t1 <= x[0] < fin and x[1] == "OK"
+                     and x[2] and x[2] != escritora_antes) if t1 else None
+        if t1 and not f2:
+            ultima_falla = primero(reversed(sonda), lambda x: t0 <= x[0] < fin and x[1] == "FALLA")
+            f2 = primero(sonda, lambda x: x[0] > ultima_falla[0] and x[0] < fin and x[1] == "OK")
+        t2 = f2[0] if f2 else None
+        despues = primero(reversed(sonda), lambda x: t0 <= x[0] < fin and x[1] == "OK")
+        r.update(fuente="sonda 200 ms", escritora_antes=escritora_antes,
+                 escritora_despues=despues[2] if despues else None,
+                 escrituras_fallidas=sum(1 for x in sonda if t0 <= x[0] < fin and x[1] == "FALLA"))
+        g1 = primero(ev, lambda x: t0 <= x[0] < fin and x[1]["evento"] == "intento_fallido")
         r["siniestros_primer_error"] = iso(g1[0]) if g1 else None
     r.update(t1=iso(t1), t2=iso(t2),
              deteccion_s=round(t1 - t0, 3) if t1 else None,
@@ -210,6 +241,10 @@ for f in fallas:
     md.append(f"| {f['evento']} ({f['detalle']}) | {f['t0']} | {fmt(f['deteccion_s'], ' s')} | "
               f"{fmt(f['recuperacion_s'], ' s')} | {f.get('ordenes_afectadas', 'n/a')} | {f['fuente']} |")
 for f in fallas:
+    if f["evento"] == "caida_pagos" and f.get("ecs_replica_retirada"):
+        md.append(f"\nCaída de Pagos: ECS retiró la réplica del balanceador a las {f['ecs_replica_retirada']} "
+                  f"y registró la nueva a las {f.get('ecs_replica_nueva_registrada') or 'n/a'} "
+                  f"({fmt(f.get('reemplazo_replica_s'), ' s')} después de la caída).")
     if f["evento"] == "failover_aurora":
         md.append(f"\nEscritora de Aurora: `{f.get('escritora_antes')}` → `{f.get('escritora_despues')}` "
                   f"({f.get('escrituras_fallidas')} escrituras fallidas de la sonda).")

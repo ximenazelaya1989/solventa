@@ -1,0 +1,87 @@
+{
+  "corrida": {
+    "nombre": "tacticas-1",
+    "retry_idempotency_enabled": "true",
+    "inicio": "2026-11-11T22:38:40.251Z",
+    "fin": "2026-11-11T22:55:40.625Z",
+    "tps": "10",
+    "duracion": "1000s",
+    "task_definition_siniestros": "arn:aws:ecs:us-east-1:508939505139:task-definition/solventa-exp006-siniestros:1"
+  },
+  "ordenes": {
+    "enviadas": 10001,
+    "completadas": 10001,
+    "fallidas": 0,
+    "descartadas_por_k6": 0,
+    "codigos_http": {
+      "201": 10001
+    },
+    "disponibilidad_pct": 100.0
+  },
+  "latencia_ms": {
+    "p50": 80.788125,
+    "p95": 161.23584,
+    "p99": 375.13149,
+    "max": 8037.067306
+  },
+  "verificacion": {
+    "siniestros_registrados": 10001,
+    "confirmados_por_pagos": 10001,
+    "no_confirmados": 0,
+    "pagos_registrados": 10001,
+    "pagos_procesados": 10001,
+    "pagos_pendientes": 0,
+    "transacciones_confirmadas_perdidas": 0,
+    "siniestros_con_pago_duplicado": 0,
+    "pagos_huerfanos": 0,
+    "pagos_por_replica": {
+      "ip-172-31-47-77.ec2.internal@us-east-1b": 1510,
+      "ip-172-31-23-103.ec2.internal@us-east-1a": 5534,
+      "ip-172-31-45-172.ec2.internal@us-east-1b": 2957
+    }
+  },
+  "fallas": [
+    {
+      "evento": "caida_pagos",
+      "detalle": "172.31.47.77@us-east-1b",
+      "t0": "2026-11-11T22:43:42.196+00:00",
+      "ordenes_afectadas": 68,
+      "fuente": "Siniestros (CloudWatch)",
+      "ecs_replica_retirada": "2026-11-11T22:44:36.419+00:00",
+      "ecs_replica_nueva_registrada": "2026-11-11T22:45:25.413+00:00",
+      "reemplazo_replica_s": 103.217,
+      "t1": "2026-11-11T22:43:42.376+00:00",
+      "t2": "2026-11-11T22:43:42.541+00:00",
+      "deteccion_s": 0.18,
+      "recuperacion_s": 0.345
+    },
+    {
+      "evento": "failover_aurora",
+      "detalle": "escritora_previa=solventa-exp006-aurorareplica-wic8exwfqp2p",
+      "t0": "2026-11-11T22:48:40.930+00:00",
+      "ordenes_afectadas": 6,
+      "fuente": "sonda 200 ms",
+      "escritora_antes": "solventa-exp006-aurorareplica-wic8exwfqp2p",
+      "escritora_despues": "solventa-exp006-auroraescritora-yukdyywebl0e",
+      "escrituras_fallidas": 2,
+      "siniestros_primer_error": "2026-11-11T22:48:56.869+00:00",
+      "t1": "2026-11-11T22:48:56.025+00:00",
+      "t2": "2026-11-11T22:48:57.042+00:00",
+      "deteccion_s": 15.095,
+      "recuperacion_s": 16.112
+    }
+  ],
+  "reintentos": {
+    "ordenes_con_reintento": 74,
+    "intentos_fallidos": 117,
+    "fallidas_definitivas": 0,
+    "max_intentos": 7
+  },
+  "criterios": {
+    "disponibilidad >= 99.99 %": true,
+    "cero transacciones confirmadas perdidas": true,
+    "cero pagos duplicados": true,
+    "deteccion y recuperacion <= 60 s": true
+  },
+  "hipotesis_h1": "ACEPTADA"
+}

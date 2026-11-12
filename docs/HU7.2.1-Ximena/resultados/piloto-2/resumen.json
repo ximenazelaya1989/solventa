@@ -1,0 +1,86 @@
+{
+  "corrida": {
+    "nombre": "piloto-2",
+    "retry_idempotency_enabled": "true",
+    "inicio": "2026-11-11T21:42:35.177Z",
+    "fin": "2026-11-11T21:45:55.494Z",
+    "tps": "2",
+    "duracion": "180s",
+    "task_definition_siniestros": "arn:aws:ecs:us-east-1:508939505139:task-definition/solventa-exp006-siniestros:1"
+  },
+  "ordenes": {
+    "enviadas": 361,
+    "completadas": 361,
+    "fallidas": 0,
+    "descartadas_por_k6": 0,
+    "codigos_http": {
+      "201": 361
+    },
+    "disponibilidad_pct": 100.0
+  },
+  "latencia_ms": {
+    "p50": 81.449551,
+    "p95": 117.802639,
+    "p99": 253.3665493999999,
+    "max": 2109.76111
+  },
+  "verificacion": {
+    "siniestros_registrados": 361,
+    "confirmados_por_pagos": 361,
+    "no_confirmados": 0,
+    "pagos_registrados": 361,
+    "pagos_procesados": 361,
+    "pagos_pendientes": 0,
+    "transacciones_confirmadas_perdidas": 0,
+    "siniestros_con_pago_duplicado": 0,
+    "pagos_huerfanos": 0,
+    "pagos_por_replica": {
+      "ip-172-31-26-69.ec2.internal@us-east-1a": 181,
+      "ip-172-31-41-240.ec2.internal@us-east-1b": 180
+    }
+  },
+  "fallas": [
+    {
+      "evento": "caida_pagos",
+      "detalle": "172.31.26.69@us-east-1a",
+      "t0": "2026-11-11T21:43:07.118+00:00",
+      "ordenes_afectadas": 0,
+      "fuente": "Siniestros (CloudWatch)",
+      "ecs_replica_retirada": null,
+      "ecs_replica_nueva_registrada": null,
+      "reemplazo_replica_s": null,
+      "t1": null,
+      "t2": null,
+      "deteccion_s": null,
+      "recuperacion_s": null
+    },
+    {
+      "evento": "failover_aurora",
+      "detalle": "escritora_previa=solventa-exp006-aurorareplica-wic8exwfqp2p",
+      "t0": "2026-11-11T21:44:05.910+00:00",
+      "ordenes_afectadas": 2,
+      "fuente": "sonda 200 ms",
+      "escritora_antes": "solventa-exp006-aurorareplica-wic8exwfqp2p",
+      "escritora_despues": "solventa-exp006-auroraescritora-yukdyywebl0e",
+      "escrituras_fallidas": 13,
+      "siniestros_primer_error": "2026-11-11T21:44:19.804+00:00",
+      "t1": "2026-11-11T21:44:15.053+00:00",
+      "t2": "2026-11-11T21:44:18.100+00:00",
+      "deteccion_s": 9.143,
+      "recuperacion_s": 12.19
+    }
+  ],
+  "reintentos": {
+    "ordenes_con_reintento": 2,
+    "intentos_fallidos": 2,
+    "fallidas_definitivas": 0,
+    "max_intentos": 2
+  },
+  "criterios": {
+    "disponibilidad >= 99.99 %": true,
+    "cero transacciones confirmadas perdidas": true,
+    "cero pagos duplicados": true,
+    "deteccion y recuperacion <= 60 s": true
+  },
+  "hipotesis_h1": "ACEPTADA"
+}
