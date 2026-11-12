@@ -48,7 +48,7 @@ from fastapi import APIRouter, HTTPException, Response
 OPEN_FINANCE_ENABLED = os.getenv("OPEN_FINANCE_ENABLED", "false").lower() == "true"
 CIRCUIT_BREAKER_ENABLED = os.getenv("CIRCUIT_BREAKER_ENABLED", "false").lower() == "true"
 OPEN_FINANCE_URL = os.getenv("OPEN_FINANCE_URL", "http://localhost:18009").rstrip("/")
-OPEN_FINANCE_TIMEOUT_S = float(os.getenv("OPEN_FINANCE_TIMEOUT_S", "0.12"))  # presupuesto por dependencia (caso §6.1)
+OPEN_FINANCE_TIMEOUT_S = float(os.getenv("OPEN_FINANCE_TIMEOUT_S", "0.12"))  # presupuesto por dependencia
 
 CB_VENTANA = int(os.getenv("CB_VENTANA", "10"))  # llamadas que se miran
 CB_TASA_FALLOS = float(os.getenv("CB_TASA_FALLOS", "0.5"))  # 50 %

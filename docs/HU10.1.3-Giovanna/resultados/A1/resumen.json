@@ -1,0 +1,60 @@
+{
+  "config": {
+    "F1": 300,
+    "F2": 600,
+    "F3": 300,
+    "TPS": 10,
+    "modoFalla": "error503",
+    "circuitBreakerEnabled": false
+  },
+  "disponibilidad_total_pct": 49.987,
+  "solicitudes_total": 11995,
+  "fases": {
+    "1 normal": {
+      "solicitudes": 2998,
+      "exitosas": 2998,
+      "fallos": 0,
+      "disponibilidad_pct": 100.0,
+      "p95_ms": 96.7,
+      "p99_ms": 164.5
+    },
+    "2 falla": {
+      "solicitudes": 5996,
+      "exitosas": 0,
+      "fallos": 5996,
+      "disponibilidad_pct": 0.0,
+      "p95_ms": 30.3,
+      "p99_ms": 102.4
+    },
+    "3 recuperacion": {
+      "solicitudes": 3001,
+      "exitosas": 2998,
+      "fallos": 3,
+      "disponibilidad_pct": 99.9,
+      "p95_ms": 99.3,
+      "p99_ms": 171.5
+    }
+  },
+  "criterio_fase_falla": {
+    "maximo_fallos_permitidos": 5,
+    "fallos": 5996,
+    "cumple": false
+  },
+  "tiempo_deteccion_s_por_tarea": [],
+  "tiempo_deteccion_s_max": null,
+  "tiempo_recuperacion_s_por_tarea": [],
+  "tiempo_recuperacion_s_max": null,
+  "servidas_desde_cache_pct": null,
+  "servidas_perfil_por_defecto_pct": null,
+  "contadores_perfilamiento": {
+    "total": 11995,
+    "openFinanceOk": 5997,
+    "openFinanceFallo": 5998,
+    "servidasDesdeCache": 0,
+    "servidasPerfilPorDefecto": 0,
+    "rechazadasCircuitoAbierto": 0,
+    "rechazadasBulkheadLleno": 0,
+    "fallosRedis": 0
+  },
+  "llamadas_al_mock": 11995
+}

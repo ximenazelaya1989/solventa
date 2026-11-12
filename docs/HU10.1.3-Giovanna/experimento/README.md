@@ -54,4 +54,4 @@ volver a ejecutar el paso 2 con `--redis` (si no, la caché de la corrida anteri
 
 ## En AWS
 
-Ver `../AWS.md`: las URL cambian (`--host`, `MOCK_URL`, `PERF_ADMIN_URLS`) y se corre desde una EC2.
+Las URL cambian (`--host`, `MOCK_URL`, `PERF_ADMIN_URLS`) y se corre desde una EC2 en la misma VPC.

@@ -11,6 +11,8 @@ Lee <carpeta>/requests.csv y <carpeta>/estado_final.json y escribe
 
 Uso:  python analizar.py resultados/B1
 """
+from __future__ import annotations  # compatibilidad con Python 3.9 (EC2 de Amazon Linux 2023)
+
 import csv
 import json
 import math
