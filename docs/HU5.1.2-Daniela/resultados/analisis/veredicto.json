@@ -1,0 +1,8 @@
+{
+  "condicion_1": false,
+  "condicion_1_solo_p95": true,
+  "condicion_2": true,
+  "condicion_3": true,
+  "condicion_3_estricta": false,
+  "confirmada": false
+}

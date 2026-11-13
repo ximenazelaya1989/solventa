@@ -50,6 +50,11 @@ services:
     environment:
       SERVICE_NAME: api-gateway
       COTIZACION_URL: http://cotizacion:8000
+      # EXP-008: cuota por socio con token bucket en Redis (apagada por defecto)
+      RATE_LIMIT_ENABLED: ${RATE_LIMIT_ENABLED:-false}
+      RATE_LIMIT_RPS: ${RATE_LIMIT_RPS:-20}
+      RATE_LIMIT_BURST_S: ${RATE_LIMIT_BURST_S:-2}
+      REDIS_URL: redis://redis:6379/1
     ports:
       - "18080:3000"
     depends_on:

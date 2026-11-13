@@ -1,0 +1,1324 @@
+{
+ "api-gateway": [
+  [
+   "2026-11-12T16:33:44.838000+00:00",
+   "(service api-gateway) has reached a steady state."
+  ],
+  [
+   "2026-11-12T10:33:41.237000+00:00",
+   "(service api-gateway) has reached a steady state."
+  ],
+  [
+   "2026-11-12T04:33:12.787000+00:00",
+   "(service api-gateway) has reached a steady state."
+  ],
+  [
+   "2026-11-12T04:33:12.786000+00:00",
+   "(service api-gateway) (deployment ecs-svc/4506178797303038476) deployment completed."
+  ],
+  [
+   "2026-11-12T04:31:49.255000+00:00",
+   "(service api-gateway) registered 1 targets in (target-group arn:aws:elasticloadbalancing:us-east-1:901671870033:targetgroup/exp008-Gatew-VVVRCNTDHOSL/c5a55f5f334a9547)"
+  ],
+  [
+   "2026-11-12T04:31:18.232000+00:00",
+   "(service api-gateway) has started 1 tasks: (task 613a7e7100bb4a0089e0968d6f248bc2)."
+  ],
+  [
+   "2026-11-12T04:29:35.186000+00:00",
+   "(service api-gateway, taskSet ecs-svc/4094435849508128502) has begun draining connections on 1 tasks."
+  ],
+  [
+   "2026-11-12T04:29:35.182000+00:00",
+   "(service api-gateway) deregistered 1 targets in (target-group arn:aws:elasticloadbalancing:us-east-1:901671870033:targetgroup/exp008-Gatew-VVVRCNTDHOSL/c5a55f5f334a9547)"
+  ],
+  [
+   "2026-11-12T04:29:24.805000+00:00",
+   "(service api-gateway) has stopped 1 running tasks: (task c44d09be6e144958bce0a1587e63789d)."
+  ],
+  [
+   "2026-11-12T04:13:43.243000+00:00",
+   "(service api-gateway) has reached a steady state."
+  ],
+  [
+   "2026-11-12T04:13:43.242000+00:00",
+   "(service api-gateway) (deployment ecs-svc/4094435849508128502) deployment completed."
+  ],
+  [
+   "2026-11-12T04:11:50.303000+00:00",
+   "(service api-gateway) registered 1 targets in (target-group arn:aws:elasticloadbalancing:us-east-1:901671870033:targetgroup/exp008-Gatew-VVVRCNTDHOSL/c5a55f5f334a9547)"
+  ],
+  [
+   "2026-11-12T04:11:19.178000+00:00",
+   "(service api-gateway) has started 1 tasks: (task c44d09be6e144958bce0a1587e63789d)."
+  ],
+  [
+   "2026-11-12T04:09:35.452000+00:00",
+   "(service api-gateway, taskSet ecs-svc/2688117956217787399) has begun draining connections on 1 tasks."
+  ],
+  [
+   "2026-11-12T04:09:35.447000+00:00",
+   "(service api-gateway) deregistered 1 targets in (target-group arn:aws:elasticloadbalancing:us-east-1:901671870033:targetgroup/exp008-Gatew-VVVRCNTDHOSL/c5a55f5f334a9547)"
+  ],
+  [
+   "2026-11-12T04:09:24.577000+00:00",
+   "(service api-gateway) has stopped 1 running tasks: (task 596672d33e2f4a8084707dcd7b31ed8e)."
+  ],
+  [
+   "2026-11-12T03:53:24.059000+00:00",
+   "(service api-gateway) has reached a steady state."
+  ],
+  [
+   "2026-11-12T03:53:24.058000+00:00",
+   "(service api-gateway) (deployment ecs-svc/2688117956217787399) deployment completed."
+  ],
+  [
+   "2026-11-12T03:52:32.365000+00:00",
+   "(service api-gateway) registered 1 targets in (target-group arn:aws:elasticloadbalancing:us-east-1:901671870033:targetgroup/exp008-Gatew-VVVRCNTDHOSL/c5a55f5f334a9547)"
+  ],
+  [
+   "2026-11-12T03:52:02.160000+00:00",
+   "(service api-gateway) has started 1 tasks: (task 596672d33e2f4a8084707dcd7b31ed8e)."
+  ],
+  [
+   "2026-11-12T03:50:26.791000+00:00",
+   "(service api-gateway, taskSet ecs-svc/1284873614789378614) has begun draining connections on 1 tasks."
+  ],
+  [
+   "2026-11-12T03:50:26.785000+00:00",
+   "(service api-gateway) deregistered 1 targets in (target-group arn:aws:elasticloadbalancing:us-east-1:901671870033:targetgroup/exp008-Gatew-VVVRCNTDHOSL/c5a55f5f334a9547)"
+  ],
+  [
+   "2026-11-12T03:50:17.322000+00:00",
+   "(service api-gateway) has stopped 1 running tasks: (task c5519b2a62af4ee28c52aa840909a554)."
+  ],
+  [
+   "2026-11-12T03:34:26.923000+00:00",
+   "(service api-gateway) has reached a steady state."
+  ],
+  [
+   "2026-11-12T03:34:26.922000+00:00",
+   "(service api-gateway) (deployment ecs-svc/1284873614789378614) deployment completed."
+  ],
+  [
+   "2026-11-12T03:33:44.758000+00:00",
+   "(service api-gateway) registered 1 targets in (target-group arn:aws:elasticloadbalancing:us-east-1:901671870033:targetgroup/exp008-Gatew-VVVRCNTDHOSL/c5a55f5f334a9547)"
+  ],
+  [
+   "2026-11-12T03:32:43.769000+00:00",
+   "(service api-gateway) has started 1 tasks: (task c5519b2a62af4ee28c52aa840909a554)."
+  ],
+  [
+   "2026-11-12T03:31:08.966000+00:00",
+   "(service api-gateway, taskSet ecs-svc/8631184564573529563) has begun draining connections on 1 tasks."
+  ],
+  [
+   "2026-11-12T03:31:08.963000+00:00",
+   "(service api-gateway) deregistered 1 targets in (target-group arn:aws:elasticloadbalancing:us-east-1:901671870033:targetgroup/exp008-Gatew-VVVRCNTDHOSL/c5a55f5f334a9547)"
+  ],
+  [
+   "2026-11-12T03:30:58.790000+00:00",
+   "(service api-gateway) has stopped 1 running tasks: (task 944a9475857b413081a0e85a84195a1a)."
+  ],
+  [
+   "2026-11-12T03:15:07.411000+00:00",
+   "(service api-gateway) has reached a steady state."
+  ],
+  [
+   "2026-11-12T03:15:07.410000+00:00",
+   "(service api-gateway) (deployment ecs-svc/8631184564573529563) deployment completed."
+  ],
+  [
+   "2026-11-12T03:14:16.729000+00:00",
+   "(service api-gateway) registered 1 targets in (target-group arn:aws:elasticloadbalancing:us-east-1:901671870033:targetgroup/exp008-Gatew-VVVRCNTDHOSL/c5a55f5f334a9547)"
+  ],
+  [
+   "2026-11-12T03:13:46.431000+00:00",
+   "(service api-gateway) has started 1 tasks: (task 944a9475857b413081a0e85a84195a1a)."
+  ],
+  [
+   "2026-11-12T03:12:54.238000+00:00",
+   "(service api-gateway, taskSet ecs-svc/0781325181384846730) has begun draining connections on 1 tasks."
+  ],
+  [
+   "2026-11-12T03:12:54.234000+00:00",
+   "(service api-gateway) deregistered 1 targets in (target-group arn:aws:elasticloadbalancing:us-east-1:901671870033:targetgroup/exp008-Gatew-VVVRCNTDHOSL/c5a55f5f334a9547)"
+  ],
+  [
+   "2026-11-12T03:12:42.611000+00:00",
+   "(service api-gateway) has stopped 1 running tasks: (task 4e127acaf2b54c03969cf06c24163d18)."
+  ],
+  [
+   "2026-11-12T03:11:51.864000+00:00",
+   "(service api-gateway) registered 1 targets in (target-group arn:aws:elasticloadbalancing:us-east-1:901671870033:targetgroup/exp008-Gatew-VVVRCNTDHOSL/c5a55f5f334a9547)"
+  ],
+  [
+   "2026-11-12T03:11:22.033000+00:00",
+   "(service api-gateway) has started 1 tasks: (task 4e127acaf2b54c03969cf06c24163d18)."
+  ],
+  [
+   "2026-11-12T03:10:50.172000+00:00",
+   "(service api-gateway) deregistered 1 targets in (target-group arn:aws:elasticloadbalancing:us-east-1:901671870033:targetgroup/exp008-Gatew-VVVRCNTDHOSL/c5a55f5f334a9547)"
+  ],
+  [
+   "2026-11-12T03:10:50.089000+00:00",
+   "(service api-gateway, taskSet ecs-svc/9792002305575476525) has begun draining connections on 1 tasks."
+  ],
+  [
+   "2026-11-12T03:10:50.085000+00:00",
+   "(service api-gateway) deregistered 1 targets in (target-group arn:aws:elasticloadbalancing:us-east-1:901671870033:targetgroup/exp008-Gatew-VVVRCNTDHOSL/c5a55f5f334a9547)"
+  ],
+  [
+   "2026-11-12T03:07:59.596000+00:00",
+   "(service api-gateway) registered 1 targets in (target-group arn:aws:elasticloadbalancing:us-east-1:901671870033:targetgroup/exp008-Gatew-VVVRCNTDHOSL/c5a55f5f334a9547)"
+  ],
+  [
+   "2026-11-12T03:07:21.685000+00:00",
+   "(service api-gateway) has started 1 tasks: (task f0832d1246ea48a8b06e4e6527d8d452)."
+  ],
+  [
+   "2026-11-12T03:07:02.497000+00:00",
+   "(service api-gateway, taskSet ecs-svc/9792002305575476525) has begun draining connections on 1 tasks."
+  ],
+  [
+   "2026-11-12T03:07:02.493000+00:00",
+   "(service api-gateway) deregistered 1 targets in (target-group arn:aws:elasticloadbalancing:us-east-1:901671870033:targetgroup/exp008-Gatew-VVVRCNTDHOSL/c5a55f5f334a9547)"
+  ],
+  [
+   "2026-11-12T03:05:45.806000+00:00",
+   "(service api-gateway) has started 1 tasks: (task 93f3c117b75f4dc19e0f72862511268e)."
+  ],
+  [
+   "2026-11-12T03:05:06.494000+00:00",
+   "(service api-gateway) deregistered 1 targets in (target-group arn:aws:elasticloadbalancing:us-east-1:901671870033:targetgroup/exp008-Gatew-VVVRCNTDHOSL/c5a55f5f334a9547)"
+  ],
+  [
+   "2026-11-12T03:05:06.439000+00:00",
+   "(service api-gateway, taskSet ecs-svc/9792002305575476525) has begun draining connections on 1 tasks."
+  ],
+  [
+   "2026-11-12T03:05:06.435000+00:00",
+   "(service api-gateway) deregistered 1 targets in (target-group arn:aws:elasticloadbalancing:us-east-1:901671870033:targetgroup/exp008-Gatew-VVVRCNTDHOSL/c5a55f5f334a9547)"
+  ],
+  [
+   "2026-11-12T03:04:26.518000+00:00",
+   "(service api-gateway) registered 1 targets in (target-group arn:aws:elasticloadbalancing:us-east-1:901671870033:targetgroup/exp008-Gatew-VVVRCNTDHOSL/c5a55f5f334a9547)"
+  ],
+  [
+   "2026-11-12T03:03:56.111000+00:00",
+   "(service api-gateway) has started 1 tasks: (task d65fa496b4464584a7ee1cae9102ecff)."
+  ],
+  [
+   "2026-11-12T03:02:21.763000+00:00",
+   "(service api-gateway, taskSet ecs-svc/9472263645673764570) has begun draining connections on 1 tasks."
+  ],
+  [
+   "2026-11-12T03:02:21.759000+00:00",
+   "(service api-gateway) deregistered 1 targets in (target-group arn:aws:elasticloadbalancing:us-east-1:901671870033:targetgroup/exp008-Gatew-VVVRCNTDHOSL/c5a55f5f334a9547)"
+  ],
+  [
+   "2026-11-12T03:02:12.003000+00:00",
+   "(service api-gateway) has stopped 1 running tasks: (task 5fec3e27a1b444f9a189c7b2f7fbaa3d)."
+  ],
+  [
+   "2026-11-12T02:46:21.541000+00:00",
+   "(service api-gateway) has reached a steady state."
+  ],
+  [
+   "2026-11-12T02:46:21.539000+00:00",
+   "(service api-gateway) (deployment ecs-svc/9472263645673764570) deployment completed."
+  ],
+  [
+   "2026-11-12T02:45:19.283000+00:00",
+   "(service api-gateway) registered 1 targets in (target-group arn:aws:elasticloadbalancing:us-east-1:901671870033:targetgroup/exp008-Gatew-VVVRCNTDHOSL/c5a55f5f334a9547)"
+  ],
+  [
+   "2026-11-12T02:44:47.968000+00:00",
+   "(service api-gateway) has started 1 tasks: (task 5fec3e27a1b444f9a189c7b2f7fbaa3d)."
+  ],
+  [
+   "2026-11-12T02:43:04.810000+00:00",
+   "(service api-gateway, taskSet ecs-svc/7544919182729385106) has begun draining connections on 1 tasks."
+  ],
+  [
+   "2026-11-12T02:43:04.804000+00:00",
+   "(service api-gateway) deregistered 1 targets in (target-group arn:aws:elasticloadbalancing:us-east-1:901671870033:targetgroup/exp008-Gatew-VVVRCNTDHOSL/c5a55f5f334a9547)"
+  ],
+  [
+   "2026-11-12T02:42:55.154000+00:00",
+   "(service api-gateway) has stopped 1 running tasks: (task 285b2c3dff3249c88d5a16c71aa5fe65)."
+  ],
+  [
+   "2026-11-12T02:31:32.821000+00:00",
+   "(service api-gateway) has reached a steady state."
+  ],
+  [
+   "2026-11-12T02:31:32.820000+00:00",
+   "(service api-gateway) (deployment ecs-svc/7544919182729385106) deployment completed."
+  ],
+  [
+   "2026-11-12T02:31:01.041000+00:00",
+   "(service api-gateway) registered 1 targets in (target-group arn:aws:elasticloadbalancing:us-east-1:901671870033:targetgroup/exp008-Gatew-VVVRCNTDHOSL/c5a55f5f334a9547)"
+  ],
+  [
+   "2026-11-12T02:30:20.417000+00:00",
+   "(service api-gateway) has started 1 tasks: (task 285b2c3dff3249c88d5a16c71aa5fe65)."
+  ],
+  [
+   "2026-11-12T02:28:46.791000+00:00",
+   "(service api-gateway, taskSet ecs-svc/7007922776144222457) has begun draining connections on 1 tasks."
+  ],
+  [
+   "2026-11-12T02:28:46.785000+00:00",
+   "(service api-gateway) deregistered 1 targets in (target-group arn:aws:elasticloadbalancing:us-east-1:901671870033:targetgroup/exp008-Gatew-VVVRCNTDHOSL/c5a55f5f334a9547)"
+  ],
+  [
+   "2026-11-12T02:28:36.511000+00:00",
+   "(service api-gateway) has stopped 1 running tasks: (task 7026f925d40d4e98b78b5a49355ecf2f)."
+  ],
+  [
+   "2026-11-12T02:18:26.064000+00:00",
+   "(service api-gateway) has reached a steady state."
+  ],
+  [
+   "2026-11-12T02:18:26.063000+00:00",
+   "(service api-gateway) (deployment ecs-svc/7007922776144222457) deployment completed."
+  ],
+  [
+   "2026-11-12T02:17:55.419000+00:00",
+   "(service api-gateway) registered 1 targets in (target-group arn:aws:elasticloadbalancing:us-east-1:901671870033:targetgroup/exp008-Gatew-VVVRCNTDHOSL/c5a55f5f334a9547)"
+  ],
+  [
+   "2026-11-12T02:17:24.339000+00:00",
+   "(service api-gateway) has started 1 tasks: (task 7026f925d40d4e98b78b5a49355ecf2f)."
+  ],
+  [
+   "2026-11-12T02:15:39.741000+00:00",
+   "(service api-gateway, taskSet ecs-svc/0803950283675080208) has begun draining connections on 1 tasks."
+  ],
+  [
+   "2026-11-12T02:15:39.736000+00:00",
+   "(service api-gateway) deregistered 1 targets in (target-group arn:aws:elasticloadbalancing:us-east-1:901671870033:targetgroup/exp008-Gatew-VVVRCNTDHOSL/c5a55f5f334a9547)"
+  ],
+  [
+   "2026-11-12T02:15:30.392000+00:00",
+   "(service api-gateway) has stopped 1 running tasks: (task 9c364ad8a71d4d13bc18166d6d7782af)."
+  ],
+  [
+   "2026-11-12T02:01:02.212000+00:00",
+   "(service api-gateway) has reached a steady state."
+  ],
+  [
+   "2026-11-12T02:01:02.211000+00:00",
+   "(service api-gateway) (deployment ecs-svc/0803950283675080208) deployment completed."
+  ],
+  [
+   "2026-11-12T02:00:31.267000+00:00",
+   "(service api-gateway) registered 1 targets in (target-group arn:aws:elasticloadbalancing:us-east-1:901671870033:targetgroup/exp008-Gatew-VVVRCNTDHOSL/c5a55f5f334a9547)"
+  ],
+  [
+   "2026-11-12T01:59:50.018000+00:00",
+   "(service api-gateway) has started 1 tasks: (task 9c364ad8a71d4d13bc18166d6d7782af)."
+  ],
+  [
+   "2026-11-12T01:58:16.556000+00:00",
+   "(service api-gateway, taskSet ecs-svc/6778878932223631767) has begun draining connections on 1 tasks."
+  ],
+  [
+   "2026-11-12T01:58:16.552000+00:00",
+   "(service api-gateway) deregistered 1 targets in (target-group arn:aws:elasticloadbalancing:us-east-1:901671870033:targetgroup/exp008-Gatew-VVVRCNTDHOSL/c5a55f5f334a9547)"
+  ],
+  [
+   "2026-11-12T01:58:05.388000+00:00",
+   "(service api-gateway) has stopped 1 running tasks: (task 60d7d9b5924b4c399803093cf7c188db)."
+  ],
+  [
+   "2026-11-12T01:54:29.550000+00:00",
+   "(service api-gateway) has reached a steady state."
+  ],
+  [
+   "2026-11-12T01:54:29.549000+00:00",
+   "(service api-gateway) (deployment ecs-svc/6778878932223631767) deployment completed."
+  ],
+  [
+   "2026-11-12T01:53:37.131000+00:00",
+   "(service api-gateway) registered 1 targets in (target-group arn:aws:elasticloadbalancing:us-east-1:901671870033:targetgroup/exp008-Gatew-VVVRCNTDHOSL/c5a55f5f334a9547)"
+  ],
+  [
+   "2026-11-12T01:52:56.487000+00:00",
+   "(service api-gateway) has started 1 tasks: (task 60d7d9b5924b4c399803093cf7c188db)."
+  ],
+  [
+   "2026-11-12T01:51:23.480000+00:00",
+   "(service api-gateway, taskSet ecs-svc/4647023488360980235) has begun draining connections on 1 tasks."
+  ],
+  [
+   "2026-11-12T01:51:23.477000+00:00",
+   "(service api-gateway) deregistered 1 targets in (target-group arn:aws:elasticloadbalancing:us-east-1:901671870033:targetgroup/exp008-Gatew-VVVRCNTDHOSL/c5a55f5f334a9547)"
+  ],
+  [
+   "2026-11-12T01:51:17.705000+00:00",
+   "(service api-gateway) has stopped 1 running tasks: (task 871a4e0dfaf1487ca51b1370a8a62902)."
+  ],
+  [
+   "2026-11-12T01:47:21.538000+00:00",
+   "(service api-gateway) has reached a steady state."
+  ],
+  [
+   "2026-11-12T01:47:12.580000+00:00",
+   "(service api-gateway) registered 1 targets in (target-group arn:aws:elasticloadbalancing:us-east-1:901671870033:targetgroup/exp008-Gatew-VVVRCNTDHOSL/c5a55f5f334a9547)"
+  ],
+  [
+   "2026-11-12T01:46:44.254000+00:00",
+   "(service api-gateway) has started 1 tasks: (task 871a4e0dfaf1487ca51b1370a8a62902)."
+  ],
+  [
+   "2026-11-12T01:27:46.505000+00:00",
+   "(service api-gateway) has reached a steady state."
+  ],
+  [
+   "2026-11-12T01:27:46.504000+00:00",
+   "(service api-gateway) (deployment ecs-svc/4647023488360980235) deployment completed."
+  ]
+ ],
+ "cotizacion": [
+  [
+   "2026-11-12T16:32:31.943000+00:00",
+   "(service cotizacion) has reached a steady state."
+  ],
+  [
+   "2026-11-12T10:32:16.460000+00:00",
+   "(service cotizacion) has reached a steady state."
+  ],
+  [
+   "2026-11-12T04:32:07.383000+00:00",
+   "(service cotizacion) has reached a steady state."
+  ],
+  [
+   "2026-11-12T04:32:07.382000+00:00",
+   "(service cotizacion) (deployment ecs-svc/1462912071510798651) deployment completed."
+  ],
+  [
+   "2026-11-12T04:31:36.562000+00:00",
+   "(service cotizacion) registered 1 targets in (target-group arn:aws:elasticloadbalancing:us-east-1:901671870033:targetgroup/exp008-Cotiz-MLIPTMTL1I6A/b830365329464633)"
+  ],
+  [
+   "2026-11-12T04:30:44.150000+00:00",
+   "(service cotizacion) has started 1 tasks: (task 7d84d80aefdc460e9bc6c85f3c439172)."
+  ],
+  [
+   "2026-11-12T04:29:42.552000+00:00",
+   "(service cotizacion, taskSet ecs-svc/3231517237922945311) has begun draining connections on 1 tasks."
+  ],
+  [
+   "2026-11-12T04:29:42.547000+00:00",
+   "(service cotizacion) deregistered 1 targets in (target-group arn:aws:elasticloadbalancing:us-east-1:901671870033:targetgroup/exp008-Cotiz-MLIPTMTL1I6A/b830365329464633)"
+  ],
+  [
+   "2026-11-12T04:29:32.225000+00:00",
+   "(service cotizacion) has stopped 1 running tasks: (task 58a6c5be0d944e6eb4546705f1f10d0e)."
+  ],
+  [
+   "2026-11-12T04:25:04.989000+00:00",
+   "(service cotizacion) has reached a steady state."
+  ],
+  [
+   "2026-11-12T04:24:56.100000+00:00",
+   "(service cotizacion) registered 1 targets in (target-group arn:aws:elasticloadbalancing:us-east-1:901671870033:targetgroup/exp008-Cotiz-MLIPTMTL1I6A/b830365329464633)"
+  ],
+  [
+   "2026-11-12T04:24:26.879000+00:00",
+   "(service cotizacion) has started 1 tasks: (task 58a6c5be0d944e6eb4546705f1f10d0e)."
+  ],
+  [
+   "2026-11-12T04:22:48.314000+00:00",
+   "(service cotizacion) deregistered 1 targets in (target-group arn:aws:elasticloadbalancing:us-east-1:901671870033:targetgroup/exp008-Cotiz-MLIPTMTL1I6A/b830365329464633)"
+  ],
+  [
+   "2026-11-12T04:22:48.260000+00:00",
+   "(service cotizacion, taskSet ecs-svc/3231517237922945311) has begun draining connections on 1 tasks."
+  ],
+  [
+   "2026-11-12T04:22:48.253000+00:00",
+   "(service cotizacion) deregistered 1 targets in (target-group arn:aws:elasticloadbalancing:us-east-1:901671870033:targetgroup/exp008-Cotiz-MLIPTMTL1I6A/b830365329464633)"
+  ],
+  [
+   "2026-11-12T04:22:38.665000+00:00",
+   "(service cotizacion) has stopped 1 running tasks: (task 36185eb94dfe4a3b93bf26a3b65e8b15)."
+  ],
+  [
+   "2026-11-12T04:22:38.634000+00:00",
+   "(service cotizacion) (task 36185eb94dfe4a3b93bf26a3b65e8b15) (port 8000) is unhealthy in (target-group arn:aws:elasticloadbalancing:us-east-1:901671870033:targetgroup/exp008-Cotiz-MLIPTMTL1I6A/b830365329464633) due to (reason Request timed out)."
+  ],
+  [
+   "2026-11-12T04:21:43.434000+00:00",
+   "(service cotizacion) has reached a steady state."
+  ],
+  [
+   "2026-11-12T04:21:24.004000+00:00",
+   "(service cotizacion) registered 1 targets in (target-group arn:aws:elasticloadbalancing:us-east-1:901671870033:targetgroup/exp008-Cotiz-MLIPTMTL1I6A/b830365329464633)"
+  ],
+  [
+   "2026-11-12T04:20:46.211000+00:00",
+   "(service cotizacion) has started 1 tasks: (task 36185eb94dfe4a3b93bf26a3b65e8b15)."
+  ],
+  [
+   "2026-11-12T04:19:07.875000+00:00",
+   "(service cotizacion) deregistered 1 targets in (target-group arn:aws:elasticloadbalancing:us-east-1:901671870033:targetgroup/exp008-Cotiz-MLIPTMTL1I6A/b830365329464633)"
+  ],
+  [
+   "2026-11-12T04:19:07.833000+00:00",
+   "(service cotizacion, taskSet ecs-svc/3231517237922945311) has begun draining connections on 1 tasks."
+  ],
+  [
+   "2026-11-12T04:19:07.828000+00:00",
+   "(service cotizacion) deregistered 1 targets in (target-group arn:aws:elasticloadbalancing:us-east-1:901671870033:targetgroup/exp008-Cotiz-MLIPTMTL1I6A/b830365329464633)"
+  ],
+  [
+   "2026-11-12T04:18:58.218000+00:00",
+   "(service cotizacion) has stopped 1 running tasks: (task 1074c57d51714e53bfb38ce88ec1f764)."
+  ],
+  [
+   "2026-11-12T04:18:58.189000+00:00",
+   "(service cotizacion) (task 1074c57d51714e53bfb38ce88ec1f764) (port 8000) is unhealthy in (target-group arn:aws:elasticloadbalancing:us-east-1:901671870033:targetgroup/exp008-Cotiz-MLIPTMTL1I6A/b830365329464633) due to (reason Request timed out)."
+  ],
+  [
+   "2026-11-12T04:11:57.391000+00:00",
+   "(service cotizacion) has reached a steady state."
+  ],
+  [
+   "2026-11-12T04:11:57.390000+00:00",
+   "(service cotizacion) (deployment ecs-svc/3231517237922945311) deployment completed."
+  ],
+  [
+   "2026-11-12T04:11:06.424000+00:00",
+   "(service cotizacion) registered 1 targets in (target-group arn:aws:elasticloadbalancing:us-east-1:901671870033:targetgroup/exp008-Cotiz-MLIPTMTL1I6A/b830365329464633)"
+  ],
+  [
+   "2026-11-12T04:10:35.125000+00:00",
+   "(service cotizacion) has started 1 tasks: (task 1074c57d51714e53bfb38ce88ec1f764)."
+  ],
+  [
+   "2026-11-12T04:09:32.367000+00:00",
+   "(service cotizacion, taskSet ecs-svc/7516390924252258736) has begun draining connections on 1 tasks."
+  ],
+  [
+   "2026-11-12T04:09:32.361000+00:00",
+   "(service cotizacion) deregistered 1 targets in (target-group arn:aws:elasticloadbalancing:us-east-1:901671870033:targetgroup/exp008-Cotiz-MLIPTMTL1I6A/b830365329464633)"
+  ],
+  [
+   "2026-11-12T04:09:22.069000+00:00",
+   "(service cotizacion) has stopped 1 running tasks: (task d0bd03fecf9d4d7fb6d95b856f1a0c80)."
+  ],
+  [
+   "2026-11-12T03:52:49.933000+00:00",
+   "(service cotizacion) has reached a steady state."
+  ],
+  [
+   "2026-11-12T03:52:49.932000+00:00",
+   "(service cotizacion) (deployment ecs-svc/7516390924252258736) deployment completed."
+  ],
+  [
+   "2026-11-12T03:52:18.585000+00:00",
+   "(service cotizacion) registered 1 targets in (target-group arn:aws:elasticloadbalancing:us-east-1:901671870033:targetgroup/exp008-Cotiz-MLIPTMTL1I6A/b830365329464633)"
+  ],
+  [
+   "2026-11-12T03:51:47.605000+00:00",
+   "(service cotizacion) has started 1 tasks: (task d0bd03fecf9d4d7fb6d95b856f1a0c80)."
+  ],
+  [
+   "2026-11-12T03:50:34.770000+00:00",
+   "(service cotizacion, taskSet ecs-svc/7981733967705589329) has begun draining connections on 1 tasks."
+  ],
+  [
+   "2026-11-12T03:50:34.763000+00:00",
+   "(service cotizacion) deregistered 1 targets in (target-group arn:aws:elasticloadbalancing:us-east-1:901671870033:targetgroup/exp008-Cotiz-MLIPTMTL1I6A/b830365329464633)"
+  ],
+  [
+   "2026-11-12T03:50:24.604000+00:00",
+   "(service cotizacion) has stopped 1 running tasks: (task d1b610d0e54b4a71ac1071f4359b7dbe)."
+  ],
+  [
+   "2026-11-12T03:45:27.838000+00:00",
+   "(service cotizacion) has reached a steady state."
+  ],
+  [
+   "2026-11-12T03:45:09.532000+00:00",
+   "(service cotizacion) registered 1 targets in (target-group arn:aws:elasticloadbalancing:us-east-1:901671870033:targetgroup/exp008-Cotiz-MLIPTMTL1I6A/b830365329464633)"
+  ],
+  [
+   "2026-11-12T03:44:40.330000+00:00",
+   "(service cotizacion) has started 1 tasks: (task d1b610d0e54b4a71ac1071f4359b7dbe)."
+  ],
+  [
+   "2026-11-12T03:43:02.042000+00:00",
+   "(service cotizacion) deregistered 1 targets in (target-group arn:aws:elasticloadbalancing:us-east-1:901671870033:targetgroup/exp008-Cotiz-MLIPTMTL1I6A/b830365329464633)"
+  ],
+  [
+   "2026-11-12T03:43:01.988000+00:00",
+   "(service cotizacion, taskSet ecs-svc/7981733967705589329) has begun draining connections on 1 tasks."
+  ],
+  [
+   "2026-11-12T03:43:01.982000+00:00",
+   "(service cotizacion) deregistered 1 targets in (target-group arn:aws:elasticloadbalancing:us-east-1:901671870033:targetgroup/exp008-Cotiz-MLIPTMTL1I6A/b830365329464633)"
+  ],
+  [
+   "2026-11-12T03:42:51.978000+00:00",
+   "(service cotizacion) has stopped 1 running tasks: (task 444a329c12184696a4c575d861432ba1)."
+  ],
+  [
+   "2026-11-12T03:42:51.945000+00:00",
+   "(service cotizacion) (task 444a329c12184696a4c575d861432ba1) (port 8000) is unhealthy in (target-group arn:aws:elasticloadbalancing:us-east-1:901671870033:targetgroup/exp008-Cotiz-MLIPTMTL1I6A/b830365329464633) due to (reason Request timed out)."
+  ],
+  [
+   "2026-11-12T03:41:54.715000+00:00",
+   "(service cotizacion) has reached a steady state."
+  ],
+  [
+   "2026-11-12T03:41:45.297000+00:00",
+   "(service cotizacion) registered 1 targets in (target-group arn:aws:elasticloadbalancing:us-east-1:901671870033:targetgroup/exp008-Cotiz-MLIPTMTL1I6A/b830365329464633)"
+  ],
+  [
+   "2026-11-12T03:41:16.203000+00:00",
+   "(service cotizacion) has started 1 tasks: (task 444a329c12184696a4c575d861432ba1)."
+  ],
+  [
+   "2026-11-12T03:39:42.482000+00:00",
+   "(service cotizacion) deregistered 1 targets in (target-group arn:aws:elasticloadbalancing:us-east-1:901671870033:targetgroup/exp008-Cotiz-MLIPTMTL1I6A/b830365329464633)"
+  ],
+  [
+   "2026-11-12T03:39:42.421000+00:00",
+   "(service cotizacion, taskSet ecs-svc/7981733967705589329) has begun draining connections on 1 tasks."
+  ],
+  [
+   "2026-11-12T03:39:42.414000+00:00",
+   "(service cotizacion) deregistered 1 targets in (target-group arn:aws:elasticloadbalancing:us-east-1:901671870033:targetgroup/exp008-Cotiz-MLIPTMTL1I6A/b830365329464633)"
+  ],
+  [
+   "2026-11-12T03:39:32.897000+00:00",
+   "(service cotizacion) has stopped 1 running tasks: (task f6606e55453244ed9f488f24f4f9cb41)."
+  ],
+  [
+   "2026-11-12T03:39:32.865000+00:00",
+   "(service cotizacion) (task f6606e55453244ed9f488f24f4f9cb41) (port 8000) is unhealthy in (target-group arn:aws:elasticloadbalancing:us-east-1:901671870033:targetgroup/exp008-Cotiz-MLIPTMTL1I6A/b830365329464633) due to (reason Request timed out)."
+  ],
+  [
+   "2026-11-12T03:33:32.572000+00:00",
+   "(service cotizacion) has reached a steady state."
+  ],
+  [
+   "2026-11-12T03:33:32.571000+00:00",
+   "(service cotizacion) (deployment ecs-svc/7981733967705589329) deployment completed."
+  ],
+  [
+   "2026-11-12T03:32:51.342000+00:00",
+   "(service cotizacion) registered 1 targets in (target-group arn:aws:elasticloadbalancing:us-east-1:901671870033:targetgroup/exp008-Cotiz-MLIPTMTL1I6A/b830365329464633)"
+  ],
+  [
+   "2026-11-12T03:32:20.337000+00:00",
+   "(service cotizacion) has started 1 tasks: (task f6606e55453244ed9f488f24f4f9cb41)."
+  ],
+  [
+   "2026-11-12T03:31:17.225000+00:00",
+   "(service cotizacion, taskSet ecs-svc/5157916644479901611) has begun draining connections on 1 tasks."
+  ],
+  [
+   "2026-11-12T03:31:17.198000+00:00",
+   "(service cotizacion) deregistered 1 targets in (target-group arn:aws:elasticloadbalancing:us-east-1:901671870033:targetgroup/exp008-Cotiz-MLIPTMTL1I6A/b830365329464633)"
+  ],
+  [
+   "2026-11-12T03:31:07.447000+00:00",
+   "(service cotizacion) has stopped 1 running tasks: (task 555ca569451d4c58a6497b01b7ce570a)."
+  ],
+  [
+   "2026-11-12T03:13:32.555000+00:00",
+   "(service cotizacion) has reached a steady state."
+  ],
+  [
+   "2026-11-12T03:13:32.554000+00:00",
+   "(service cotizacion) (deployment ecs-svc/5157916644479901611) deployment completed."
+  ],
+  [
+   "2026-11-12T03:12:51.617000+00:00",
+   "(service cotizacion) registered 1 targets in (target-group arn:aws:elasticloadbalancing:us-east-1:901671870033:targetgroup/exp008-Cotiz-MLIPTMTL1I6A/b830365329464633)"
+  ],
+  [
+   "2026-11-12T03:12:30.892000+00:00",
+   "(service cotizacion) has started 1 tasks: (task 555ca569451d4c58a6497b01b7ce570a)."
+  ],
+  [
+   "2026-11-12T03:11:18.116000+00:00",
+   "(service cotizacion, taskSet ecs-svc/6959251265985876475) has begun draining connections on 1 tasks."
+  ],
+  [
+   "2026-11-12T03:11:18.111000+00:00",
+   "(service cotizacion) deregistered 1 targets in (target-group arn:aws:elasticloadbalancing:us-east-1:901671870033:targetgroup/exp008-Cotiz-MLIPTMTL1I6A/b830365329464633)"
+  ],
+  [
+   "2026-11-12T03:11:08.143000+00:00",
+   "(service cotizacion) has stopped 1 running tasks: (task 5a578c7fc07e4fe89ea4e80fff349298)."
+  ],
+  [
+   "2026-11-12T03:04:55.310000+00:00",
+   "(service cotizacion) has reached a steady state."
+  ],
+  [
+   "2026-11-12T03:04:55.309000+00:00",
+   "(service cotizacion) (deployment ecs-svc/6959251265985876475) deployment completed."
+  ],
+  [
+   "2026-11-12T03:04:03.669000+00:00",
+   "(service cotizacion) registered 1 targets in (target-group arn:aws:elasticloadbalancing:us-east-1:901671870033:targetgroup/exp008-Cotiz-MLIPTMTL1I6A/b830365329464633)"
+  ],
+  [
+   "2026-11-12T03:03:33.644000+00:00",
+   "(service cotizacion) has started 1 tasks: (task 5a578c7fc07e4fe89ea4e80fff349298)."
+  ],
+  [
+   "2026-11-12T03:02:20.928000+00:00",
+   "(service cotizacion, taskSet ecs-svc/9670404205460822684) has begun draining connections on 1 tasks."
+  ],
+  [
+   "2026-11-12T03:02:20.924000+00:00",
+   "(service cotizacion) deregistered 1 targets in (target-group arn:aws:elasticloadbalancing:us-east-1:901671870033:targetgroup/exp008-Cotiz-MLIPTMTL1I6A/b830365329464633)"
+  ],
+  [
+   "2026-11-12T03:02:19.402000+00:00",
+   "(service cotizacion) has stopped 1 running tasks: (task c79031e4d06a403e8e45e3a3419cabf3)."
+  ],
+  [
+   "2026-11-12T02:57:49.514000+00:00",
+   "(service cotizacion) has reached a steady state."
+  ],
+  [
+   "2026-11-12T02:57:40.835000+00:00",
+   "(service cotizacion) registered 1 targets in (target-group arn:aws:elasticloadbalancing:us-east-1:901671870033:targetgroup/exp008-Cotiz-MLIPTMTL1I6A/b830365329464633)"
+  ],
+  [
+   "2026-11-12T02:57:03.352000+00:00",
+   "(service cotizacion) has started 1 tasks: (task c79031e4d06a403e8e45e3a3419cabf3)."
+  ],
+  [
+   "2026-11-12T02:55:18.724000+00:00",
+   "(service cotizacion) deregistered 1 targets in (target-group arn:aws:elasticloadbalancing:us-east-1:901671870033:targetgroup/exp008-Cotiz-MLIPTMTL1I6A/b830365329464633)"
+  ],
+  [
+   "2026-11-12T02:55:18.667000+00:00",
+   "(service cotizacion, taskSet ecs-svc/9670404205460822684) has begun draining connections on 1 tasks."
+  ],
+  [
+   "2026-11-12T02:55:18.660000+00:00",
+   "(service cotizacion) deregistered 1 targets in (target-group arn:aws:elasticloadbalancing:us-east-1:901671870033:targetgroup/exp008-Cotiz-MLIPTMTL1I6A/b830365329464633)"
+  ],
+  [
+   "2026-11-12T02:55:09.857000+00:00",
+   "(service cotizacion) has stopped 1 running tasks: (task 7cbf35931f5c497fbf3f7d71fc12117c)."
+  ],
+  [
+   "2026-11-12T02:55:09.827000+00:00",
+   "(service cotizacion) (task 7cbf35931f5c497fbf3f7d71fc12117c) (port 8000) is unhealthy in (target-group arn:aws:elasticloadbalancing:us-east-1:901671870033:targetgroup/exp008-Cotiz-MLIPTMTL1I6A/b830365329464633) due to (reason Request timed out)."
+  ],
+  [
+   "2026-11-12T02:54:07.876000+00:00",
+   "(service cotizacion) has reached a steady state."
+  ],
+  [
+   "2026-11-12T02:53:59.172000+00:00",
+   "(service cotizacion) registered 1 targets in (target-group arn:aws:elasticloadbalancing:us-east-1:901671870033:targetgroup/exp008-Cotiz-MLIPTMTL1I6A/b830365329464633)"
+  ],
+  [
+   "2026-11-12T02:53:30.468000+00:00",
+   "(service cotizacion) has started 1 tasks: (task 7cbf35931f5c497fbf3f7d71fc12117c)."
+  ],
+  [
+   "2026-11-12T02:51:51.494000+00:00",
+   "(service cotizacion) deregistered 1 targets in (target-group arn:aws:elasticloadbalancing:us-east-1:901671870033:targetgroup/exp008-Cotiz-MLIPTMTL1I6A/b830365329464633)"
+  ],
+  [
+   "2026-11-12T02:51:51.447000+00:00",
+   "(service cotizacion, taskSet ecs-svc/9670404205460822684) has begun draining connections on 1 tasks."
+  ],
+  [
+   "2026-11-12T02:51:51.443000+00:00",
+   "(service cotizacion) deregistered 1 targets in (target-group arn:aws:elasticloadbalancing:us-east-1:901671870033:targetgroup/exp008-Cotiz-MLIPTMTL1I6A/b830365329464633)"
+  ],
+  [
+   "2026-11-12T02:51:41.881000+00:00",
+   "(service cotizacion) has stopped 1 running tasks: (task 4b76f0f57ae841b8b6d78ab3d1b33be1)."
+  ],
+  [
+   "2026-11-12T02:51:41.850000+00:00",
+   "(service cotizacion) (task 4b76f0f57ae841b8b6d78ab3d1b33be1) (port 8000) is unhealthy in (target-group arn:aws:elasticloadbalancing:us-east-1:901671870033:targetgroup/exp008-Cotiz-MLIPTMTL1I6A/b830365329464633) due to (reason Request timed out)."
+  ],
+  [
+   "2026-11-12T02:45:37.208000+00:00",
+   "(service cotizacion) has reached a steady state."
+  ],
+  [
+   "2026-11-12T02:45:37.207000+00:00",
+   "(service cotizacion) (deployment ecs-svc/9670404205460822684) deployment completed."
+  ],
+  [
+   "2026-11-12T02:44:56.093000+00:00",
+   "(service cotizacion) registered 1 targets in (target-group arn:aws:elasticloadbalancing:us-east-1:901671870033:targetgroup/exp008-Cotiz-MLIPTMTL1I6A/b830365329464633)"
+  ],
+  [
+   "2026-11-12T02:44:25.145000+00:00",
+   "(service cotizacion) has started 1 tasks: (task 4b76f0f57ae841b8b6d78ab3d1b33be1)."
+  ],
+  [
+   "2026-11-12T02:43:12.736000+00:00",
+   "(service cotizacion, taskSet ecs-svc/2081622072931854535) has begun draining connections on 1 tasks."
+  ],
+  [
+   "2026-11-12T02:43:12.730000+00:00",
+   "(service cotizacion) deregistered 1 targets in (target-group arn:aws:elasticloadbalancing:us-east-1:901671870033:targetgroup/exp008-Cotiz-MLIPTMTL1I6A/b830365329464633)"
+  ],
+  [
+   "2026-11-12T02:43:01.876000+00:00",
+   "(service cotizacion) has stopped 1 running tasks: (task 559354535127404cb60fde473224e35a)."
+  ],
+  [
+   "2026-11-12T02:30:58.167000+00:00",
+   "(service cotizacion) has reached a steady state."
+  ],
+  [
+   "2026-11-12T02:30:58.166000+00:00",
+   "(service cotizacion) (deployment ecs-svc/2081622072931854535) deployment completed."
+  ],
+  [
+   "2026-11-12T02:30:27.617000+00:00",
+   "(service cotizacion) registered 1 targets in (target-group arn:aws:elasticloadbalancing:us-east-1:901671870033:targetgroup/exp008-Cotiz-MLIPTMTL1I6A/b830365329464633)"
+  ],
+  [
+   "2026-11-12T02:29:56.910000+00:00",
+   "(service cotizacion) has started 1 tasks: (task 559354535127404cb60fde473224e35a)."
+  ],
+  [
+   "2026-11-12T02:28:44.747000+00:00",
+   "(service cotizacion, taskSet ecs-svc/8510887335223697847) has begun draining connections on 1 tasks."
+  ],
+  [
+   "2026-11-12T02:28:44.737000+00:00",
+   "(service cotizacion) deregistered 1 targets in (target-group arn:aws:elasticloadbalancing:us-east-1:901671870033:targetgroup/exp008-Cotiz-MLIPTMTL1I6A/b830365329464633)"
+  ],
+  [
+   "2026-11-12T02:28:34.768000+00:00",
+   "(service cotizacion) has stopped 1 running tasks: (task c0617a4f71984939a96100badeb8c7fe)."
+  ],
+  [
+   "2026-11-12T02:18:24.764000+00:00",
+   "(service cotizacion) has reached a steady state."
+  ],
+  [
+   "2026-11-12T02:18:24.763000+00:00",
+   "(service cotizacion) (deployment ecs-svc/8510887335223697847) deployment completed."
+  ],
+  [
+   "2026-11-12T02:17:32.779000+00:00",
+   "(service cotizacion) registered 1 targets in (target-group arn:aws:elasticloadbalancing:us-east-1:901671870033:targetgroup/exp008-Cotiz-MLIPTMTL1I6A/b830365329464633)"
+  ],
+  [
+   "2026-11-12T02:16:51.533000+00:00",
+   "(service cotizacion) has started 1 tasks: (task c0617a4f71984939a96100badeb8c7fe)."
+  ],
+  [
+   "2026-11-12T02:15:38.893000+00:00",
+   "(service cotizacion, taskSet ecs-svc/7241912799217066871) has begun draining connections on 1 tasks."
+  ],
+  [
+   "2026-11-12T02:15:38.887000+00:00",
+   "(service cotizacion) deregistered 1 targets in (target-group arn:aws:elasticloadbalancing:us-east-1:901671870033:targetgroup/exp008-Cotiz-MLIPTMTL1I6A/b830365329464633)"
+  ],
+  [
+   "2026-11-12T02:15:28.159000+00:00",
+   "(service cotizacion) has stopped 1 running tasks: (task 1d0d54deac374f23a72cf88272c08558)."
+  ],
+  [
+   "2026-11-12T02:14:39.599000+00:00",
+   "(service cotizacion) has reached a steady state."
+  ],
+  [
+   "2026-11-12T02:14:30.816000+00:00",
+   "(service cotizacion) registered 1 targets in (target-group arn:aws:elasticloadbalancing:us-east-1:901671870033:targetgroup/exp008-Cotiz-MLIPTMTL1I6A/b830365329464633)"
+  ],
+  [
+   "2026-11-12T02:13:53.105000+00:00",
+   "(service cotizacion) has started 1 tasks: (task 1d0d54deac374f23a72cf88272c08558)."
+  ],
+  [
+   "2026-11-12T02:12:17.425000+00:00",
+   "(service cotizacion) deregistered 1 targets in (target-group arn:aws:elasticloadbalancing:us-east-1:901671870033:targetgroup/exp008-Cotiz-MLIPTMTL1I6A/b830365329464633)"
+  ],
+  [
+   "2026-11-12T02:12:17.375000+00:00",
+   "(service cotizacion, taskSet ecs-svc/7241912799217066871) has begun draining connections on 1 tasks."
+  ],
+  [
+   "2026-11-12T02:12:17.368000+00:00",
+   "(service cotizacion) deregistered 1 targets in (target-group arn:aws:elasticloadbalancing:us-east-1:901671870033:targetgroup/exp008-Cotiz-MLIPTMTL1I6A/b830365329464633)"
+  ],
+  [
+   "2026-11-12T02:12:07.553000+00:00",
+   "(service cotizacion) has stopped 1 running tasks: (task dca0d7ec358f4cbc9e284ce089ef531a)."
+  ],
+  [
+   "2026-11-12T02:12:07.520000+00:00",
+   "(service cotizacion) (task dca0d7ec358f4cbc9e284ce089ef531a) (port 8000) is unhealthy in (target-group arn:aws:elasticloadbalancing:us-east-1:901671870033:targetgroup/exp008-Cotiz-MLIPTMTL1I6A/b830365329464633) due to (reason Request timed out)."
+  ],
+  [
+   "2026-11-12T02:11:09.023000+00:00",
+   "(service cotizacion) has reached a steady state."
+  ],
+  [
+   "2026-11-12T02:11:00.208000+00:00",
+   "(service cotizacion) registered 1 targets in (target-group arn:aws:elasticloadbalancing:us-east-1:901671870033:targetgroup/exp008-Cotiz-MLIPTMTL1I6A/b830365329464633)"
+  ],
+  [
+   "2026-11-12T02:10:31.627000+00:00",
+   "(service cotizacion) has started 1 tasks: (task dca0d7ec358f4cbc9e284ce089ef531a)."
+  ],
+  [
+   "2026-11-12T02:09:14.351000+00:00",
+   "(service cotizacion) deregistered 1 targets in (target-group arn:aws:elasticloadbalancing:us-east-1:901671870033:targetgroup/exp008-Cotiz-MLIPTMTL1I6A/b830365329464633)"
+  ],
+  [
+   "2026-11-12T02:09:14.307000+00:00",
+   "(service cotizacion, taskSet ecs-svc/7241912799217066871) has begun draining connections on 1 tasks."
+  ],
+  [
+   "2026-11-12T02:09:14.303000+00:00",
+   "(service cotizacion) deregistered 1 targets in (target-group arn:aws:elasticloadbalancing:us-east-1:901671870033:targetgroup/exp008-Cotiz-MLIPTMTL1I6A/b830365329464633)"
+  ],
+  [
+   "2026-11-12T02:09:04.979000+00:00",
+   "(service cotizacion) has stopped 1 running tasks: (task 634c389fdfc94c5b851cd726db5a5e51)."
+  ],
+  [
+   "2026-11-12T02:09:04.926000+00:00",
+   "(service cotizacion) (task 634c389fdfc94c5b851cd726db5a5e51) (port 8000) is unhealthy in (target-group arn:aws:elasticloadbalancing:us-east-1:901671870033:targetgroup/exp008-Cotiz-MLIPTMTL1I6A/b830365329464633) due to (reason Request timed out)."
+  ],
+  [
+   "2026-11-12T02:00:38.971000+00:00",
+   "(service cotizacion) has reached a steady state."
+  ],
+  [
+   "2026-11-12T02:00:38.970000+00:00",
+   "(service cotizacion) (deployment ecs-svc/7241912799217066871) deployment completed."
+  ],
+  [
+   "2026-11-12T02:00:09.125000+00:00",
+   "(service cotizacion) registered 1 targets in (target-group arn:aws:elasticloadbalancing:us-east-1:901671870033:targetgroup/exp008-Cotiz-MLIPTMTL1I6A/b830365329464633)"
+  ],
+  [
+   "2026-11-12T01:59:38.062000+00:00",
+   "(service cotizacion) has started 1 tasks: (task 634c389fdfc94c5b851cd726db5a5e51)."
+  ],
+  [
+   "2026-11-12T01:58:24.417000+00:00",
+   "(service cotizacion, taskSet ecs-svc/1726472108800610105) has begun draining connections on 1 tasks."
+  ],
+  [
+   "2026-11-12T01:58:24.411000+00:00",
+   "(service cotizacion) deregistered 1 targets in (target-group arn:aws:elasticloadbalancing:us-east-1:901671870033:targetgroup/exp008-Cotiz-MLIPTMTL1I6A/b830365329464633)"
+  ],
+  [
+   "2026-11-12T01:58:14.857000+00:00",
+   "(service cotizacion) has stopped 1 running tasks: (task ad19e9a8805a47b9aeb13dc71d4959b1)."
+  ],
+  [
+   "2026-11-12T01:53:46.334000+00:00",
+   "(service cotizacion) has reached a steady state."
+  ],
+  [
+   "2026-11-12T01:53:46.333000+00:00",
+   "(service cotizacion) (deployment ecs-svc/1726472108800610105) deployment completed."
+  ],
+  [
+   "2026-11-12T01:53:14.881000+00:00",
+   "(service cotizacion) registered 1 targets in (target-group arn:aws:elasticloadbalancing:us-east-1:901671870033:targetgroup/exp008-Cotiz-MLIPTMTL1I6A/b830365329464633)"
+  ],
+  [
+   "2026-11-12T01:52:44.679000+00:00",
+   "(service cotizacion) has started 1 tasks: (task ad19e9a8805a47b9aeb13dc71d4959b1)."
+  ],
+  [
+   "2026-11-12T01:51:30.982000+00:00",
+   "(service cotizacion, taskSet ecs-svc/8503332503672630559) has begun draining connections on 1 tasks."
+  ],
+  [
+   "2026-11-12T01:51:30.977000+00:00",
+   "(service cotizacion) deregistered 1 targets in (target-group arn:aws:elasticloadbalancing:us-east-1:901671870033:targetgroup/exp008-Cotiz-MLIPTMTL1I6A/b830365329464633)"
+  ],
+  [
+   "2026-11-12T01:51:20.911000+00:00",
+   "(service cotizacion) has stopped 1 running tasks: (task 44d53c3512214b9b9ffe4bcbd05732df)."
+  ],
+  [
+   "2026-11-12T01:47:16.198000+00:00",
+   "(service cotizacion) has reached a steady state."
+  ],
+  [
+   "2026-11-12T01:47:06.730000+00:00",
+   "(service cotizacion) registered 1 targets in (target-group arn:aws:elasticloadbalancing:us-east-1:901671870033:targetgroup/exp008-Cotiz-MLIPTMTL1I6A/b830365329464633)"
+  ],
+  [
+   "2026-11-12T01:46:37.882000+00:00",
+   "(service cotizacion) has started 1 tasks: (task 44d53c3512214b9b9ffe4bcbd05732df)."
+  ],
+  [
+   "2026-11-12T01:33:04.572000+00:00",
+   "(service cotizacion) has reached a steady state."
+  ],
+  [
+   "2026-11-12T01:33:04.571000+00:00",
+   "(service cotizacion) (deployment ecs-svc/8503332503672630559) deployment completed."
+  ],
+  [
+   "2026-11-12T01:28:45.862000+00:00",
+   "(service cotizacion) has reached a steady state."
+  ],
+  [
+   "2026-11-12T01:28:45.861000+00:00",
+   "(service cotizacion) (deployment ecs-svc/2861219885320794579) deployment completed."
+  ]
+ ],
+ "perfilamiento": [
+  [
+   "2026-11-12T16:32:19.215000+00:00",
+   "(service perfilamiento) has reached a steady state."
+  ],
+  [
+   "2026-11-12T10:32:10.300000+00:00",
+   "(service perfilamiento) has reached a steady state."
+  ],
+  [
+   "2026-11-12T04:32:06.921000+00:00",
+   "(service perfilamiento) has reached a steady state."
+  ],
+  [
+   "2026-11-12T04:32:06.920000+00:00",
+   "(service perfilamiento) (deployment ecs-svc/0020862626000277881) deployment completed."
+  ],
+  [
+   "2026-11-12T04:31:15.948000+00:00",
+   "(service perfilamiento) registered 1 targets in (target-group arn:aws:elasticloadbalancing:us-east-1:901671870033:targetgroup/exp008-Perfi-9FEYVZSXGLQQ/5e087545450c8eed)"
+  ],
+  [
+   "2026-11-12T04:30:55.175000+00:00",
+   "(service perfilamiento) has started 1 tasks: (task b9b8f2bce37e4705abb833c4632b637d)."
+  ],
+  [
+   "2026-11-12T04:29:41.157000+00:00",
+   "(service perfilamiento, taskSet ecs-svc/4450234346052801467) has begun draining connections on 1 tasks."
+  ],
+  [
+   "2026-11-12T04:29:41.152000+00:00",
+   "(service perfilamiento) deregistered 1 targets in (target-group arn:aws:elasticloadbalancing:us-east-1:901671870033:targetgroup/exp008-Perfi-9FEYVZSXGLQQ/5e087545450c8eed)"
+  ],
+  [
+   "2026-11-12T04:29:31.774000+00:00",
+   "(service perfilamiento) has stopped 1 running tasks: (task 434304e64b714f5e812e7ef41ab35aea)."
+  ],
+  [
+   "2026-11-12T04:11:57.248000+00:00",
+   "(service perfilamiento) has reached a steady state."
+  ],
+  [
+   "2026-11-12T04:11:57.247000+00:00",
+   "(service perfilamiento) (deployment ecs-svc/4450234346052801467) deployment completed."
+  ],
+  [
+   "2026-11-12T04:11:05.439000+00:00",
+   "(service perfilamiento) registered 1 targets in (target-group arn:aws:elasticloadbalancing:us-east-1:901671870033:targetgroup/exp008-Perfi-9FEYVZSXGLQQ/5e087545450c8eed)"
+  ],
+  [
+   "2026-11-12T04:10:46.158000+00:00",
+   "(service perfilamiento) has started 1 tasks: (task 434304e64b714f5e812e7ef41ab35aea)."
+  ],
+  [
+   "2026-11-12T04:09:32.050000+00:00",
+   "(service perfilamiento, taskSet ecs-svc/5874500405890719116) has begun draining connections on 1 tasks."
+  ],
+  [
+   "2026-11-12T04:09:32.044000+00:00",
+   "(service perfilamiento) deregistered 1 targets in (target-group arn:aws:elasticloadbalancing:us-east-1:901671870033:targetgroup/exp008-Perfi-9FEYVZSXGLQQ/5e087545450c8eed)"
+  ],
+  [
+   "2026-11-12T04:09:22.093000+00:00",
+   "(service perfilamiento) has stopped 1 running tasks: (task 843adf47c082415f9b85da97510e18fb)."
+  ],
+  [
+   "2026-11-12T03:52:59.085000+00:00",
+   "(service perfilamiento) has reached a steady state."
+  ],
+  [
+   "2026-11-12T03:52:59.084000+00:00",
+   "(service perfilamiento) (deployment ecs-svc/5874500405890719116) deployment completed."
+  ],
+  [
+   "2026-11-12T03:52:18.244000+00:00",
+   "(service perfilamiento) registered 1 targets in (target-group arn:aws:elasticloadbalancing:us-east-1:901671870033:targetgroup/exp008-Perfi-9FEYVZSXGLQQ/5e087545450c8eed)"
+  ],
+  [
+   "2026-11-12T03:51:47.669000+00:00",
+   "(service perfilamiento) has started 1 tasks: (task 843adf47c082415f9b85da97510e18fb)."
+  ],
+  [
+   "2026-11-12T03:50:34.600000+00:00",
+   "(service perfilamiento, taskSet ecs-svc/3572636833035347386) has begun draining connections on 1 tasks."
+  ],
+  [
+   "2026-11-12T03:50:34.593000+00:00",
+   "(service perfilamiento) deregistered 1 targets in (target-group arn:aws:elasticloadbalancing:us-east-1:901671870033:targetgroup/exp008-Perfi-9FEYVZSXGLQQ/5e087545450c8eed)"
+  ],
+  [
+   "2026-11-12T03:50:24.331000+00:00",
+   "(service perfilamiento) has stopped 1 running tasks: (task e744ed03391b4a69b7f43d9d702b9c04)."
+  ],
+  [
+   "2026-11-12T03:33:31.497000+00:00",
+   "(service perfilamiento) has reached a steady state."
+  ],
+  [
+   "2026-11-12T03:33:31.496000+00:00",
+   "(service perfilamiento) (deployment ecs-svc/3572636833035347386) deployment completed."
+  ],
+  [
+   "2026-11-12T03:32:40.904000+00:00",
+   "(service perfilamiento) registered 1 targets in (target-group arn:aws:elasticloadbalancing:us-east-1:901671870033:targetgroup/exp008-Perfi-9FEYVZSXGLQQ/5e087545450c8eed)"
+  ],
+  [
+   "2026-11-12T03:32:19.554000+00:00",
+   "(service perfilamiento) has started 1 tasks: (task e744ed03391b4a69b7f43d9d702b9c04)."
+  ],
+  [
+   "2026-11-12T03:31:17.549000+00:00",
+   "(service perfilamiento, taskSet ecs-svc/5480094975454528376) has begun draining connections on 1 tasks."
+  ],
+  [
+   "2026-11-12T03:31:17.544000+00:00",
+   "(service perfilamiento) deregistered 1 targets in (target-group arn:aws:elasticloadbalancing:us-east-1:901671870033:targetgroup/exp008-Perfi-9FEYVZSXGLQQ/5e087545450c8eed)"
+  ],
+  [
+   "2026-11-12T03:31:06.785000+00:00",
+   "(service perfilamiento) has stopped 1 running tasks: (task c213ba5b723a494e8c064b2f220ab7c3)."
+  ],
+  [
+   "2026-11-12T03:13:43.074000+00:00",
+   "(service perfilamiento) has reached a steady state."
+  ],
+  [
+   "2026-11-12T03:13:43.073000+00:00",
+   "(service perfilamiento) (deployment ecs-svc/5480094975454528376) deployment completed."
+  ],
+  [
+   "2026-11-12T03:13:01.532000+00:00",
+   "(service perfilamiento) registered 1 targets in (target-group arn:aws:elasticloadbalancing:us-east-1:901671870033:targetgroup/exp008-Perfi-9FEYVZSXGLQQ/5e087545450c8eed)"
+  ],
+  [
+   "2026-11-12T03:12:31.414000+00:00",
+   "(service perfilamiento) has started 1 tasks: (task c213ba5b723a494e8c064b2f220ab7c3)."
+  ],
+  [
+   "2026-11-12T03:11:17.649000+00:00",
+   "(service perfilamiento, taskSet ecs-svc/5746020098882188945) has begun draining connections on 1 tasks."
+  ],
+  [
+   "2026-11-12T03:11:17.645000+00:00",
+   "(service perfilamiento) deregistered 1 targets in (target-group arn:aws:elasticloadbalancing:us-east-1:901671870033:targetgroup/exp008-Perfi-9FEYVZSXGLQQ/5e087545450c8eed)"
+  ],
+  [
+   "2026-11-12T03:11:08.256000+00:00",
+   "(service perfilamiento) has stopped 1 running tasks: (task 4dd57a6d57094a3cb7cff953b29c0acf)."
+  ],
+  [
+   "2026-11-12T03:05:06.023000+00:00",
+   "(service perfilamiento) has reached a steady state."
+  ],
+  [
+   "2026-11-12T03:05:06.022000+00:00",
+   "(service perfilamiento) (deployment ecs-svc/5746020098882188945) deployment completed."
+  ],
+  [
+   "2026-11-12T03:04:25.370000+00:00",
+   "(service perfilamiento) registered 1 targets in (target-group arn:aws:elasticloadbalancing:us-east-1:901671870033:targetgroup/exp008-Perfi-9FEYVZSXGLQQ/5e087545450c8eed)"
+  ],
+  [
+   "2026-11-12T03:03:43.880000+00:00",
+   "(service perfilamiento) has started 1 tasks: (task 4dd57a6d57094a3cb7cff953b29c0acf)."
+  ],
+  [
+   "2026-11-12T03:02:31.240000+00:00",
+   "(service perfilamiento, taskSet ecs-svc/3538468475287643831) has begun draining connections on 1 tasks."
+  ],
+  [
+   "2026-11-12T03:02:31.213000+00:00",
+   "(service perfilamiento) deregistered 1 targets in (target-group arn:aws:elasticloadbalancing:us-east-1:901671870033:targetgroup/exp008-Perfi-9FEYVZSXGLQQ/5e087545450c8eed)"
+  ],
+  [
+   "2026-11-12T03:02:20.624000+00:00",
+   "(service perfilamiento) has stopped 1 running tasks: (task e108bcb87b314e0880dffd01ee522a7e)."
+  ],
+  [
+   "2026-11-12T02:45:27.588000+00:00",
+   "(service perfilamiento) has reached a steady state."
+  ],
+  [
+   "2026-11-12T02:45:27.587000+00:00",
+   "(service perfilamiento) (deployment ecs-svc/3538468475287643831) deployment completed."
+  ],
+  [
+   "2026-11-12T02:44:47.160000+00:00",
+   "(service perfilamiento) registered 1 targets in (target-group arn:aws:elasticloadbalancing:us-east-1:901671870033:targetgroup/exp008-Perfi-9FEYVZSXGLQQ/5e087545450c8eed)"
+  ],
+  [
+   "2026-11-12T02:44:25.505000+00:00",
+   "(service perfilamiento) has started 1 tasks: (task e108bcb87b314e0880dffd01ee522a7e)."
+  ],
+  [
+   "2026-11-12T02:43:12.827000+00:00",
+   "(service perfilamiento, taskSet ecs-svc/4502862447218934499) has begun draining connections on 1 tasks."
+  ],
+  [
+   "2026-11-12T02:43:12.822000+00:00",
+   "(service perfilamiento) deregistered 1 targets in (target-group arn:aws:elasticloadbalancing:us-east-1:901671870033:targetgroup/exp008-Perfi-9FEYVZSXGLQQ/5e087545450c8eed)"
+  ],
+  [
+   "2026-11-12T02:43:02.283000+00:00",
+   "(service perfilamiento) has stopped 1 running tasks: (task ebfcc127b5244749bf46336ff709babf)."
+  ],
+  [
+   "2026-11-12T02:31:19.317000+00:00",
+   "(service perfilamiento) has reached a steady state."
+  ],
+  [
+   "2026-11-12T02:31:19.316000+00:00",
+   "(service perfilamiento) (deployment ecs-svc/4502862447218934499) deployment completed."
+  ],
+  [
+   "2026-11-12T02:30:18.835000+00:00",
+   "(service perfilamiento) registered 1 targets in (target-group arn:aws:elasticloadbalancing:us-east-1:901671870033:targetgroup/exp008-Perfi-9FEYVZSXGLQQ/5e087545450c8eed)"
+  ],
+  [
+   "2026-11-12T02:29:48.080000+00:00",
+   "(service perfilamiento) has started 1 tasks: (task ebfcc127b5244749bf46336ff709babf)."
+  ],
+  [
+   "2026-11-12T02:28:44.299000+00:00",
+   "(service perfilamiento, taskSet ecs-svc/6495097308882937576) has begun draining connections on 1 tasks."
+  ],
+  [
+   "2026-11-12T02:28:44.295000+00:00",
+   "(service perfilamiento) deregistered 1 targets in (target-group arn:aws:elasticloadbalancing:us-east-1:901671870033:targetgroup/exp008-Perfi-9FEYVZSXGLQQ/5e087545450c8eed)"
+  ],
+  [
+   "2026-11-12T02:28:34.234000+00:00",
+   "(service perfilamiento) has stopped 1 running tasks: (task da402ee8a04a45a594c9ea54749908ad)."
+  ],
+  [
+   "2026-11-12T02:18:13.852000+00:00",
+   "(service perfilamiento) has reached a steady state."
+  ],
+  [
+   "2026-11-12T02:18:13.850000+00:00",
+   "(service perfilamiento) (deployment ecs-svc/6495097308882937576) deployment completed."
+  ],
+  [
+   "2026-11-12T02:17:22.629000+00:00",
+   "(service perfilamiento) registered 1 targets in (target-group arn:aws:elasticloadbalancing:us-east-1:901671870033:targetgroup/exp008-Perfi-9FEYVZSXGLQQ/5e087545450c8eed)"
+  ],
+  [
+   "2026-11-12T02:16:51.502000+00:00",
+   "(service perfilamiento) has started 1 tasks: (task da402ee8a04a45a594c9ea54749908ad)."
+  ],
+  [
+   "2026-11-12T02:15:38.837000+00:00",
+   "(service perfilamiento, taskSet ecs-svc/4576742547856109099) has begun draining connections on 1 tasks."
+  ],
+  [
+   "2026-11-12T02:15:38.832000+00:00",
+   "(service perfilamiento) deregistered 1 targets in (target-group arn:aws:elasticloadbalancing:us-east-1:901671870033:targetgroup/exp008-Perfi-9FEYVZSXGLQQ/5e087545450c8eed)"
+  ],
+  [
+   "2026-11-12T02:15:28.469000+00:00",
+   "(service perfilamiento) has stopped 1 running tasks: (task c5d3ba7826544d3ba0a432dde56362bd)."
+  ],
+  [
+   "2026-11-12T02:00:59.352000+00:00",
+   "(service perfilamiento) has reached a steady state."
+  ],
+  [
+   "2026-11-12T02:00:59.351000+00:00",
+   "(service perfilamiento) (deployment ecs-svc/4576742547856109099) deployment completed."
+  ],
+  [
+   "2026-11-12T02:00:18.441000+00:00",
+   "(service perfilamiento) registered 1 targets in (target-group arn:aws:elasticloadbalancing:us-east-1:901671870033:targetgroup/exp008-Perfi-9FEYVZSXGLQQ/5e087545450c8eed)"
+  ],
+  [
+   "2026-11-12T01:59:37.800000+00:00",
+   "(service perfilamiento) has started 1 tasks: (task c5d3ba7826544d3ba0a432dde56362bd)."
+  ],
+  [
+   "2026-11-12T01:58:24.814000+00:00",
+   "(service perfilamiento, taskSet ecs-svc/1204263585762289039) has begun draining connections on 1 tasks."
+  ],
+  [
+   "2026-11-12T01:58:24.808000+00:00",
+   "(service perfilamiento) deregistered 1 targets in (target-group arn:aws:elasticloadbalancing:us-east-1:901671870033:targetgroup/exp008-Perfi-9FEYVZSXGLQQ/5e087545450c8eed)"
+  ],
+  [
+   "2026-11-12T01:58:14.031000+00:00",
+   "(service perfilamiento) has stopped 1 running tasks: (task 0e74dd448c314aecbc8e7135081f883a)."
+  ],
+  [
+   "2026-11-12T01:53:57.013000+00:00",
+   "(service perfilamiento) has reached a steady state."
+  ],
+  [
+   "2026-11-12T01:53:57.012000+00:00",
+   "(service perfilamiento) (deployment ecs-svc/1204263585762289039) deployment completed."
+  ],
+  [
+   "2026-11-12T01:53:14.582000+00:00",
+   "(service perfilamiento) registered 1 targets in (target-group arn:aws:elasticloadbalancing:us-east-1:901671870033:targetgroup/exp008-Perfi-9FEYVZSXGLQQ/5e087545450c8eed)"
+  ],
+  [
+   "2026-11-12T01:52:45.121000+00:00",
+   "(service perfilamiento) has started 1 tasks: (task 0e74dd448c314aecbc8e7135081f883a)."
+  ],
+  [
+   "2026-11-12T01:51:30.446000+00:00",
+   "(service perfilamiento, taskSet ecs-svc/4645732044161415783) has begun draining connections on 1 tasks."
+  ],
+  [
+   "2026-11-12T01:51:30.439000+00:00",
+   "(service perfilamiento) deregistered 1 targets in (target-group arn:aws:elasticloadbalancing:us-east-1:901671870033:targetgroup/exp008-Perfi-9FEYVZSXGLQQ/5e087545450c8eed)"
+  ],
+  [
+   "2026-11-12T01:51:21.485000+00:00",
+   "(service perfilamiento) has stopped 1 running tasks: (task 70b88b522ae143db9754a5617b1565ff)."
+  ],
+  [
+   "2026-11-12T01:47:31.751000+00:00",
+   "(service perfilamiento) has reached a steady state."
+  ],
+  [
+   "2026-11-12T01:47:22.812000+00:00",
+   "(service perfilamiento) registered 1 targets in (target-group arn:aws:elasticloadbalancing:us-east-1:901671870033:targetgroup/exp008-Perfi-9FEYVZSXGLQQ/5e087545450c8eed)"
+  ],
+  [
+   "2026-11-12T01:46:43.504000+00:00",
+   "(service perfilamiento) has started 1 tasks: (task 70b88b522ae143db9754a5617b1565ff)."
+  ],
+  [
+   "2026-11-12T01:28:47.058000+00:00",
+   "(service perfilamiento) has reached a steady state."
+  ],
+  [
+   "2026-11-12T01:28:47.057000+00:00",
+   "(service perfilamiento) (deployment ecs-svc/4645732044161415783) deployment completed."
+  ]
+ ]
+}

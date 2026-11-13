@@ -1,0 +1,8 @@
+carga_ofrecida_rps,peticiones,throughput_ok_rps,p95_ms,p99_ms,p95_exitosas_ms,error_pct,cumple
+20,2400,20.0,85.0,345.0,84.0,0.12,True
+40,4800,40.0,789.0,1830.0,777.0,0.12,False
+60,7200,59.6,2527.0,2993.0,2489.0,0.75,False
+80,9600,12.4,inf,inf,9841.0,84.52,False
+100,12000,9.3,inf,inf,9457.0,90.71,False
+120,14400,0.0,inf,inf,,100.0,False
+140,4158,0.0,inf,inf,,100.0,False

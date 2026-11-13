@@ -1,0 +1,463 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: >
+  EXP-008 (HU5.1.2, Daniela) - Cuota por socio en el API Gateway. Despliega la
+  cadena de cotizacion embebida: API Gateway (NestJS) detras de un ALB publico,
+  Cotizacion y Perfilamiento (FastAPI) detras de un ALB interno, cada uno con su
+  propia RDS PostgreSQL 16, ElastiCache Redis 7 para las cuotas y una EC2 con
+  JMeter 5.6.3 para la carga. Una tarea Fargate por servicio, sin autoescalado.
+  Pensado para AWS Academy Learner Lab (usa LabRole y LabInstanceProfile).
+
+Parameters:
+  VpcId:
+    Type: AWS::EC2::VPC::Id
+    Description: VPC por defecto de la cuenta
+  SubnetA:
+    Type: AWS::EC2::Subnet::Id
+    Description: Subred publica de la zona A
+  SubnetB:
+    Type: AWS::EC2::Subnet::Id
+    Description: Subred publica de la zona B (distinta de la A)
+  DbPassword:
+    Type: String
+    NoEcho: true
+    MinLength: 8
+    Description: Clave del usuario postgres de las dos RDS (sin @, / ni comillas)
+  RateLimitEnabled:
+    Type: String
+    AllowedValues: ['true', 'false']
+    Default: 'false'
+    Description: true = corrida con cuota por socio, false = corrida de control
+  RateLimitRps:
+    Type: Number
+    Default: 20
+    Description: Cuota por socio en peticiones por segundo (0,2C)
+  RateLimitBurstS:
+    Type: Number
+    Default: 2
+    Description: Rafaga permitida, en segundos de cuota
+  DesiredCount:
+    Type: Number
+    AllowedValues: [0, 1]
+    Default: 1
+    Description: 0 mientras se publican las imagenes, 1 para el experimento
+  ImageTag:
+    Type: String
+    Default: exp008
+  AllowedCidr:
+    Type: String
+    Default: 0.0.0.0/0
+    Description: Desde donde se permite HTTP al ALB publico (para la demo del video)
+
+Resources:
+  # ------------------------------------------------------------------ Redes
+  CargaSG:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: exp008 - EC2 de JMeter
+      VpcId: !Ref VpcId
+
+  AlbPublicoSG:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: exp008 - ALB publico del API Gateway
+      VpcId: !Ref VpcId
+      SecurityGroupIngress:
+        - { IpProtocol: tcp, FromPort: 80, ToPort: 80, CidrIp: !Ref AllowedCidr }
+        - { IpProtocol: tcp, FromPort: 80, ToPort: 80, SourceSecurityGroupId: !Ref CargaSG }
+
+  ServiciosSG:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: exp008 - tareas de ECS
+      VpcId: !Ref VpcId
+
+  AlbInternoSG:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: exp008 - ALB interno de Cotizacion y Perfilamiento
+      VpcId: !Ref VpcId
+      SecurityGroupIngress:
+        - { IpProtocol: tcp, FromPort: 8001, ToPort: 8002, SourceSecurityGroupId: !Ref ServiciosSG }
+        - { IpProtocol: tcp, FromPort: 8001, ToPort: 8002, SourceSecurityGroupId: !Ref CargaSG }
+
+  ServiciosDesdeAlbPublico:
+    Type: AWS::EC2::SecurityGroupIngress
+    Properties: { GroupId: !Ref ServiciosSG, IpProtocol: tcp, FromPort: 3000, ToPort: 3000, SourceSecurityGroupId: !Ref AlbPublicoSG }
+  ServiciosDesdeAlbInterno:
+    Type: AWS::EC2::SecurityGroupIngress
+    Properties: { GroupId: !Ref ServiciosSG, IpProtocol: tcp, FromPort: 8000, ToPort: 8000, SourceSecurityGroupId: !Ref AlbInternoSG }
+
+  BaseDatosSG:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: exp008 - RDS de Cotizacion y Perfilamiento
+      VpcId: !Ref VpcId
+      SecurityGroupIngress:
+        - { IpProtocol: tcp, FromPort: 5432, ToPort: 5432, SourceSecurityGroupId: !Ref ServiciosSG }
+        - { IpProtocol: tcp, FromPort: 5432, ToPort: 5432, SourceSecurityGroupId: !Ref CargaSG }
+
+  RedisSG:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: exp008 - Redis de cuotas
+      VpcId: !Ref VpcId
+      SecurityGroupIngress:
+        - { IpProtocol: tcp, FromPort: 6379, ToPort: 6379, SourceSecurityGroupId: !Ref ServiciosSG }
+        - { IpProtocol: tcp, FromPort: 6379, ToPort: 6379, SourceSecurityGroupId: !Ref CargaSG }
+
+  # ---------------------------------------------------------- Imagenes (ECR)
+  RepoGateway:
+    Type: AWS::ECR::Repository
+    Properties: { RepositoryName: exp008-api-gateway, EmptyOnDelete: true }
+  RepoCotizacion:
+    Type: AWS::ECR::Repository
+    Properties: { RepositoryName: exp008-cotizacion, EmptyOnDelete: true }
+  RepoPerfilamiento:
+    Type: AWS::ECR::Repository
+    Properties: { RepositoryName: exp008-perfilamiento, EmptyOnDelete: true }
+
+  # ------------------------------------------------- Datos (BD por servicio)
+  SubredesBD:
+    Type: AWS::RDS::DBSubnetGroup
+    Properties:
+      DBSubnetGroupDescription: exp008 - subredes de las bases de datos
+      SubnetIds: [!Ref SubnetA, !Ref SubnetB]
+
+  CotizacionBD:
+    Type: AWS::RDS::DBInstance
+    DeletionPolicy: Delete
+    UpdateReplacePolicy: Delete
+    Properties:
+      Engine: postgres
+      EngineVersion: '16.15'
+      DBInstanceClass: db.t3.micro
+      AllocatedStorage: '20'
+      DBName: cotizacion_db
+      MasterUsername: postgres
+      MasterUserPassword: !Ref DbPassword
+      DBSubnetGroupName: !Ref SubredesBD
+      VPCSecurityGroups: [!Ref BaseDatosSG]
+      MultiAZ: false
+      PubliclyAccessible: false
+      BackupRetentionPeriod: 0
+      DeletionProtection: false
+
+  PerfilamientoBD:
+    Type: AWS::RDS::DBInstance
+    DeletionPolicy: Delete
+    UpdateReplacePolicy: Delete
+    Properties:
+      Engine: postgres
+      EngineVersion: '16.15'
+      DBInstanceClass: db.t3.micro
+      AllocatedStorage: '20'
+      DBName: perfilamiento_db
+      MasterUsername: postgres
+      MasterUserPassword: !Ref DbPassword
+      DBSubnetGroupName: !Ref SubredesBD
+      VPCSecurityGroups: [!Ref BaseDatosSG]
+      MultiAZ: false
+      PubliclyAccessible: false
+      BackupRetentionPeriod: 0
+      DeletionProtection: false
+
+  SubredesRedis:
+    Type: AWS::ElastiCache::SubnetGroup
+    Properties:
+      Description: exp008 - subredes del Redis de cuotas
+      SubnetIds: [!Ref SubnetA, !Ref SubnetB]
+
+  RedisCuotas:
+    Type: AWS::ElastiCache::CacheCluster
+    Properties:
+      Engine: redis
+      EngineVersion: '7.1'
+      CacheNodeType: cache.t3.micro
+      NumCacheNodes: 1
+      CacheSubnetGroupName: !Ref SubredesRedis
+      VpcSecurityGroupIds: [!GetAtt RedisSG.GroupId]
+
+  # ---------------------------------------------------------- Balanceadores
+  AlbPublico:
+    Type: AWS::ElasticLoadBalancingV2::LoadBalancer
+    Properties:
+      Scheme: internet-facing
+      Subnets: [!Ref SubnetA, !Ref SubnetB]
+      SecurityGroups: [!Ref AlbPublicoSG]
+
+  GatewayTG:
+    Type: AWS::ElasticLoadBalancingV2::TargetGroup
+    Properties:
+      VpcId: !Ref VpcId
+      TargetType: ip
+      Protocol: HTTP
+      Port: 3000
+      HealthCheckPath: /health
+      HealthCheckIntervalSeconds: 10
+      HealthyThresholdCount: 2
+      TargetGroupAttributes:
+        - { Key: deregistration_delay.timeout_seconds, Value: '5' }
+
+  AlbPublicoListener:
+    Type: AWS::ElasticLoadBalancingV2::Listener
+    Properties:
+      LoadBalancerArn: !Ref AlbPublico
+      Port: 80
+      Protocol: HTTP
+      DefaultActions: [{ Type: forward, TargetGroupArn: !Ref GatewayTG }]
+
+  AlbInterno:
+    Type: AWS::ElasticLoadBalancingV2::LoadBalancer
+    Properties:
+      Scheme: internal
+      Subnets: [!Ref SubnetA, !Ref SubnetB]
+      SecurityGroups: [!Ref AlbInternoSG]
+
+  CotizacionTG:
+    Type: AWS::ElasticLoadBalancingV2::TargetGroup
+    Properties:
+      VpcId: !Ref VpcId
+      TargetType: ip
+      Protocol: HTTP
+      Port: 8000
+      HealthCheckPath: /health
+      HealthCheckIntervalSeconds: 10
+      HealthyThresholdCount: 2
+      TargetGroupAttributes:
+        - { Key: deregistration_delay.timeout_seconds, Value: '5' }
+
+  PerfilamientoTG:
+    Type: AWS::ElasticLoadBalancingV2::TargetGroup
+    Properties:
+      VpcId: !Ref VpcId
+      TargetType: ip
+      Protocol: HTTP
+      Port: 8000
+      HealthCheckPath: /health
+      HealthCheckIntervalSeconds: 10
+      HealthyThresholdCount: 2
+      TargetGroupAttributes:
+        - { Key: deregistration_delay.timeout_seconds, Value: '5' }
+
+  CotizacionListener:
+    Type: AWS::ElasticLoadBalancingV2::Listener
+    Properties:
+      LoadBalancerArn: !Ref AlbInterno
+      Port: 8001
+      Protocol: HTTP
+      DefaultActions: [{ Type: forward, TargetGroupArn: !Ref CotizacionTG }]
+
+  PerfilamientoListener:
+    Type: AWS::ElasticLoadBalancingV2::Listener
+    Properties:
+      LoadBalancerArn: !Ref AlbInterno
+      Port: 8002
+      Protocol: HTTP
+      DefaultActions: [{ Type: forward, TargetGroupArn: !Ref PerfilamientoTG }]
+
+  # -------------------------------------------------------------------- ECS
+  Logs:
+    Type: AWS::Logs::LogGroup
+    Properties:
+      LogGroupName: !Sub /ecs/${AWS::StackName}
+      RetentionInDays: 7
+
+  Cluster:
+    Type: AWS::ECS::Cluster
+    Properties:
+      ClusterName: !Sub ${AWS::StackName}
+      ClusterSettings: [{ Name: containerInsights, Value: enabled }]
+
+  GatewayTarea:
+    Type: AWS::ECS::TaskDefinition
+    Properties:
+      Family: !Sub ${AWS::StackName}-api-gateway
+      RequiresCompatibilities: [FARGATE]
+      NetworkMode: awsvpc
+      Cpu: '512'
+      Memory: '1024'
+      ExecutionRoleArn: !Sub arn:aws:iam::${AWS::AccountId}:role/LabRole
+      TaskRoleArn: !Sub arn:aws:iam::${AWS::AccountId}:role/LabRole
+      ContainerDefinitions:
+        - Name: api-gateway
+          Image: !Sub ${AWS::AccountId}.dkr.ecr.${AWS::Region}.amazonaws.com/exp008-api-gateway:${ImageTag}
+          PortMappings: [{ ContainerPort: 3000 }]
+          Environment:
+            - { Name: PORT, Value: '3000' }
+            - { Name: SERVICE_NAME, Value: api-gateway }
+            - { Name: COTIZACION_URL, Value: !Sub 'http://${AlbInterno.DNSName}:8001' }
+            # Tactica de EXP-008: cuota por socio con token bucket en Redis
+            - { Name: RATE_LIMIT_ENABLED, Value: !Ref RateLimitEnabled }
+            - { Name: RATE_LIMIT_RPS, Value: !Ref RateLimitRps }
+            - { Name: RATE_LIMIT_BURST_S, Value: !Ref RateLimitBurstS }
+            - { Name: RATE_LIMIT_REDIS_TIMEOUT_MS, Value: '50' }
+            - Name: REDIS_URL
+              Value: !Sub
+                - 'redis://${Host}:${Puerto}/0'
+                - { Host: !GetAtt RedisCuotas.RedisEndpoint.Address, Puerto: !GetAtt RedisCuotas.RedisEndpoint.Port }
+            # Flags de los demas experimentos: apagados
+            - { Name: JWT_VALIDATION_ENABLED, Value: 'false' }
+          LogConfiguration:
+            LogDriver: awslogs
+            Options:
+              awslogs-group: !Ref Logs
+              awslogs-region: !Ref AWS::Region
+              awslogs-stream-prefix: api-gateway
+
+  CotizacionTarea:
+    Type: AWS::ECS::TaskDefinition
+    Properties:
+      Family: !Sub ${AWS::StackName}-cotizacion
+      RequiresCompatibilities: [FARGATE]
+      NetworkMode: awsvpc
+      Cpu: '512'
+      Memory: '1024'
+      ExecutionRoleArn: !Sub arn:aws:iam::${AWS::AccountId}:role/LabRole
+      TaskRoleArn: !Sub arn:aws:iam::${AWS::AccountId}:role/LabRole
+      ContainerDefinitions:
+        - Name: cotizacion
+          Image: !Sub ${AWS::AccountId}.dkr.ecr.${AWS::Region}.amazonaws.com/exp008-cotizacion:${ImageTag}
+          PortMappings: [{ ContainerPort: 8000 }]
+          Environment:
+            - { Name: SERVICE_NAME, Value: cotizacion }
+            - { Name: DATABASE_URL, Value: !Sub 'postgresql+psycopg://postgres:${DbPassword}@${CotizacionBD.Endpoint.Address}:5432/cotizacion_db' }
+            - { Name: PERFILAMIENTO_URL, Value: !Sub 'http://${AlbInterno.DNSName}:8002' }
+            - { Name: DB_POOL_MAX, Value: '10' }
+            - { Name: CIRCUIT_BREAKER_ENABLED, Value: 'false' }
+          LogConfiguration:
+            LogDriver: awslogs
+            Options:
+              awslogs-group: !Ref Logs
+              awslogs-region: !Ref AWS::Region
+              awslogs-stream-prefix: cotizacion
+
+  PerfilamientoTarea:
+    Type: AWS::ECS::TaskDefinition
+    Properties:
+      Family: !Sub ${AWS::StackName}-perfilamiento
+      RequiresCompatibilities: [FARGATE]
+      NetworkMode: awsvpc
+      Cpu: '512'
+      Memory: '1024'
+      ExecutionRoleArn: !Sub arn:aws:iam::${AWS::AccountId}:role/LabRole
+      TaskRoleArn: !Sub arn:aws:iam::${AWS::AccountId}:role/LabRole
+      ContainerDefinitions:
+        - Name: perfilamiento
+          Image: !Sub ${AWS::AccountId}.dkr.ecr.${AWS::Region}.amazonaws.com/exp008-perfilamiento:${ImageTag}
+          PortMappings: [{ ContainerPort: 8000 }]
+          Environment:
+            - { Name: SERVICE_NAME, Value: perfilamiento }
+            - { Name: DATABASE_URL, Value: !Sub 'postgresql+psycopg://postgres:${DbPassword}@${PerfilamientoBD.Endpoint.Address}:5432/perfilamiento_db' }
+            - { Name: DB_POOL_MAX, Value: '10' }
+            - { Name: CONSENT_CHECK_ENABLED, Value: 'false' }
+            - { Name: OPEN_FINANCE_ENABLED, Value: 'false' }
+          LogConfiguration:
+            LogDriver: awslogs
+            Options:
+              awslogs-group: !Ref Logs
+              awslogs-region: !Ref AWS::Region
+              awslogs-stream-prefix: perfilamiento
+
+  # Una tarea por servicio y sin autoescalado (variable controlada). Al cambiar
+  # de corrida se detiene la tarea vieja antes de arrancar la nueva.
+  PerfilamientoServicio:
+    Type: AWS::ECS::Service
+    DependsOn: [PerfilamientoListener]
+    Properties:
+      ServiceName: perfilamiento
+      Cluster: !Ref Cluster
+      LaunchType: FARGATE
+      TaskDefinition: !Ref PerfilamientoTarea
+      DesiredCount: !Ref DesiredCount
+      HealthCheckGracePeriodSeconds: 60
+      DeploymentConfiguration: { MinimumHealthyPercent: 0, MaximumPercent: 100 }
+      NetworkConfiguration:
+        AwsvpcConfiguration:
+          AssignPublicIp: ENABLED
+          Subnets: [!Ref SubnetA, !Ref SubnetB]
+          SecurityGroups: [!Ref ServiciosSG]
+      LoadBalancers: [{ ContainerName: perfilamiento, ContainerPort: 8000, TargetGroupArn: !Ref PerfilamientoTG }]
+
+  CotizacionServicio:
+    Type: AWS::ECS::Service
+    DependsOn: [CotizacionListener]
+    Properties:
+      ServiceName: cotizacion
+      Cluster: !Ref Cluster
+      LaunchType: FARGATE
+      TaskDefinition: !Ref CotizacionTarea
+      DesiredCount: !Ref DesiredCount
+      HealthCheckGracePeriodSeconds: 60
+      DeploymentConfiguration: { MinimumHealthyPercent: 0, MaximumPercent: 100 }
+      NetworkConfiguration:
+        AwsvpcConfiguration:
+          AssignPublicIp: ENABLED
+          Subnets: [!Ref SubnetA, !Ref SubnetB]
+          SecurityGroups: [!Ref ServiciosSG]
+      LoadBalancers: [{ ContainerName: cotizacion, ContainerPort: 8000, TargetGroupArn: !Ref CotizacionTG }]
+
+  GatewayServicio:
+    Type: AWS::ECS::Service
+    DependsOn: [AlbPublicoListener]
+    Properties:
+      ServiceName: api-gateway
+      Cluster: !Ref Cluster
+      LaunchType: FARGATE
+      TaskDefinition: !Ref GatewayTarea
+      DesiredCount: !Ref DesiredCount
+      HealthCheckGracePeriodSeconds: 60
+      DeploymentConfiguration: { MinimumHealthyPercent: 0, MaximumPercent: 100 }
+      NetworkConfiguration:
+        AwsvpcConfiguration:
+          AssignPublicIp: ENABLED
+          Subnets: [!Ref SubnetA, !Ref SubnetB]
+          SecurityGroups: [!Ref ServiciosSG]
+      LoadBalancers: [{ ContainerName: api-gateway, ContainerPort: 3000, TargetGroupArn: !Ref GatewayTG }]
+
+  # ------------------------------------------------------ Generador de carga
+  JMeter:
+    Type: AWS::EC2::Instance
+    Properties:
+      ImageId: '{{resolve:ssm:/aws/service/ami-amazon-linux-latest/al2023-ami-kernel-6.1-x86_64}}'
+      InstanceType: m5.large
+      IamInstanceProfile: LabInstanceProfile
+      SubnetId: !Ref SubnetA
+      SecurityGroupIds: [!Ref CargaSG]
+      BlockDeviceMappings:
+        - DeviceName: /dev/xvda
+          Ebs: { VolumeSize: 30, VolumeType: gp3, DeleteOnTermination: true }
+      Tags: [{ Key: Name, Value: exp008-jmeter }]
+      UserData:
+        Fn::Base64: |
+          #!/bin/bash
+          set -e
+          dnf install -y docker java-17-amazon-corretto-headless postgresql16 redis6 python3-pip tar gzip
+          systemctl enable --now docker
+          cd /opt
+          curl -sSfL https://archive.apache.org/dist/jmeter/binaries/apache-jmeter-5.6.3.tgz | tar xz
+          ln -sf /opt/apache-jmeter-5.6.3/bin/jmeter /usr/local/bin/jmeter
+          mkdir -p /opt/exp008 && touch /opt/exp008/LISTO
+
+Outputs:
+  GatewayUrl:
+    Value: !Sub 'http://${AlbPublico.DNSName}'
+  AlbPublicoDns:
+    Value: !GetAtt AlbPublico.DNSName
+  AlbInternoDns:
+    Value: !GetAtt AlbInterno.DNSName
+  CotizacionBDHost:
+    Value: !GetAtt CotizacionBD.Endpoint.Address
+  PerfilamientoBDHost:
+    Value: !GetAtt PerfilamientoBD.Endpoint.Address
+  CotizacionBDId:
+    Value: !Ref CotizacionBD
+  PerfilamientoBDId:
+    Value: !Ref PerfilamientoBD
+  RedisHost:
+    Value: !GetAtt RedisCuotas.RedisEndpoint.Address
+  RedisId:
+    Value: !Ref RedisCuotas
+  JMeterInstanceId:
+    Value: !Ref JMeter
+  ClusterName:
+    Value: !Ref Cluster

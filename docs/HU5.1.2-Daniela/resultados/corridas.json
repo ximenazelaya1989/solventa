@@ -1,0 +1,55 @@
+{
+ "C": 60,
+ "cuota_rps": 12.0,
+ "rafaga_s": 2,
+ "corridas": [
+  {
+   "n": 1,
+   "cuota": false,
+   "jtl": "corrida_1_sin.jtl",
+   "nombre": "corrida_1_sin",
+   "inicio": "2026-11-12T02:46:52Z",
+   "fin": "2026-11-12T03:01:54Z"
+  },
+  {
+   "n": 2,
+   "cuota": true,
+   "jtl": "corrida_2_con.jtl",
+   "nombre": "corrida_2_con",
+   "inicio": "2026-11-12T03:15:41Z",
+   "fin": "2026-11-12T03:30:43Z"
+  },
+  {
+   "n": 3,
+   "cuota": false,
+   "jtl": "corrida_3_sin.jtl",
+   "nombre": "corrida_3_sin",
+   "inicio": "2026-11-12T03:34:59Z",
+   "fin": "2026-11-12T03:50:01Z"
+  },
+  {
+   "n": 4,
+   "cuota": true,
+   "jtl": "corrida_4_con.jtl",
+   "nombre": "corrida_4_con",
+   "inicio": "2026-11-12T03:54:02Z",
+   "fin": "2026-11-12T04:09:04Z"
+  },
+  {
+   "n": 5,
+   "cuota": false,
+   "jtl": "corrida_5_sin.jtl",
+   "nombre": "corrida_5_sin",
+   "inicio": "2026-11-12T04:14:05Z",
+   "fin": "2026-11-12T04:29:08Z"
+  },
+  {
+   "n": 6,
+   "cuota": true,
+   "jtl": "corrida_6_con.jtl",
+   "nombre": "corrida_6_con",
+   "inicio": "2026-11-12T04:33:38Z",
+   "fin": "2026-11-12T04:48:41Z"
+  }
+ ]
+}

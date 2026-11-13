@@ -1,0 +1,19 @@
+corrida,cuota,socio,n,p50_ms,p95_ms,p99_ms,error_pct,cumple_asr
+1,sin,A,3789,fuera (fallo),fuera (fallo),fuera (fallo),87.86,False
+1,sin,B,3752,fuera (fallo),fuera (fallo),fuera (fallo),88.62,False
+1,sin,C,3842,fuera (fallo),fuera (fallo),fuera (fallo),88.81,False
+2,con,A,3724,22,83,504,0.0,False
+2,con,B,3893,22,69,470,0.0,True
+2,con,C,3846,22,77,477,0.03,True
+3,sin,A,3844,fuera (fallo),fuera (fallo),fuera (fallo),87.1,False
+3,sin,B,3791,fuera (fallo),fuera (fallo),fuera (fallo),87.52,False
+3,sin,C,3738,fuera (fallo),fuera (fallo),fuera (fallo),87.4,False
+4,con,A,3785,28,43,136,0.0,True
+4,con,B,3740,28,46,129,0.0,True
+4,con,C,3781,28,45,133,0.0,True
+5,sin,A,3708,fuera (fallo),fuera (fallo),fuera (fallo),85.73,False
+5,sin,B,3830,fuera (fallo),fuera (fallo),fuera (fallo),87.21,False
+5,sin,C,3833,fuera (fallo),fuera (fallo),fuera (fallo),86.3,False
+6,con,A,3819,30,86,1030,0.0,False
+6,con,B,3749,30,76,840,0.03,False
+6,con,C,3825,30,66,757,0.0,False
